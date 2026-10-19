@@ -1,0 +1,6 @@
+{
+  "name": "EECE Study Notes Portal",
+  "description": "Exam-focused EECE study notes organized by Semester (EECE11–EECE42), Subject (EECE1111, MATH1101), and 4-Tier Source Priority with interactive circuit diagrams and print-ready PDF export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
