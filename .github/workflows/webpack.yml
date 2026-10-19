@@ -21,6 +21,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      - name: Build Vite static site
+        run: npx vite build --base=./
+        
       - name: Checkout repository
         uses: actions/checkout@v4
 
