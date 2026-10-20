@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { NoteBlock } from '../data/curriculumData';
 import { PRIORITY_TIER_META } from '../utils/circuitMath';
 import { InteractiveDiagram } from './InteractiveDiagrams';
+import { MathText, MathSolutionBlock } from './MathRenderer';
 
 interface NoteBlockCardProps {
   block: NoteBlock;
@@ -36,12 +37,16 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
           ? 'text-sky-700 dark:text-sky-400'
           : 'text-emerald-700 dark:text-emerald-400';
 
+  const hasInlineThereforeInSteps = Boolean(
+    block.solutionSteps?.some((s) => s.equation && s.equation.includes('∴'))
+  );
+
   return (
     <article
       id={block.id}
       className="scroll-mt-24 rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 print:break-inside-avoid print:rounded-none print:border-slate-300 print:bg-white print:p-4"
     >
-      {/* Clean Unboxed Metadata Kicker (Zero-Pill Discipline) */}
+      {/* Metadata Header */}
       <div className="mb-2.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-600 dark:text-slate-400">
         <span className="font-mono font-semibold text-slate-900 dark:text-slate-200">
           {String(index + 1).padStart(2, '0')}.
@@ -73,15 +78,15 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
 
       {/* Concise Key Takeaway / Summary Line */}
       <p className="mt-2 text-sm font-medium text-slate-700 dark:text-slate-300">
-        {block.summaryText}
+        <MathText text={block.summaryText} />
       </p>
 
       {/* Main Prose Paragraphs */}
       {block.paragraphs && block.paragraphs.length > 0 && (
         <div className="mt-4 space-y-3 text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
           {block.paragraphs.map((para, i) => (
-            <p key={i} className="max-w-[72ch]">
-              {para}
+            <p key={i} className="max-w-[75ch]">
+              <MathText text={para} />
             </p>
           ))}
         </div>
@@ -91,30 +96,37 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
       {block.bulletPoints && block.bulletPoints.length > 0 && (
         <ul className="mt-4 list-disc space-y-1.5 pl-5 text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
           {block.bulletPoints.map((pt, i) => (
-            <li key={i} className="max-w-[70ch]">
-              {pt}
+            <li key={i} className="max-w-[75ch]">
+              <MathText text={pt} />
             </li>
           ))}
         </ul>
       )}
 
-      {/* Equations Grid */}
+      {/* Simple Solid Box Around Important Formulas */}
       {block.equations && block.equations.length > 0 && (
-        <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="mt-5 space-y-3.5">
           {block.equations.map((eq, i) => (
-            <div
-              key={i}
-              className="rounded-lg border border-slate-200/90 bg-slate-50/80 p-3.5 dark:border-slate-800 dark:bg-slate-950/70 print:border-slate-300 print:bg-slate-50"
-            >
-              <div className="flex items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
-                <span className="font-medium text-slate-700 dark:text-slate-300">{eq.label}</span>
-                {eq.units && <span className="font-mono text-[11px]">{eq.units}</span>}
+            <div key={i} className="space-y-1">
+              <div className="flex flex-wrap items-center gap-2 text-xs">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">
+                  <MathText text={eq.label} />
+                </span>
+                {eq.units && (
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                    (<MathText text={eq.units} />)
+                  </span>
+                )}
               </div>
-              <div className="mt-1.5 font-mono text-sm font-semibold tracking-tight text-slate-900 dark:text-sky-200 print:text-slate-900">
-                {eq.formula}
+              <div>
+                <div className="inline-block rounded border border-slate-900 bg-white px-3.5 py-2 text-sm font-medium text-slate-900 dark:border-slate-200 dark:bg-slate-900 dark:text-slate-100 print:border-slate-900">
+                  <MathText text={eq.formula} />
+                </div>
               </div>
               {eq.note && (
-                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{eq.note}</p>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  <MathText text={eq.note} />
+                </p>
               )}
             </div>
           ))}
@@ -132,7 +144,7 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
           <table className="w-full border-collapse text-left text-sm">
             {block.table.caption && (
               <caption className="border-b border-slate-200 bg-slate-50 px-4 py-2 text-left text-xs font-medium text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400">
-                {block.table.caption}
+                <MathText text={block.table.caption} />
               </caption>
             )}
             <thead>
@@ -140,46 +152,56 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
                 {block.table.headers.map((header, i) => (
                   <th
                     key={i}
-                    className="px-4 py-2.5 font-display text-xs font-semibold text-slate-900 dark:text-slate-200"
+                    className="whitespace-nowrap px-4 py-2.5 font-display text-xs font-semibold text-slate-900 dark:text-slate-200"
                   >
-                    {header}
+                    <MathText text={header} />
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              {block.table.rows.map((row, rIdx) => (
-                <tr
-                  key={rIdx}
-                  className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40"
-                >
-                  {row.map((cell, cIdx) => (
-                    <td
-                      key={cIdx}
-                      className={`px-4 py-2.5 text-xs leading-relaxed tabular-nums ${
-                        cIdx === 0
-                          ? 'font-medium text-slate-900 dark:text-slate-100'
-                          : 'font-mono text-slate-700 dark:text-slate-300'
-                      }`}
-                    >
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {block.table.rows.map((row, rIdx) => {
+                const colCount = row.length;
+                return (
+                  <tr
+                    key={rIdx}
+                    className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40"
+                  >
+                    {row.map((cell, cIdx) => {
+                      const shouldNowrap =
+                        (cIdx === 0 && cell.length <= 36) ||
+                        (colCount >= 3 && cIdx === 1 && cell.length <= 36);
+                      return (
+                        <td
+                          key={cIdx}
+                          className={`px-4 py-2.5 text-xs leading-relaxed tabular-nums ${
+                            shouldNowrap ? 'whitespace-nowrap' : ''
+                          } ${
+                            cIdx === 0
+                              ? 'font-medium text-slate-900 dark:text-slate-100'
+                              : 'text-slate-700 dark:text-slate-300'
+                          }`}
+                        >
+                          <MathText text={cell} />
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       )}
 
-      {/* Problem Statement & Step-by-Step Solution (Examples & PYQs) */}
+      {/* Problem Statement & Vertical Left-Indented Step-by-Step Solution */}
       {block.problemStatement && (
-        <div className="mt-5 rounded-lg border border-slate-200 bg-slate-50/60 p-4 dark:border-slate-800 dark:bg-slate-950/60 print:border-slate-300 print:bg-white">
-          <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">
-            Problem Statement
+        <div className="mt-5 rounded-lg border border-slate-200 bg-slate-50/60 p-4 sm:p-5 dark:border-slate-800 dark:bg-slate-950/60 print:border-slate-300 print:bg-white">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+            Problem / Theorem Question
           </div>
           <p className="mt-1.5 text-sm leading-relaxed text-slate-800 dark:text-slate-200">
-            {block.problemStatement}
+            <MathText text={block.problemStatement} />
           </p>
 
           {block.givenData && block.givenData.length > 0 && (
@@ -187,9 +209,11 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
               <div className="text-xs font-medium text-slate-600 dark:text-slate-400">
                 Given Parameters:
               </div>
-              <ul className="mt-1 list-disc space-y-1 pl-5 font-mono text-xs text-slate-700 dark:text-slate-300">
+              <ul className="mt-1 list-disc space-y-1 pl-5 text-xs text-slate-700 dark:text-slate-300">
                 {block.givenData.map((item, idx) => (
-                  <li key={idx}>{item}</li>
+                  <li key={idx}>
+                    <MathText text={item} />
+                  </li>
                 ))}
               </ul>
             </div>
@@ -211,7 +235,9 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
                 ) : (
                   <>
                     <ChevronDown className="h-3.5 w-3.5" />
-                    <span>Show Step-by-Step Solution ({block.solutionSteps.length} Steps)</span>
+                    <span>
+                      Show Step-by-Step Solution ({block.solutionSteps.length} Parts)
+                    </span>
                   </>
                 )}
               </button>
@@ -219,29 +245,36 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
               <div
                 className={`${
                   showSolution ? 'mt-3 block' : 'hidden'
-                } space-y-3 border-t border-slate-200/90 pt-3 dark:border-slate-800 print:mt-3 print:block`}
+                } space-y-4 border-t border-slate-200/90 pt-4 dark:border-slate-800 print:mt-3 print:block`}
               >
-                {block.solutionSteps.map((step, sIdx) => (
-                  <div key={sIdx} className="space-y-1">
-                    <div className="text-xs font-semibold text-slate-900 dark:text-slate-100">
-                      {step.stepTitle}
-                    </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-400">
-                      {step.explanation}
-                    </p>
-                    {step.equation && (
-                      <pre className="mt-1 overflow-x-auto rounded border border-slate-200/90 bg-white px-3 py-2 font-mono text-xs font-medium text-slate-900 dark:border-slate-800 dark:bg-slate-900 dark:text-sky-200 print:border-slate-300">
-                        {step.equation}
-                      </pre>
-                    )}
-                  </div>
-                ))}
+                {block.solutionSteps.map((step, sIdx) => {
+                  const isLastStep = sIdx === block.solutionSteps!.length - 1;
+                  const equationWithFallbackAnswer =
+                    isLastStep &&
+                    !hasInlineThereforeInSteps &&
+                    block.finalAnswer &&
+                    step.equation
+                      ? `${step.equation}\n∴ ${block.finalAnswer}`
+                      : step.equation;
 
-                {block.finalAnswer && (
-                  <div className="mt-3 rounded border border-emerald-500/40 bg-emerald-50/60 px-3.5 py-2.5 font-mono text-xs font-semibold text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-950/40 dark:text-emerald-200 print:border-slate-400 print:bg-slate-100 print:text-slate-900">
-                    Final Answer: {block.finalAnswer}
-                  </div>
-                )}
+                  return (
+                    <div key={sIdx} className="space-y-1.5 text-left">
+                      <div className="text-xs font-bold text-slate-900 dark:text-slate-100">
+                        <MathText text={step.stepTitle} />
+                      </div>
+                      {step.explanation && (
+                        <p className="pl-4 text-xs text-slate-600 dark:text-slate-400 sm:pl-6">
+                          <MathText text={step.explanation} />
+                        </p>
+                      )}
+                      {equationWithFallbackAnswer && (
+                        <div className="ml-4 overflow-x-auto rounded-r-lg border border-slate-200/90 border-l-4 border-l-sky-600 bg-white px-4 py-3 text-left dark:border-slate-800 dark:border-l-sky-400 dark:bg-slate-900 print:border-slate-400 sm:ml-6">
+                          <MathSolutionBlock equationText={equationWithFallbackAnswer} />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -250,9 +283,9 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
 
       {/* Professor's Exam Tip Callout */}
       {block.professorTip && (
-        <div className="mt-4 rounded-lg border border-amber-300/70 bg-amber-50/60 p-3.5 text-xs leading-relaxed text-amber-950 dark:border-amber-500/30 dark:bg-amber-950/30 dark:text-amber-200 print:border-slate-300 print:bg-slate-50 print:text-slate-900">
-          <span className="font-semibold">Professor’s Exam Note: </span>
-          {block.professorTip}
+        <div className="mt-4 rounded-lg border border-amber-400/70 bg-amber-50/70 p-3.5 text-xs leading-relaxed text-amber-950 dark:border-amber-500/40 dark:bg-amber-950/30 dark:text-amber-200 print:border-slate-400 print:bg-slate-50 print:text-slate-900">
+          <span className="font-bold">Important Exam Note: </span>
+          <MathText text={block.professorTip} />
         </div>
       )}
     </article>

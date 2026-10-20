@@ -3,9 +3,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-display: "Outfit", system-ui, -apple-system, sans-serif;
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Outfit", "Noto Sans Math", system-ui, -apple-system, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Noto Sans Math", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", "Noto Sans Math", ui-monospace, SFMono-Regular, monospace;
 }
 
 @layer base {

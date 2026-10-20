@@ -98,3 +98,22 @@ test('filterNoteBlocks filters by 4-tier source priority and block type', () => 
   assert.equal(filterNoteBlocks(sampleBlocks, 'all', 'pyq', '').length, 1);
   assert.equal(filterNoteBlocks(sampleBlocks, 'all', 'all', 'sadiku').length, 1);
 });
+
+test('MATH1101_CHAPTERS contains all 8 syllabus modules with boxed formulas, vertical steps, and final answers', async () => {
+  const { MATH1101_CHAPTERS } = await import('../data/math1101Data.ts');
+  assert.equal(MATH1101_CHAPTERS.length, 8);
+
+  for (const mod of MATH1101_CHAPTERS) {
+    assert.ok(mod.blocks.length >= 2, `Module ${mod.unitNumber} should have at least 2 note blocks`);
+    const hasEquations = mod.blocks.some((b) => b.equations && b.equations.length > 0);
+    const hasVerticalSolution = mod.blocks.some(
+      (b) =>
+        b.solutionSteps &&
+        b.solutionSteps.length > 0 &&
+        (Boolean(b.finalAnswer) || b.solutionSteps.some((s) => s.equation?.includes('∴')))
+    );
+    assert.ok(hasEquations, `Module ${mod.unitNumber} should include boxed formulas`);
+    assert.ok(hasVerticalSolution, `Module ${mod.unitNumber} should include vertical step-by-step solutions with boxed answers`);
+  }
+});
+

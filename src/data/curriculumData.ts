@@ -1,4 +1,5 @@
 import type { NoteBlockType, PriorityTier } from '../utils/circuitMath';
+import { MATH1101_CHAPTERS } from './math1101Data';
 
 export type InteractiveDiagramId =
   | 'passive-sign'
@@ -56,11 +57,22 @@ export interface ChapterNote {
   blocks: NoteBlock[];
 }
 
+export interface ClassRoutineRow {
+  day: string;
+  slots: string[];
+}
+
+export interface ClassRoutine {
+  timeSlots: string[];
+  rows: ClassRoutineRow[];
+}
+
 export interface SubjectCourse {
   id: string;
   code: string;
   title: string;
   credits: number;
+  contactHours?: number;
   courseType: 'Theory' | 'Sessional';
   syllabusOverview: string;
   professorFollowedBooks: string[];
@@ -76,6 +88,7 @@ export interface SemesterEntry {
   title: string;
   subtitle: string;
   totalCredits: number;
+  classRoutine?: ClassRoutine;
   subjects: SubjectCourse[];
 }
 
@@ -86,32 +99,62 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
     year: 1,
     semester: 1,
     title: '1st Year · 1st Semester',
-    subtitle: 'Foundational DC Circuit Analysis, Calculus, Wave Physics & Structured Programming',
-    totalCredits: 19.5,
+    subtitle:
+      'B.Sc. Engineering Curriculum (Session 2025–2026) · 15.00 Theory Credits + 3.75 Sessional Credits',
+    totalCredits: 18.75,
+    classRoutine: {
+      timeSlots: ['10-11', '11-12', '12-01', '02-03', '03-04'],
+      rows: [
+        {
+          day: 'Saturday',
+          slots: ['', '', 'CHEM 1101', 'EECE 1111', 'EECE 1111'],
+        },
+        {
+          day: 'Sunday',
+          slots: ['PHY 1101', 'PHY 1101', 'MATH 1101', 'EECE 1111 L', 'EECE 1111 L'],
+        },
+        {
+          day: 'Monday',
+          slots: ['', 'HUM 1101', 'HUM 1101', 'PHY 1101', ''],
+        },
+        {
+          day: 'Tuesday',
+          slots: ['EECE 1111', 'MATH 1101', 'MATH 1101', 'CE 1101', 'CE 1101'],
+        },
+        {
+          day: 'Wednesday',
+          slots: ['CHEM 1101', 'CHEM 1101', 'HUM 1101', '', ''],
+        },
+      ],
+    },
     subjects: [
       {
         id: 'eece1111',
         code: 'EECE1111',
-        title: 'Electrical Circuit I',
+        title: 'Electrical Circuits I',
         credits: 3.0,
+        contactHours: 3.0,
         courseType: 'Theory',
         syllabusOverview:
-          'Fundamental circuit variables, charge, current, voltage, power, Passive Sign Convention, Ohm’s Law, Kirchhoff’s Laws (KCL & KVL), Nodal & Mesh Analysis, Circuit Theorems (Superposition, Thevenin, Norton, Maximum Power Transfer), and Magnetic Circuits.',
+          'Circuit Variables and Elements, Basic Laws, Techniques for Circuit Analysis, DC Network Theorem, AC Network Theorem, and Sinusoidal Functions.',
         professorFollowedBooks: [
-          'Charles K. Alexander & Matthew N. O. Sadiku — Fundamentals of Electric Circuits (6th Edition)',
-          'Robert L. Boylestad — Introductory Circuit Analysis (13th Edition)',
+          'Fundamentals of Electric Circuits by Charles K. Alexander and Matthew N. O. Sadiku',
+          'A Textbook of Electrical Technology (Vol. I) by B. L. Theraja and A. K. Theraja',
         ],
         syllabusRecommendedBooks: [
-          'James W. Nilsson & Susan A. Riedel — Electric Circuits (11th Edition)',
-          'William H. Hayt, Jack E. Kemmerly & Steven M. Durbin — Engineering Circuit Analysis',
+          'Alternating-current Circuits by G. F. Corcoran and R. M. Kerchner',
+          'Introduction to Electric Circuits by R. C. Dorf and J. A. Svoboda',
+          'Electrical Engineering by R. P. Ward',
+          'Fundamentals of Electricity and Magnetism by Arthur Kip',
+          'Introductory Circuit Analysis by Robert L. Boylestad',
         ],
         chapters: [
           {
-            id: 'eece1111-u01',
-            unitNumber: 'Unit 01',
-            title: 'Circuit Variables, Power & Passive Sign Convention',
+            id: 'eece1111-ch01',
+            unitNumber: 'Module 01',
+            title: 'Circuit Variables and Elements',
             summary:
-              'SI base & derived units, relationship between charge q(t) and current i(t), voltage work definition, Passive Sign Convention (p = ±vi), and Law of Conservation of Energy in closed networks.',
+              'Voltage, current, power, energy, independent and dependent sources, resistance, inductance and capacitance. Introduce to non-sinusoidal wave, calculation of RMS and average value for non-sinusoidal waveforms.',
             estimatedMinutes: 35,
             lastUpdated: 'October 2026',
             blocks: [
@@ -160,14 +203,15 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u01-b2',
                 type: 'definition',
                 priorityTier: 2,
-                sourceCitation: 'Previous Year Question · Final Exam 2023 Q1(a), 2021 Q1(a), 2019 Q1(b)',
+                sourceCitation:
+                  'Previous Year Question · Final Exam 2023 Q1(a), 2021 Q1(a), 2019 Q1(b)',
                 title: 'Fundamental Definitions: Electric Charge, Current, Voltage & Energy',
                 summaryText:
                   'Formal mathematical definitions of charge q, current i = dq/dt, voltage v_ab = dw/dq, and energy w = ∫ p dt.',
                 examYears: ['2023', '2021', '2019'],
                 marks: '4 Marks',
                 paragraphs: [
-                  'Electric Charge (q) is the fundamental electrical property of atomic matter, measured in Coulombs (C). One electron carries a negative charge of −1.602 × 10^(-19) C, meaning 1 C equals the charge of 6.24 × 10^(18) electrons.',
+                  'Electric Charge (q) is the fundamental electrical property of atomic matter, measured in Coulombs (C). One electron carries a negative charge of −1.602 × 10^(−19) C, meaning 1 C equals the charge of 6.24 × 10^(18) electrons.',
                   'Electric Current (i) is the time rate of change of charge passing through a specified cross-sectional area, measured in Amperes (A). Voltage or Potential Difference (v_ab) between node a and node b is the energy (work) required to move a unit positive charge (+1 C) from terminal b (−) to terminal a (+).',
                 ],
                 equations: [
@@ -205,7 +249,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   'Commit both the four-case Passive Sign Convention truth table and the four dependent source symbols (VCVS, CCVS, VCCS, CCCS) to memory for rapid problem setup.',
                 ],
                 table: {
-                  caption: 'Table 1.1 — Complete Four-Case Power Sign Matrix & Dependent Source Parameters',
+                  caption:
+                    'Table 1.1 — Complete Four-Case Power Sign Matrix & Dependent Source Parameters',
                   headers: [
                     'Terminal Entry of Current i',
                     'Values of v and i',
@@ -244,7 +289,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u01-b4',
                 type: 'example',
                 priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 03 Worked Problem (Professor Board Example)',
+                sourceCitation:
+                  'Class Note · Lecture 03 Worked Problem (Professor Board Example)',
                 title: 'Time-Varying Charge Waveform & Instantaneous Power Delivered',
                 summaryText:
                   'Given q(t) = 5t·sin(4πt) mC and v(t) = 2·cos(4πt) V, determine i(t) and p(t) at t = 0.25 s.',
@@ -284,8 +330,10 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u01-b5',
                 type: 'pyq',
                 priorityTier: 2,
-                sourceCitation: 'Previous Year Question · Semester Final 2023 Q1(c) & 2020 Q1(b)',
-                title: 'Conservation of Power & Unknown Dependent Source Current in a 5-Element Network',
+                sourceCitation:
+                  'Previous Year Question · Semester Final 2023 Q1(c) & 2020 Q1(b)',
+                title:
+                  'Conservation of Power & Unknown Dependent Source Current in a 5-Element Network',
                 summaryText:
                   'Calculate the power of each element in a 5-branch network and verify ∑ p = 0 to find unknown current i_x.',
                 examYears: ['2023', '2020'],
@@ -301,7 +349,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                     stepTitle: 'Step 1: Apply Conservation of Power (∑ p_k = 0)',
                     explanation:
                       'The algebraic sum of instantaneous power for all five elements must equal zero:',
-                    equation: 'p1 + p2 + p3 + p4 + p5 = 0   =>   −205 + 60 + 45 + 30 + p5 = 0',
+                    equation:
+                      'p1 + p2 + p3 + p4 + p5 = 0   =>   −205 + 60 + 45 + 30 + p5 = 0',
                   },
                   {
                     stepTitle: 'Step 2: Solve for p5',
@@ -321,42 +370,42 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u01-b6',
                 type: 'theory',
                 priorityTier: 3,
-                sourceCitation: 'Professor-Followed Book · Alexander & Sadiku (6th Ed.), Ch. 1, Sec. 1.6',
-                title: 'Independent vs. Linear Dependent Sources (VCVS, CCVS, VCCS, CCCS)',
+                sourceCitation:
+                  'Professor-Followed Book · B. L. Theraja & Alexander & Sadiku Ch. 1',
+                title:
+                  'RMS and Average Values for Non-Sinusoidal & Periodic Waveforms',
                 summaryText:
-                  'Circle symbols denote independent sources; diamond symbols denote dependent sources controlled by a remote voltage or current.',
+                  'For any periodic waveform x(t) with period T: Average value X_avg = (1/T) ∫ x(t) dt and Effective (RMS) value X_rms = √[(1/T) ∫ x²(t) dt].',
                 paragraphs: [
-                  'An ideal independent source (drawn as a circle) maintains a specified terminal voltage or current completely independent of the rest of the circuit. An ideal dependent (controlled) source (drawn as a diamond) has its output governed by a voltage or current elsewhere in the network.',
-                  'Pay close attention to the proportionality constant (gain) units: whereas VCVS (μ) and CCCS (β) gains are dimensionless (V/V and A/A), Transresistance r_m in a CCVS has units of Ohms (V/A = Ω), and Transconductance g_m in a VCCS has units of Siemens (A/V = S).',
-                ],
-              },
-              {
-                id: 'u01-b7',
-                type: 'memorize',
-                priorityTier: 4,
-                sourceCitation: 'Syllabus Recommended Book · Nilsson & Riedel (11th Ed.), Ch. 1, Table 1.3',
-                title: 'Standard Engineering SI Prefixes & Utility Energy Conversion (kWh to Joules)',
-                summaryText:
-                  '1 kWh = 3.6 × 10^6 Joules = 3.6 MJ. Complete engineering metric prefix ladder from femto (10^-15) to Tera (10^12).',
-                paragraphs: [
-                  'Electric utility bills measure energy in kilowatt-hours (kWh) rather than Joules because 1 J is too small for power engineering. Always convert kWh to Joules when solving fundamental charge/work problems.',
+                  'An alternating or non-sinusoidal periodic waveform x(t) = x(t + T) is characterized by its average (DC) component and its Root-Mean-Square (RMS or effective) value, which represents the equivalent DC value that delivers the same average power to a resistor.',
+                  'For a composite non-sinusoidal wave containing a DC term plus harmonics x(t) = X_0 + X_{m1}sin(ωt) + X_{m2}sin(2ωt + φ_2) + ···, the total RMS value is the square root of the sum of squares of the individual RMS components.',
                 ],
                 equations: [
                   {
-                    label: 'Kilowatt-Hour to Joules Conversion',
-                    formula: '1 kWh = 1000 W × 3600 s = 3.6 × 10^6 J = 3.6 MJ',
-                    units: 'Joules (J)',
+                    label: 'Full-Cycle Average (Mean) Value',
+                    formula: 'X_{avg} = (1 / T) ∫_0^T x(t) dt',
+                    units: 'V or A',
+                  },
+                  {
+                    label: 'Effective / Root-Mean-Square (RMS) Value',
+                    formula: 'X_{rms} = √[ (1 / T) ∫_0^T x²(t) dt ]',
+                    units: 'V or A',
+                  },
+                  {
+                    label: 'Multi-Harmonic Non-Sinusoidal RMS Value',
+                    formula: 'X_{rms} = √[ X_0² + (X_{m1}/√2)² + (X_{m2}/√2)² + ··· ]',
+                    units: 'Form Factor K_f = X_{rms} / X_{avg}, Peak Factor K_p = X_{max} / X_{rms}',
                   },
                 ],
               },
             ],
           },
           {
-            id: 'eece1111-u02',
-            unitNumber: 'Unit 02',
-            title: 'Basic Laws: Ohm’s Law, Nodes, Loops, KCL & KVL',
+            id: 'eece1111-ch02',
+            unitNumber: 'Module 02',
+            title: 'Basic Laws',
             summary:
-              'Linear resistors, conductance G = 1/R, open & short circuit edge cases, network topology (b = l + n − 1), Kirchhoff’s Current Law (KCL), Kirchhoff’s Voltage Law (KVL), Voltage/Current Dividers, and Wye-Delta (Y-Δ) transformations.',
+              "Ohm's law, Kirchhoff's current and voltage laws, Voltage divider and current divider rules, Delt-Wye equivalent circuits. Series, parallel and series-parallel circuits and their equivalents.",
             estimatedMinutes: 45,
             lastUpdated: 'October 2026',
             blocks: [
@@ -364,7 +413,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u02-b1',
                 type: 'theory',
                 priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 04 (Professor Board Derivation & Curve Analysis)',
+                sourceCitation:
+                  'Class Note · Lecture 04 (Professor Board Derivation & Curve Analysis)',
                 title: 'Ohm’s Law, Conductance & Power Dissipation Characteristics',
                 summaryText:
                   'v = iR (under PSC), Conductance G = 1/R = i/v (Siemens), and non-negative resistor power p = i²R = v²/R ≥ 0.',
@@ -392,7 +442,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u02-b2',
                 type: 'theory',
                 priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 05 (Kirchhoff’s Laws & Two-Loop T-Network)',
+                sourceCitation:
+                  'Class Note · Lecture 05 (Kirchhoff’s Laws & Two-Loop T-Network)',
                 title: 'Kirchhoff’s Current Law (KCL) & Kirchhoff’s Voltage Law (KVL)',
                 summaryText:
                   'KCL (Conservation of Charge): ∑ i_in = ∑ i_out at any node. KVL (Conservation of Energy): ∑ v_m = 0 around any closed path.',
@@ -423,8 +474,10 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u02-b3',
                 type: 'memorize',
                 priorityTier: 2,
-                sourceCitation: 'Previous Year Question · Final Exam 2023 Q2(a), 2022 Q2(b), 2019 Q2(a)',
-                title: 'Voltage Divider, Current Divider & Wye-Delta (Y-Δ) Conversion Formulas',
+                sourceCitation:
+                  'Previous Year Question · Final Exam 2023 Q2(a), 2022 Q2(b), 2019 Q2(a)',
+                title:
+                  'Voltage Divider, Current Divider & Wye-Delta (Y-Δ) Conversion Formulas',
                 summaryText:
                   'Complete formula sheet for two-resistor dividers and Δ ↔ Y bridge conversions.',
                 examYears: ['2023', '2022', '2019'],
@@ -432,8 +485,13 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   'When a bridge network (such as a Wheatstone bridge) has neither series nor parallel resistor pairs, apply a Delta-to-Wye (Δ → Y) or Wye-to-Delta (Y → Δ) transformation to collapse the network.',
                 ],
                 table: {
-                  caption: 'Table 2.1 — Divider Rules & Wye-Delta (Y ↔ Δ) Equivalent Transformations',
-                  headers: ['Transformation / Rule', 'Governing Equation', 'Balanced Case (Equal R)'],
+                  caption:
+                    'Table 2.1 — Divider Rules & Wye-Delta (Y ↔ Δ) Equivalent Transformations',
+                  headers: [
+                    'Transformation / Rule',
+                    'Governing Equation',
+                    'Balanced Case (Equal R)',
+                  ],
                   rows: [
                     [
                       'Voltage Divider (Series R₁, R₂)',
@@ -462,7 +520,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u02-b4',
                 type: 'pyq',
                 priorityTier: 2,
-                sourceCitation: 'Previous Year Question · Final Exam 2022 Q2(c) & 2020 Q2(b)',
+                sourceCitation:
+                  'Previous Year Question · Final Exam 2022 Q2(c) & 2020 Q2(b)',
                 title: 'Bridge Equivalent Resistance Using Δ → Y Transformation',
                 summaryText:
                   'Find total equivalent resistance R_ab and source current I_s for an unbalanced 5-resistor bridge.',
@@ -477,7 +536,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 ],
                 solutionSteps: [
                   {
-                    stepTitle: 'Step 1: Convert the upper Δ (R_a, R_b, R_c) into an equivalent Y (R₁, R₂, R₃)',
+                    stepTitle:
+                      'Step 1: Convert the upper Δ (R_a, R_b, R_c) into an equivalent Y (R₁, R₂, R₃)',
                     explanation:
                       'Using the Δ → Y denominator R_a + R_b + R_c = 30 + 10 + 20 = 60 Ω:',
                     equation:
@@ -501,11 +561,11 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
             ],
           },
           {
-            id: 'eece1111-u03',
-            unitNumber: 'Unit 03',
-            title: 'Methods of Analysis: Nodal, Supernode, Mesh & Supermesh',
+            id: 'eece1111-ch03',
+            unitNumber: 'Module 03',
+            title: 'Techniques for Circuit Analysis',
             summary:
-              'Systematic Nodal Analysis (KCL + Ohm’s Law), Supernode handling for floating voltage sources, Mesh Analysis (KVL + Ohm’s Law), Supermesh handling for shared current sources, and Cramer’s / Inspection matrix formulation.',
+              'Nodal and mesh analysis including supernode, supermesh. Techniques of General DC/AC Circuit Analysis (Containing both independent and dependent sources) Node-voltage method, Mesh-current method, Source Transformations.',
             estimatedMinutes: 40,
             lastUpdated: 'October 2026',
             blocks: [
@@ -513,7 +573,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u03-b1',
                 type: 'definition',
                 priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 07 (Professor’s Supernode & Supermesh Rules)',
+                sourceCitation:
+                  'Class Note · Lecture 07 (Professor’s Supernode & Supermesh Rules)',
                 title: 'Supernode & Supermesh Constraint Equations',
                 summaryText:
                   'A Supernode encloses a floating voltage source between two non-reference nodes; a Supermesh bypasses a current source shared by two adjacent meshes.',
@@ -522,7 +583,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   'Similarly, when a current source lies on the boundary shared by two meshes, exclude the shared branch to form a single outer KVL loop (Supermesh), and write the current source relation at the shared branch.',
                 ],
                 table: {
-                  caption: 'Table 3.1 — Comparison of Supernode vs. Supermesh Formulations',
+                  caption:
+                    'Table 3.1 — Comparison of Supernode vs. Supermesh Formulations',
                   headers: [
                     'Feature',
                     'Supernode (Nodal Analysis)',
@@ -553,7 +615,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u03-b2',
                 type: 'pyq',
                 priorityTier: 2,
-                sourceCitation: 'Previous Year Question · Final Exam 2023 Q3(b) & 2021 Q3(a)',
+                sourceCitation:
+                  'Previous Year Question · Final Exam 2023 Q3(b) & 2021 Q3(a)',
                 title: 'Nodal Analysis with a Floating Supernode & Dependent Source',
                 summaryText:
                   'Solve for node voltages v₁ and v₂ when a 10 V source connects Node 1 and Node 2.',
@@ -568,10 +631,12 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 ],
                 solutionSteps: [
                   {
-                    stepTitle: 'Step 1: Discard the 10 Ω resistor in parallel with the ideal 10 V source during Supernode KCL',
+                    stepTitle:
+                      'Step 1: Discard the 10 Ω resistor in parallel with the ideal 10 V source during Supernode KCL',
                     explanation:
                       'Any resistor connected strictly between the two nodes of a Supernode has its current both leaving and re-entering the same Supernode surface, canceling out in KCL:',
-                    equation: '∑ i_entering = ∑ i_leaving  ⇒  2 = (v₁ / 2) + (v₂ / 4) + 7',
+                    equation:
+                      '∑ i_entering = ∑ i_leaving  ⇒  2 = (v₁ / 2) + (v₂ / 4) + 7',
                   },
                   {
                     stepTitle: 'Step 2: Simplify the Supernode KCL equation',
@@ -579,7 +644,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                     equation: '2v₁ + v₂ = −20   (Equation 1)',
                   },
                   {
-                    stepTitle: 'Step 3: Apply the Supernode voltage constraint and solve',
+                    stepTitle:
+                      'Step 3: Apply the Supernode voltage constraint and solve',
                     explanation: 'Substitute v₁ = v₂ + 10 into Equation 1:',
                     equation:
                       '2(v₂ + 10) + v₂ = −20  ⇒  3v₂ = −40  ⇒  v₂ = −13.33 V\nv₁ = −13.33 + 10 = −3.33 V',
@@ -591,23 +657,32 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u03-b3',
                 type: 'theory',
                 priorityTier: 3,
-                sourceCitation: 'Professor-Followed Book · Alexander & Sadiku (6th Ed.), Ch. 3, Sec. 3.6',
-                title: 'Nodal & Mesh Equations by Inspection (Conductance & Resistance Matrices)',
+                sourceCitation:
+                  'Professor-Followed Book · Alexander & Sadiku (6th Ed.), Ch. 3 & Ch. 4',
+                title:
+                  'Source Transformation & Nodal/Mesh Equations by Inspection',
                 summaryText:
-                  'For circuits with only independent sources, write [G][v] = [i] or [R][i] = [v] directly by inspection.',
+                  'A practical voltage source V_s in series with R converts to an equivalent current source I_s = V_s/R in parallel with R.',
                 paragraphs: [
-                  'When a linear resistive network contains no dependent sources, the Nodal Conductance Matrix [G] and Mesh Resistance Matrix [R] are strictly symmetric (G_jk = G_kj and R_jk = R_kj).',
-                  'Diagonal entry G_kk is the sum of all conductances connected to node k, while off-diagonal entry G_kj (k ≠ j) is the negative sum of conductances directly connecting node k and node j.',
+                  'Source Transformation replaces a voltage source v_s in series with a resistor R by a current source i_s = v_s / R in parallel with the same resistor R (or vice versa), preserving terminal v-i characteristics.',
+                  'When a linear resistive network contains no dependent sources, the Nodal Conductance Matrix [G][v] = [i] and Mesh Resistance Matrix [R][i] = [v] are symmetric and can be written directly by inspection.',
+                ],
+                equations: [
+                  {
+                    label: 'Source Transformation Equivalence',
+                    formula: 'v_s = i_s · R   ⟺   i_s = v_s / R',
+                    units: 'Applies to both independent and dependent sources',
+                  },
                 ],
               },
             ],
           },
           {
-            id: 'eece1111-u04',
-            unitNumber: 'Unit 04',
-            title: 'Circuit Theorems: Superposition, Thevenin, Norton & Maximum Power',
+            id: 'eece1111-ch04',
+            unitNumber: 'Module 04',
+            title: 'DC Network Theorem',
             summary:
-              'Linearity property, Superposition principle, Source Transformation, Thevenin’s Theorem (V_Th, R_Th), Norton’s Theorem (I_N, R_N), and Maximum Power Transfer Theorem (R_L = R_Th, P_max = V_Th² / 4R_Th).',
+              "Thevenin's theorem, Norton's theorem and superposition theorem with applications in circuits having independent and dependent sources, Millman's theorem, Substitution theorem, Maximum power transfer theorem and Reciprocity Theorem.",
             estimatedMinutes: 40,
             lastUpdated: 'October 2026',
             blocks: [
@@ -615,7 +690,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u04-b1',
                 type: 'memorize',
                 priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 10 (Three Cases for Finding R_Th)',
+                sourceCitation:
+                  'Class Note · Lecture 10 (Three Cases for Finding R_Th)',
                 title: 'Three Standard Cases for Computing Thevenin Resistance (R_Th)',
                 summaryText:
                   'How to find R_Th for circuits with (Case 1) only independent sources, (Case 2) both independent & dependent sources, and (Case 3) only dependent sources.',
@@ -623,7 +699,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   'Choosing the right method to compute R_Th depends strictly on whether dependent sources exist inside the linear two-terminal network.',
                 ],
                 table: {
-                  caption: 'Table 4.1 — Complete Procedure for Finding Thevenin Equivalent (V_Th, R_Th)',
+                  caption:
+                    'Table 4.1 — Complete Procedure for Finding Thevenin Equivalent (V_Th, R_Th)',
                   headers: [
                     'Circuit Case',
                     'V_Th Calculation',
@@ -654,7 +731,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 id: 'u04-b2',
                 type: 'definition',
                 priorityTier: 2,
-                sourceCitation: 'Previous Year Question · Final Exam 2023 Q4(a), 2022 Q4(a), 2020 Q4(b)',
+                sourceCitation:
+                  'Previous Year Question · Final Exam 2023 Q4(a), 2022 Q4(a), 2020 Q4(b)',
                 title: 'Maximum Power Transfer Theorem & Proof (dP_L / dR_L = 0)',
                 summaryText:
                   'A resistive load R_L receives maximum power from a linear DC network when R_L = R_Th, yielding P_max = V_Th² / (4R_Th) at 50% efficiency.',
@@ -672,7 +750,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   },
                   {
                     label: 'Zero-Derivative Optimality Condition',
-                    formula: 'dP_L / dR_L = V_{Th}² · [(R_{Th} + R_L)² − 2R_L(R_{Th} + R_L)] / (R_{Th} + R_L)⁴ = 0  ⇒  R_L = R_{Th}',
+                    formula:
+                      'dP_L / dR_L = V_{Th}² · [(R_{Th} + R_L)² − 2R_L(R_{Th} + R_L)] / (R_{Th} + R_L)⁴ = 0  ⇒  R_L = R_{Th}',
                     units: 'Ohms (Ω)',
                   },
                   {
@@ -682,127 +761,214 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   },
                 ],
               },
+              {
+                id: 'u04-b3',
+                type: 'theory',
+                priorityTier: 3,
+                sourceCitation:
+                  'Professor-Followed Book · B. L. Theraja Vol. I & Boylestad Ch. 9',
+                title:
+                  'Millman’s Theorem, Substitution Theorem & Reciprocity Theorem',
+                summaryText:
+                  'Millman’s Theorem combines N parallel voltage branches into a single equivalent source V_eq = (∑ V_k G_k) / (∑ G_k).',
+                paragraphs: [
+                  'Millman’s Theorem simplifies parallel branches of voltage sources in series with resistors by converting each branch to its Norton current equivalent, summing the parallel conductances G_k = 1/R_k, and converting back to a single Thevenin source.',
+                  'The Reciprocity Theorem states that in any linear bilateral single-source network, the ratio of excitation voltage in loop A to the response current in loop B remains invariant when the positions of the voltage source and ammeter are interchanged.',
+                ],
+                equations: [
+                  {
+                    label: 'Millman’s Equivalent Voltage & Resistance',
+                    formula: 'V_{eq} = (∑_{k=1}^N V_k · G_k) / (∑_{k=1}^N G_k),   R_{eq} = 1 / (∑_{k=1}^N G_k)',
+                    units: 'G_k = 1 / R_k (Siemens)',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'eece1111-ch05',
+            unitNumber: 'Module 05',
+            title: 'AC Network Theorem',
+            summary:
+              "Thevenin's theorem, Norton's theorem, superposition theorem, Millman's theorem, Substitution theorem, Maximum power transfer theorem and Reciprocity Theorem.",
+            estimatedMinutes: 35,
+            lastUpdated: 'October 2026',
+            blocks: [
+              {
+                id: 'u05-b1',
+                type: 'theory',
+                priorityTier: 1,
+                sourceCitation:
+                  'Class Note · AC Network Theorems & Complex Conjugate Matching',
+                title:
+                  'Maximum Average Power Transfer Theorem in AC Sinusoidal Networks',
+                summaryText:
+                  'For a complex load impedance Z_L = R_L + jX_L connected to an AC Thevenin network Z_Th = R_Th + jX_Th, maximum average power occurs when Z_L = Z_Th* = R_Th − jX_Th.',
+                paragraphs: [
+                  'In sinusoidal steady-state AC circuits, all DC network theorems (Superposition, Thevenin, Norton, Millman, Substitution, and Reciprocity) extend directly to the frequency domain by replacing real voltages/currents with phasors (V, I) and resistances with complex impedances (Z = R + jX).',
+                  'For Maximum Average Power Transfer to a variable complex load Z_L = R_L + jX_L, the load reactance must first cancel the Thevenin reactance (X_L = −X_Th) and the load resistance must match the Thevenin resistance (R_L = R_Th).',
+                ],
+                equations: [
+                  {
+                    label: 'Complex Conjugate Impedance Matching Condition',
+                    formula: 'Z_L = Z_{Th}^*   ⟺   R_L = R_{Th}  and  X_L = −X_{Th}',
+                    units: 'Ohms (Ω)',
+                  },
+                  {
+                    label: 'Maximum Average AC Power Transferred (using RMS V_Th)',
+                    formula: 'P_{max} = |V_{Th,rms}|² / (4 · R_{Th}) = |V_{Th,peak}|² / (8 · R_{Th})',
+                    units: 'Watts (W)',
+                  },
+                  {
+                    label: 'Purely Resistive Load Restriction (X_L = 0)',
+                    formula: 'R_L = |Z_{Th}| = √(R_{Th}² + X_{Th}²)',
+                    units: 'Ohms (Ω) when load reactance cannot be varied',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'eece1111-ch06',
+            unitNumber: 'Module 06',
+            title: 'Sinusoidal Functions',
+            summary:
+              'Instantaneous current, voltage, power, effective current and voltage, phasors and complex quantities. Impedance, admittance, reactance, susceptance of RL, RC and RLC branches.',
+            estimatedMinutes: 40,
+            lastUpdated: 'October 2026',
+            blocks: [
+              {
+                id: 'u06-b1',
+                type: 'theory',
+                priorityTier: 1,
+                sourceCitation:
+                  'Class Note · Sinusoidal Steady-State, Phasors & RLC Branch Impedance',
+                title:
+                  'Phasor Representation, Complex Impedance (Z) & Admittance (Y) of RL, RC and RLC Branches',
+                summaryText:
+                  'Impedance Z = R + jX = |Z|∠θ (Ω) and Admittance Y = 1/Z = G + jB (S), where X_L = ωL and X_C = 1/(ωC).',
+                paragraphs: [
+                  'A sinusoidal waveform v(t) = V_m cos(ωt + φ) is represented in the phasor domain as V = V_m∠φ (or in RMS form as (V_m/√2)∠φ). Time differentiation d/dt corresponds to multiplying by jω, and integration ∫ dt corresponds to dividing by jω.',
+                  'In an inductive branch (RL), voltage leads current by phase angle θ = tan⁻¹(X_L/R) > 0. In a capacitive branch (RC), current leads voltage (θ = −tan⁻¹(X_C/R) < 0).',
+                ],
+                table: {
+                  caption:
+                    'Table 6.1 — Impedance, Reactance, Admittance & Susceptance of Passive Elements',
+                  headers: [
+                    'Element / Branch',
+                    'Impedance Z = R + jX (Ω)',
+                    'Admittance Y = G + jB (S)',
+                    'Phase Angle Relation',
+                  ],
+                  rows: [
+                    [
+                      'Resistor (R)',
+                      'Z_R = R + j0',
+                      'Y_R = G = 1/R',
+                      'v(t) and i(t) in phase (θ = 0°)',
+                    ],
+                    [
+                      'Inductor (L)',
+                      'Z_L = jωL = jX_L',
+                      'Y_L = −j / (ωL) = −jB_L',
+                      'v(t) leads i(t) by 90°',
+                    ],
+                    [
+                      'Capacitor (C)',
+                      'Z_C = −j / (ωC) = −jX_C',
+                      'Y_C = jωC = +jB_C',
+                      'i(t) leads v(t) by 90°',
+                    ],
+                    [
+                      'Series RLC Branch',
+                      'Z = R + j(X_L − X_C)',
+                      'Y = [R − j(X_L − X_C)] / [R² + (X_L − X_C)²]',
+                      'tan θ = (X_L − X_C) / R',
+                    ],
+                  ],
+                },
+              },
             ],
           },
         ],
       },
       {
-        id: 'math1101',
-        code: 'MATH1101',
-        title: 'Differential & Integral Calculus',
-        credits: 3.0,
-        courseType: 'Theory',
+        id: 'eece1112',
+        code: 'EECE1112',
+        title: 'Electrical Circuits I Sessional',
+        credits: 1.5,
+        contactHours: 3.0,
+        courseType: 'Sessional',
         syllabusOverview:
-          'Limits, continuity, differentiability, successive differentiation, Leibniz’s Theorem, Rolle’s & Mean Value Theorems, Taylor/Maclaurin series, Partial differentiation, Euler’s Theorem, Definite integrals, Reduction formulas, and Beta & Gamma functions.',
+          'Laboratory sessional experiments based on EECE 1111 (Electrical Circuits I).',
         professorFollowedBooks: [
-          'Howard Anton, Irl Bivens & Stephen Davis — Calculus: Early Transcendentals (10th Edition)',
-          'B. C. Das & B. N. Mukherjee — Differential Calculus & Integral Calculus',
+          'Fundamentals of Electric Circuits by Charles K. Alexander and Matthew N. O. Sadiku',
         ],
         syllabusRecommendedBooks: [
-          'Erwin Kreyszig — Advanced Engineering Mathematics (10th Edition)',
-          'George B. Thomas — Thomas’ Calculus',
+          'Introductory Circuit Analysis by Robert L. Boylestad',
         ],
         chapters: [
           {
-            id: 'math1101-u01',
-            unitNumber: 'Unit 01',
-            title: 'Successive Differentiation & Leibniz’s Theorem',
+            id: 'eece1112-ch01',
+            unitNumber: 'Module 01',
+            title: 'Electrical Circuits I Laboratory Experiments',
             summary:
-              'Standard n-th derivatives of algebraic, trigonometric, and exponential functions; Leibniz’s Rule for the n-th derivative of a product u·v; and determination of y_n(0).',
-            estimatedMinutes: 35,
+              "Experimental verification of Ohm's Law, KCL, KVL, Superposition, Thevenin's, Norton's, Maximum Power Transfer theorems, and RLC AC branch measurements.",
+            estimatedMinutes: 30,
             lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'math1101-u01-b1',
-                type: 'definition',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 03 (Leibniz Theorem Statement & Proof)',
-                title: 'Leibniz’s Theorem for the n-th Derivative of a Product',
-                summaryText:
-                  'If u(x) and v(x) both possess derivatives up to the n-th order, then (uv)_n expands analogously to the Binomial Theorem.',
-                paragraphs: [
-                  'Leibniz’s Theorem enables direct computation of the n-th derivative of the product of two functions u(x) and v(x) without computing intermediate lower-order product derivatives. In practice, always choose v(x) to be the polynomial factor (such as x² or 1 − x²) so that the series terminates after 2 or 3 terms.',
-                ],
-                equations: [
-                  {
-                    label: 'Leibniz’s Product Expansion',
-                    formula: '(u · v)_n = u_n v + ⁿC₁ u_{n-1} v₁ + ⁿC₂ u_{n-2} v₂ + ··· + u v_n',
-                  },
-                  {
-                    label: 'n-th Derivative of sin(ax + b)',
-                    formula: 'Dⁿ [sin(ax + b)] = aⁿ · sin(ax + b + nπ/2)',
-                  },
-                  {
-                    label: 'n-th Derivative of (ax + b)⁻¹',
-                    formula: 'Dⁿ [(ax + b)⁻¹] = (−1)ⁿ · n! · aⁿ / (ax + b)^{n+1}',
-                  },
-                ],
-                professorTip:
-                  'When proving second-order differential equations like (1 − x²)y_{n+2} − (2n + 1)xy_{n+1} − n²y_n = 0, first eliminate radicals and fractions from y₁ BEFORE differentiating a second time to get y₂, then apply Leibniz’s Theorem (Dⁿ) to each term.',
-              },
-              {
-                id: 'math1101-u01-b2',
-                type: 'pyq',
-                priorityTier: 2,
-                sourceCitation: 'Previous Year Question · Final Exam 2023 Q2(b), 2021 Q1(c)',
-                title: 'Derivation of (1 − x²)y_{n+2} − (2n + 1)xy_{n+1} − (n² + m²)y_n = 0',
-                summaryText:
-                  'If y = e^{m·sin⁻¹x}, prove the n-th order recurrence relation and find y_n(0).',
-                examYears: ['2023', '2021'],
-                marks: '7 Marks',
-                problemStatement:
-                  'If y = e^{m · sin⁻¹x}, show that (1 − x²)y₂ − xy₁ − m²y = 0, and hence by Leibniz’s Theorem prove that (1 − x²)y_{n+2} − (2n + 1)xy_{n+1} − (n² + m²)y_n = 0.',
-                givenData: ['y = e^{m · sin⁻¹x}'],
-                solutionSteps: [
-                  {
-                    stepTitle: 'Step 1: Differentiate once and square both sides to eliminate the radical',
-                    explanation:
-                      'Compute y₁ = dy/dx and substitute y = e^{m·sin⁻¹x}:',
-                    equation:
-                      'y₁ = m · e^{m·sin⁻¹x} / √(1 − x²) = m·y / √(1 − x²)  ⇒  (1 − x²)y₁² = m²y²',
-                  },
-                  {
-                    stepTitle: 'Step 2: Differentiate again and divide by 2y₁',
-                    explanation: 'Differentiating with respect to x gives:',
-                    equation:
-                      '(1 − x²)(2y₁y₂) − 2x·y₁² = 2m²y·y₁  ⇒  (1 − x²)y₂ − xy₁ − m²y = 0',
-                  },
-                  {
-                    stepTitle: 'Step 3: Apply Dⁿ to each term using Leibniz’s Theorem',
-                    explanation:
-                      'Let u = y₂ (or y₁) and v = (1 − x²) (or x) so the binomial expansion stops at v₂ = −2:',
-                    equation:
-                      '[(1−x²)y_{n+2} − 2nx·y_{n+1} − n(n−1)y_n] − [x·y_{n+1} + n·y_n] − m²y_n = 0\n⇒ (1 − x²)y_{n+2} − (2n + 1)xy_{n+1} − (n² + m²)y_n = 0',
-                  },
-                ],
-                finalAnswer: '(1 − x²)y_{n+2} − (2n + 1)xy_{n+1} − (n² + m²)y_n = 0 (Proved)',
-              },
-            ],
+            blocks: [],
           },
         ],
       },
       {
         id: 'phy1101',
         code: 'PHY1101',
-        title: 'Physics I: Waves, Optics & Thermodynamics',
+        title: 'Physics',
         credits: 3.0,
+        contactHours: 3.0,
         courseType: 'Theory',
         syllabusOverview:
-          'Simple Harmonic Motion (SHM), damped and forced mechanical/electrical oscillations, resonance, Lissajous figures, wave interference, Newton’s rings, diffraction gratings, polarization, and laws of thermodynamics.',
+          'Electrostatic and Steady Electric Current, Magnetic Field and Electromagnetic Induction, Waves and Oscillations, Optics, Quantum Mechanics, Sound and Acoustics, and Thermoelectricity and Photoelectricity.',
         professorFollowedBooks: [
-          'David Halliday, Robert Resnick & Jearl Walker — Fundamentals of Physics (10th Edition)',
-          'Brij Lal & N. Subrahmanyam — A Textbook of Optics',
+          'Physics Part I and Part II by David Halliday and Robert Resnick',
         ],
         syllabusRecommendedBooks: [
-          'A. P. French — Vibrations and Waves (MIT Introductory Physics Series)',
+          'Textbook of Optics by Francis A. Jenkins and Harvey E. White',
+          'Thermodynamics by F. W. Sears',
+          'Classical Thermodynamics by D. Elwell & A. J. Pointon',
+          'Modern Physics by A. Beiser',
+          'Electricity and Magnetism by Edward M. Purcell',
+          'Electricity and Magnetism by Stanley Ramsey',
+          'Oscillations and Waves: An Introduction by Richard Fitzpatrick',
+          'Waves and Oscillations by R. A. Waldron',
         ],
         chapters: [
           {
-            id: 'phy1101-u01',
-            unitNumber: 'Unit 01',
-            title: 'Damped & Forced Harmonic Oscillations & Sharpness of Resonance',
+            id: 'phy1101-ch01',
+            unitNumber: 'Module 01',
+            title: 'Electrostatic and Steady Electric Current',
             summary:
-              'Differential equation of damped oscillation, underdamped/critically damped/overdamped regimes, quality factor Q, and amplitude resonance in forced oscillators.',
+              'Electric field in dielectric media, Energy in an electrostatic field. Concept of electric current, Current density, Equation of continuity, Resistivity and conductivity, Electrostatic force, Electromotive force.',
+            estimatedMinutes: 30,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'phy1101-ch02',
+            unitNumber: 'Module 02',
+            title: 'Magnetic Field and Electromagnetic Induction',
+            summary:
+              "Magnetic induction, Magnetic force on a current, Torque on a current loop, Ampere's law, Biot-Savart law and its applications, Faraday's laws of electromagnetic induction, Lenz's law, Induced current and voltage, Self-inductance and mutual inductance, Inductor.",
+            estimatedMinutes: 35,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'phy1101-ch03',
+            unitNumber: 'Module 03',
+            title: 'Waves and Oscillations',
+            summary:
+              'Differential equation of simple harmonic oscillator, Total energy and average energy. Combination of simple harmonic oscillations, Spring mass system, Torsional pendulum, Two body oscillation, Reduced mass, Damped oscillation, Forced oscillation, Resonance, Progressive wave, Power and intensity of wave, Stationary wave, Group and phase velocities.',
             estimatedMinutes: 30,
             lastUpdated: 'October 2026',
             blocks: [
@@ -818,7 +984,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   'A real oscillating system experiences a resistive damping force proportional to velocity (F_d = −r·dx/dt) in addition to the linear restoring force (F_r = −kx). This second-order linear ODE mirrors a series RLC electrical circuit where mass m ↔ inductance L, damping r ↔ resistance R, and compliance 1/k ↔ capacitance C.',
                 ],
                 table: {
-                  caption: 'Table 1.1 — Three Damping Regimes & Mechanical–Electrical RLC Analogy',
+                  caption:
+                    'Table 1.1 — Three Damping Regimes & Mechanical–Electrical RLC Analogy',
                   headers: [
                     'Condition',
                     'Regime Name',
@@ -849,76 +1016,354 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
               },
             ],
           },
+          {
+            id: 'phy1101-ch04',
+            unitNumber: 'Module 04',
+            title: 'Optics',
+            summary:
+              "Theories of light, Interference of light, Young's double slit experiment, Diffraction by single slit, Diffraction at double slit, Diffraction grating, Polarization, Classification and uses of polarization, Brewster's law, Nicol Prism.",
+            estimatedMinutes: 30,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'phy1101-ch05',
+            unitNumber: 'Module 05',
+            title: 'Quantum Mechanics',
+            summary:
+              "Wave function and wave equation, Time dependent and time independent Schrodinger's equation, De-Broglie waves, Uncertainty principle, Photoelectric effect, Quantum theory of light, Compton effect.",
+            estimatedMinutes: 30,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'phy1101-ch06',
+            unitNumber: 'Module 06',
+            title: 'Sound and Acoustics',
+            summary:
+              "Simple harmonic motion, Wave equation, Principle of superposition. Beats, Dispersion, Phase and group velocities, Doppler's effect, Free and forced vibrations, Reverberation, Noise insulation and reduction, Compound absorption, Sound distribution, Room acoustics, Recording.",
+            estimatedMinutes: 30,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'phy1101-ch07',
+            unitNumber: 'Module 07',
+            title: 'Thermoelectricity and Photoelectricity',
+            summary:
+              "Thermal electromotive forces, Seebeck effect and Peltier effect, Thermocouple and Thermo-emf, Laws of photoemission and Einstein's equation, Photoelectric cell and its use.",
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
         ],
       },
       {
-        id: 'cse1101',
-        code: 'CSE1101',
-        title: 'Computer Programming & Structured C',
-        credits: 3.0,
-        courseType: 'Theory',
+        id: 'ce1101',
+        code: 'CE1101',
+        title: 'Engineering Graphics',
+        credits: 1.5,
+        contactHours: 3.0,
+        courseType: 'Sessional',
         syllabusOverview:
-          'Data types, operators, control structures, functions, recursion, arrays, strings, pointers, dynamic memory allocation (malloc, calloc, free), structures, unions, and file I/O in C.',
-        professorFollowedBooks: [
-          'Herbert Schildt — Teach Yourself C / C: The Complete Reference',
-          'E. Balagurusamy — Programming in ANSI C (8th Edition)',
-        ],
+          'Introduction to orthographic projections, Drawing standards and practices, and Introduction to computer aided design (CAD).',
+        professorFollowedBooks: [],
         syllabusRecommendedBooks: [
-          'Brian W. Kernighan & Dennis M. Ritchie — The C Programming Language (2nd Edition)',
+          'Engineering Graphics (3rd Edition) by Frederick E. Giesecke, Alva Mitchell, Henry C. Spencer, Ivan L. Hill, Robert O. Loving and John Thomas Dygdon',
+          'Engineering Drawing (2nd Edition) by Frank Zozzora',
         ],
         chapters: [
           {
-            id: 'cse1101-u01',
-            unitNumber: 'Unit 01',
-            title: 'Pointers, Call-by-Reference & Dynamic Memory Allocation',
+            id: 'ce1101-ch01',
+            unitNumber: 'Module 01',
+            title: 'Introduction to Orthographic Projections',
             summary:
-              'Address-of (&) and dereference (*) operators, pointer arithmetic, array-pointer equivalence, and heap memory management.',
+              'Scale drawing, Sectional view, Isometric views, Missing line, Auxiliary view, Pictorial views.',
             estimatedMinutes: 25,
             lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'cse1101-u01-b1',
-                type: 'memorize',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 08 (Pointer & Dynamic Memory Comparison)',
-                title: 'Comparison of malloc(), calloc(), realloc(), and free()',
-                summaryText:
-                  'Key differences in arguments, zero-initialization behavior, and return values for C standard library heap functions.',
-                paragraphs: [
-                  'Dynamic memory allocation in <stdlib.h> allocates memory on the heap at runtime. Always check whether the returned pointer is NULL before dereferencing.',
-                ],
-                table: {
-                  caption: 'Table 1.1 — Standard Heap Allocation Functions in <stdlib.h>',
-                  headers: ['Function', 'Prototype Syntax', 'Memory Initialization', 'Primary Exam Note'],
-                  rows: [
-                    [
-                      'malloc()',
-                      'ptr = (int*) malloc(n * sizeof(int));',
-                      'Contains garbage values',
-                      'Single size argument in bytes; fastest allocation',
-                    ],
-                    [
-                      'calloc()',
-                      'ptr = (int*) calloc(n, sizeof(int));',
-                      'Initializes all bits to zero (0)',
-                      'Takes two arguments: element count n and element size',
-                    ],
-                    [
-                      'realloc()',
-                      'ptr = (int*) realloc(ptr, new_size);',
-                      'Preserves existing bytes up to min size',
-                      'Resizes previously allocated block dynamically',
-                    ],
-                    [
-                      'free()',
-                      'free(ptr); ptr = NULL;',
-                      'Releases block back to heap',
-                      'Set pointer to NULL after freeing to prevent dangling pointers',
-                    ],
-                  ],
-                },
-              },
-            ],
+            blocks: [],
+          },
+          {
+            id: 'ce1101-ch02',
+            unitNumber: 'Module 02',
+            title: 'Drawing Standards and Practices',
+            summary:
+              'Interpenetrating of surfaces, Development of surfaces, Machine drawings and Technical sketching.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'ce1101-ch03',
+            unitNumber: 'Module 03',
+            title: 'Introduction to Computer Aided Design (CAD)',
+            summary:
+              'Project on Engineering Drawing and CAD using Contemporary CAD tools.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+        ],
+      },
+      {
+        id: 'hum1101',
+        code: 'HUM1101',
+        title: 'English',
+        credits: 3.0,
+        contactHours: 3.0,
+        courseType: 'Theory',
+        syllabusOverview:
+          'Introduction, Communicative English, Paragraph Writing, Essay Writing, Reading comprehension, Business Writing, Letter Writing, and Report writing.',
+        professorFollowedBooks: [],
+        syllabusRecommendedBooks: [
+          'Basic English Grammar by Schrampfer Azar',
+          'Advanced Grammar in Use With answers by Martin Hewings',
+          'Communicating Handbook by Loes Van',
+          'English for Business Communication Student’s Book by Simon Sweeney',
+          'Technical English: Writing, Reading and Speaking (8th Edition) by Nell Ann Pickett',
+          'Cambridge English for Engineering Student’s Book with Audio CDs (2) by A. S. Hornby',
+        ],
+        chapters: [
+          {
+            id: 'hum1101-ch01',
+            unitNumber: 'Module 01',
+            title: 'Introduction',
+            summary:
+              'Parts of speech (Changing), Sentence making rules, different types of sentences, Tense, right forms of verbs, verb conjugation, Transformation of sentences: Different types of sentences - Converting degree, Appropriate preposition, Idioms & Phrase, Voice, Narration, Correction of sentences, WH Question, Completing sentences, Synonyms and Antonyms.',
+            estimatedMinutes: 30,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'hum1101-ch02',
+            unitNumber: 'Module 02',
+            title: 'Communicative English',
+            summary:
+              'Introductions oneself, Conversation & Dialogue on recent topic, Group Discussion, Notations & Functions.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'hum1101-ch03',
+            unitNumber: 'Module 03',
+            title: 'Paragraph Writing',
+            summary:
+              'Amplification of Ideas, Structure and classifications, Topic Sentence, Topic Developers, Topic Termination, Open-ended paragraph, Close-ended paragraph.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'hum1101-ch04',
+            unitNumber: 'Module 04',
+            title: 'Essay Writing',
+            summary:
+              'Hints given essay, without hints essay, Free hand Essay writing on current Issues.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'hum1101-ch05',
+            unitNumber: 'Module 05',
+            title: 'Reading Comprehension',
+            summary:
+              'Precise writing, Vocabulary building, Synonym & Antonym, Use of words in different Parts of speech, True-false (Yes/No/Not given), Fill in the blanks, Tree Chart, flow chart.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'hum1101-ch06',
+            unitNumber: 'Module 06',
+            title: 'Business Writing',
+            summary: 'Agenda, Notice, Memo, Meeting Minutes, Quotation, Tender.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'hum1101-ch07',
+            unitNumber: 'Module 07',
+            title: 'Letter Writing',
+            summary:
+              'Job application, Resume, Formal & Informal letter, Letter to Newspaper.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'hum1101-ch08',
+            unitNumber: 'Module 08',
+            title: 'Report Writing',
+            summary: 'Technical Report, Lab report, Newspaper report.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+        ],
+      },
+      {
+        id: 'math1101',
+        code: 'MATH1101',
+        title: 'Differential Calculus and Analytical Geometry',
+        credits: 3.0,
+        contactHours: 3.0,
+        courseType: 'Theory',
+        syllabusOverview:
+          'Differential Calculus (Functions, Limit and Continuity, Differentiability, Successive Differentiations & Leibniz Theorem, Mean Value Theorems, Tangents, Curvature, Partial Derivatives, Euler’s Theorem, Jacobian & Hessian) and Analytical Geometry (2D/3D Co-ordinate Systems, Pair of Straight Lines, Conics, Circles, Planes, Conicoids & Sphere).',
+        professorFollowedBooks: [
+          'Calculus and Analytical Geometry by H. Anton',
+          'Co-ordinate Geometry and Vector Analysis by Rahman and Bhattacharjee',
+        ],
+        syllabusRecommendedBooks: [
+          'Analytic Geometry of Conic Sections by E. H. Askwith',
+          'Calculus and Analytic Geometry by G. B. Thomas and R. L. Finney',
+          'Differential Calculus by J. Edwards',
+          'Advanced Calculus by M. R. Spiegel',
+          'Calculus by F. Ayres',
+        ],
+        chapters: MATH1101_CHAPTERS,
+      },
+      {
+        id: 'chem1101',
+        code: 'CHEM1101',
+        title: 'Physical and Inorganic Chemistry',
+        credits: 3.0,
+        contactHours: 3.0,
+        courseType: 'Theory',
+        syllabusOverview:
+          'Electrochemistry, Electrochemical Cells, Chemical Equilibrium, Chemical kinetics, Solution and Colloid, Atomic Structure, Periodic Classification of Elements, Electronic Theory of Valence and Chemical Bonding, and Chemistry of Transition Elements, Lanthanides and Actinides.',
+        professorFollowedBooks: [
+          'Modern Inorganic Chemistry by R. D. Madan',
+        ],
+        syllabusRecommendedBooks: [
+          'Principles of Physical Chemistry by M. M. Haque and M. A. Nawab',
+          'Fundamental Concepts in Inorganic Chemistry by Esmarch S. Gilreath',
+          'Physical Chemistry by G. M. Barrow',
+          'Physical Chemistry by W. J. Moore',
+          'Physical Chemistry by Keith J. Laidler, John H. Meiser',
+          'Elementary Physical Chemistry by S. R. Palit',
+          'Modern Inorganic Chemistry by S. Z. Haider',
+          'Chemical Bonding by Audrey L. Companion',
+          'Basic Inorganic Chemistry by F. Albert Cotton, G. Wilkinson, P. L. Gaus',
+          'Electronic Structure and Chemical Bonding by Donald K. Sebera',
+        ],
+        chapters: [
+          {
+            id: 'chem1101-ch01',
+            unitNumber: 'Module 01',
+            title: 'Electrochemistry',
+            summary:
+              "Conductors, Electrolytes and Electrolysis, Faraday's Laws of Electrolysis, Electrolytic Conductance, Theories for Electrolytic Conductance, Ionic Mobility, Kohlrausch's Law, Transference Number.",
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'chem1101-ch02',
+            unitNumber: 'Module 02',
+            title: 'Electrochemical Cells (Electrolytic and Galvanic/Voltaic)',
+            summary:
+              'Electrode Reaction and Potentials, Reference Electrode, Reversible and Concentration Cells.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'chem1101-ch03',
+            unitNumber: 'Module 03',
+            title: 'Chemical Equilibrium',
+            summary:
+              "Reversible and Irreversible Reaction, Chemical Equilibrium and its Dynamic Nature, Characteristics, Laws of Mass Action and Equilibrium Constant Kc, Kp and Kx, Le-Chatelier's Principles and Applications.",
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'chem1101-ch04',
+            unitNumber: 'Module 04',
+            title: 'Chemical Kinetics',
+            summary:
+              'Rate of Chemical Reaction, Order and Molecularity of Reactions, Different Types of Rate Expressions, Methods of Determining Rate and Order, Effect of Temperature on Reaction Rate and Energy of Activation.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'chem1101-ch05',
+            unitNumber: 'Module 05',
+            title: 'Solution and Colloid',
+            summary:
+              'Different Types of Solution, Concentration Units, Colloid and Colloidal Solution-Classification, Preparation, Purification, Properties, Protective Action and Application of Colloids.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'chem1101-ch06',
+            unitNumber: 'Module 06',
+            title: 'Atomic Structure',
+            summary:
+              "Dalton's Atomic Theory, Fundamental Particles, Elementary Ideas on Rutherford Atom Model and Bohr Atom Model, Quantum Numbers, Shape of Atomic Orbitals, Pauli's Exclusion Principle, Electronic Configuration of Elements.",
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'chem1101-ch07',
+            unitNumber: 'Module 07',
+            title: 'Periodic Classification of Elements',
+            summary:
+              'Modern Periodic Table, Periodic Classification of Elements, Correlation of Periodic Classification of Elements with Electronic Configuration, Investigation on Some Periodic Properties, Atomic and Ionic Radius, Ionization Potential, Electron Affinity and Electronegativity.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'chem1101-ch08',
+            unitNumber: 'Module 08',
+            title: 'Electronic Theory of Valence and Chemical Bonding',
+            summary:
+              'Different Types of Chemical Bonds (Ionic, Covalent, Co-ordinate, Hydrogen and Metallic), Classification of Solids on the Basis of Bonding and their Properties, Hybridization of Atomic Orbitals and Shapes of Molecules, Molecular Orbitals, Bond Length and Bond Strength.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'chem1101-ch09',
+            unitNumber: 'Module 09',
+            title: 'Chemistry of Transition Elements, Lanthanides and Actinides',
+            summary:
+              'Definitions, Electronic Configurations, Preparation (Nuclear Transformation), General Properties.',
+            estimatedMinutes: 25,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+        ],
+      },
+      {
+        id: 'eece1100',
+        code: 'EECE1100',
+        title: 'Viva-voce',
+        credits: 0.75,
+        contactHours: 0,
+        courseType: 'Sessional',
+        syllabusOverview:
+          'Comprehensive oral examination (Viva-voce) covering all 1st Year 1st Semester coursework.',
+        professorFollowedBooks: [],
+        syllabusRecommendedBooks: [],
+        chapters: [
+          {
+            id: 'eece1100-ch01',
+            unitNumber: 'Module 01',
+            title: 'Viva-voce Examination',
+            summary:
+              'Oral assessment of fundamental concepts across 1st Year 1st Semester courses.',
+            estimatedMinutes: 15,
+            lastUpdated: 'October 2026',
+            blocks: [],
           },
         ],
       },
@@ -930,125 +1375,9 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
     year: 1,
     semester: 2,
     title: '1st Year · 2nd Semester',
-    subtitle: 'Transient RC/RL Circuits, Sinusoidal AC Steady-State, Phasors & Differential Equations',
-    totalCredits: 20.25,
-    subjects: [
-      {
-        id: 'eece1211',
-        code: 'EECE1211',
-        title: 'Electrical Circuit II (Transients & AC Networks)',
-        credits: 3.0,
-        courseType: 'Theory',
-        syllabusOverview:
-          'First-order RC and RL transient response, step response, second-order RLC circuits, sinusoids and phasors, complex impedance Z, AC nodal/mesh analysis, AC power (real P, reactive Q, apparent S, power factor cos φ), and balanced 3-phase systems.',
-        professorFollowedBooks: [
-          'Charles K. Alexander & Matthew N. O. Sadiku — Fundamentals of Electric Circuits (Ch. 7–12)',
-        ],
-        syllabusRecommendedBooks: [
-          'Robert L. Boylestad — Introductory Circuit Analysis (AC Chapters)',
-        ],
-        chapters: [
-          {
-            id: 'eece1211-u01',
-            unitNumber: 'Unit 01',
-            title: 'First-Order RC & RL Transient Circuits & Time Constant (τ)',
-            summary:
-              'Capacitor continuity v_C(0⁺) = v_C(0⁻), inductor continuity i_L(0⁺) = i_L(0⁻), natural vs. step response, and the universal first-order transient formula x(t) = x(∞) + [x(0⁺) − x(∞)]e^{−t/τ}.',
-            estimatedMinutes: 35,
-            lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'eece1211-u01-b1',
-                type: 'theory',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 02 (Universal First-Order Step Response)',
-                title: 'Universal First-Order Transient Equation & RC Time Constant (τ = R_Th·C)',
-                summaryText:
-                  'v_C(t) = v_C(∞) + [v_C(0⁺) − v_C(∞)] · e^{−t/τ} for t ≥ 0, where τ = R_Th · C.',
-                paragraphs: [
-                  'The voltage across a capacitor cannot change instantaneously (v_C(0⁺) = v_C(0⁻)) because doing so would require infinite current (i_C = C dv_C/dt). In DC steady state (just before a switch moves or as t → ∞), a capacitor acts as an open circuit.',
-                  'One time constant τ = R_Th · C is the time required for the charging capacitor voltage to reach 63.2% of its final change (or decay to 36.8% of its initial value). For practical engineering purposes, the transient settles completely at t = 5τ (99.3% complete).',
-                ],
-                equations: [
-                  {
-                    label: 'Universal First-Order Step Response',
-                    formula: 'v_C(t) = v_C(∞) + [v_C(0⁺) − v_C(∞)] · e^{−t / τ}',
-                    units: 'Volts (V), t ≥ 0',
-                  },
-                  {
-                    label: 'RC & RL Time Constants',
-                    formula: 'τ_{RC} = R_{Th} · C     and     τ_{RL} = L / R_{Th}',
-                    units: 'Seconds (s)',
-                  },
-                ],
-                interactiveDiagramId: 'rc-transient',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: 'math1201',
-        code: 'MATH1201',
-        title: 'Ordinary & Partial Differential Equations',
-        credits: 3.0,
-        courseType: 'Theory',
-        syllabusOverview:
-          'First-order exact equations, integrating factors, linear ODEs with constant and variable coefficients (Cauchy-Euler), method of undetermined coefficients, variation of parameters, and Laplace transforms.',
-        professorFollowedBooks: [
-          'Dennis G. Zill — A First Course in Differential Equations with Modeling Applications',
-        ],
-        syllabusRecommendedBooks: [
-          'Erwin Kreyszig — Advanced Engineering Mathematics',
-        ],
-        chapters: [
-          {
-            id: 'math1201-u01',
-            unitNumber: 'Unit 01',
-            title: 'Exact Differential Equations & Integrating Factors',
-            summary:
-              'Exactness condition ∂M/∂y = ∂N/∂x and systematic rules for finding Integrating Factors μ(x) or μ(y).',
-            estimatedMinutes: 30,
-            lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'math1201-u01-b1',
-                type: 'memorize',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 02 (Integrating Factor Rules)',
-                title: 'Test for Exactness & Integrating Factor (I.F.) Lookup Rules',
-                summaryText:
-                  'M(x,y)dx + N(x,y)dy = 0 is exact iff ∂M/∂y = ∂N/∂x.',
-                paragraphs: [
-                  'When ∂M/∂y ≠ ∂N/∂x, multiply the differential equation by an Integrating Factor μ(x,y) determined from the standard rules below.',
-                ],
-                table: {
-                  caption: 'Table 1.1 — Standard Integrating Factor (I.F.) Rules for Non-Exact ODEs',
-                  headers: ['Rule Condition', 'Integrating Factor μ', 'General Solution Formula'],
-                  rows: [
-                    [
-                      '∂M/∂y = ∂N/∂x (Already Exact)',
-                      'μ = 1',
-                      '∫_{y const} M dx + ∫ (terms in N free of x) dy = C',
-                    ],
-                    [
-                      '(∂M/∂y − ∂N/∂x) / N = f(x) only',
-                      'μ(x) = e^{∫ f(x) dx}',
-                      'Multiply by μ(x) and solve as exact',
-                    ],
-                    [
-                      '(∂N/∂x − ∂M/∂y) / M = g(y) only',
-                      'μ(y) = e^{∫ g(y) dy}',
-                      'Multiply by μ(y) and solve as exact',
-                    ],
-                  ],
-                },
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    subtitle: 'No courses added yet',
+    totalCredits: 0,
+    subjects: [],
   },
   {
     id: 'eece21',
@@ -1056,107 +1385,9 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
     year: 2,
     semester: 1,
     title: '2nd Year · 1st Semester',
-    subtitle: 'Electronic Devices & Semiconductor Diodes/BJT/MOSFET, Energy Conversion I & Linear Algebra',
-    totalCredits: 20.5,
-    subjects: [
-      {
-        id: 'eece2111',
-        code: 'EECE2111',
-        title: 'Electronic Devices & Circuits I',
-        credits: 3.0,
-        courseType: 'Theory',
-        syllabusOverview:
-          'Semiconductor physics, PN junction diode characteristics, clipper and clamper circuits, Zener voltage regulators, Bipolar Junction Transistors (BJT) biasing and small-signal models, and MOSFET fundamentals.',
-        professorFollowedBooks: [
-          'Robert L. Boylestad & Louis Nashelsky — Electronic Devices and Circuit Theory (11th Edition)',
-          'Adel S. Sedra & Kenneth C. Smith — Microelectronic Circuits (7th Edition)',
-        ],
-        syllabusRecommendedBooks: [
-          'Donald A. Neamen — Microelectronics: Circuit Analysis and Design',
-        ],
-        chapters: [
-          {
-            id: 'eece2111-u01',
-            unitNumber: 'Unit 01',
-            title: 'PN Junction Diode Models, Clippers, Clampers & Zener Regulators',
-            summary:
-              'Shockley diode equation, Piecewise-Linear and Constant-Voltage-Drop (0.7 V) models, half/full-wave rectifiers, and Zener breakdown regulation.',
-            estimatedMinutes: 30,
-            lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'eece2111-u01-b1',
-                type: 'memorize',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 03 (Diode Approximations & Clamper Steps)',
-                title: 'Three Standard Silicon Diode Models & Clamper Analysis Algorithm',
-                summaryText:
-                  'Ideal Diode (V_D = 0 V), Constant Voltage Drop Model (V_D = 0.7 V for Si), and Piecewise Linear Model (V_D = 0.7 V + I_D·r_d).',
-                paragraphs: [
-                  'When analyzing diode clamper circuits, always begin your analysis on the half-cycle of the input waveform that forward-biases the diode so the capacitor charges immediately to a known voltage.',
-                ],
-                equations: [
-                  {
-                    label: 'Shockley Diode Equation',
-                    formula: 'I_D = I_S · (e^{V_D / (n · V_T)} − 1)',
-                    units: 'V_T ≈ 25.85 mV at T = 300 K',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: 'eece2113',
-        code: 'EECE2113',
-        title: 'Energy Conversion I (Transformers & Induction Machines)',
-        credits: 3.0,
-        courseType: 'Theory',
-        syllabusOverview:
-          'Single-phase and three-phase transformers, equivalent circuit referred to primary/secondary, open-circuit and short-circuit tests, voltage regulation, all-day efficiency, and three-phase induction motor torque-slip characteristics.',
-        professorFollowedBooks: [
-          'Stephen J. Chapman — Electric Machinery Fundamentals (5th Edition)',
-        ],
-        syllabusRecommendedBooks: [
-          'B. L. Theraja & A. K. Theraja — A Textbook of Electrical Technology (Vol. II)',
-        ],
-        chapters: [
-          {
-            id: 'eece2113-u01',
-            unitNumber: 'Unit 01',
-            title: 'Transformer Equivalent Circuit, OC/SC Tests & Maximum Efficiency',
-            summary:
-              'Ideal vs. practical transformer, impedance referral (Z’ = a²Z), Open-Circuit (core loss) and Short-Circuit (copper loss) tests, and condition for maximum efficiency (P_cu = P_core).',
-            estimatedMinutes: 30,
-            lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'eece2113-u01-b1',
-                type: 'definition',
-                priorityTier: 2,
-                sourceCitation: 'Previous Year Question · Final Exam 2023 Q1(b)',
-                title: 'Condition for Maximum Transformer Efficiency',
-                summaryText:
-                  'A transformer achieves maximum efficiency at the load fraction x where variable copper loss equals constant core (iron) loss: I₂²R_eq2 = P_core.',
-                examYears: ['2023', '2021'],
-                marks: '6 Marks',
-                paragraphs: [
-                  'Core loss P_core (hysteresis + eddy current loss) depends on applied voltage and frequency and remains practically constant from no-load to full-load. Copper loss P_cu = I²R_eq varies with the square of the load current.',
-                ],
-                equations: [
-                  {
-                    label: 'Load kVA for Maximum Efficiency',
-                    formula: 'S_{max,η} = S_{rated} × √(P_{core} / P_{cu,full-load})',
-                    units: 'kVA',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    subtitle: 'No courses added yet',
+    totalCredits: 0,
+    subjects: [],
   },
   {
     id: 'eece22',
@@ -1164,51 +1395,9 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
     year: 2,
     semester: 2,
     title: '2nd Year · 2nd Semester',
-    subtitle: 'Operational Amplifiers, Frequency Response, Synchronous & DC Machines',
-    totalCredits: 20.5,
-    subjects: [
-      {
-        id: 'eece2211',
-        code: 'EECE2211',
-        title: 'Electronic Circuits II (Op-Amps, Feedback & Oscillators)',
-        credits: 3.0,
-        courseType: 'Theory',
-        syllabusOverview:
-          'Differential amplifiers, ideal and practical Op-Amp configurations, active filters, feedback topologies, Barkhausen criterion, and sinusoidal/relaxation oscillators.',
-        professorFollowedBooks: [
-          'Adel S. Sedra & Kenneth C. Smith — Microelectronic Circuits',
-          'Ramakant A. Gayakwad — Op-Amps and Linear Integrated Circuits',
-        ],
-        syllabusRecommendedBooks: [
-          'Sergio Franco — Design with Operational Amplifiers and Analog Integrated Circuits',
-        ],
-        chapters: [
-          {
-            id: 'eece2211-u01',
-            unitNumber: 'Unit 01',
-            title: 'Ideal Op-Amp Virtual Short Rules & Summing/Instrumentation Amplifiers',
-            summary:
-              'Virtual short concept (v_+ = v_−) and zero input current (i_+ = i_− = 0), inverting/non-inverting gains, and CMRR.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'eece2211-u01-b1',
-                type: 'memorize',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 01 (Ideal Op-Amp Golden Rules)',
-                title: 'Two Golden Rules of Negative-Feedback Ideal Op-Amps',
-                summaryText:
-                  'Rule 1: v_+ = v_− (Virtual Short). Rule 2: i_+ = i_− = 0 A (Infinite Input Impedance).',
-                paragraphs: [
-                  'When negative feedback is present around an ideal operational amplifier (A_OL → ∞, R_in → ∞, R_out = 0), apply Nodal Analysis at the inverting node (−) using the two golden rules.',
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    subtitle: 'No courses added yet',
+    totalCredits: 0,
+    subjects: [],
   },
   {
     id: 'eece31',
@@ -1216,50 +1405,9 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
     year: 3,
     semester: 1,
     title: '3rd Year · 1st Semester',
-    subtitle: 'Continuous & Discrete Signals, Fourier/Laplace Analysis & Electromagnetics',
-    totalCredits: 20.0,
-    subjects: [
-      {
-        id: 'eece3111',
-        code: 'EECE3111',
-        title: 'Signals & Linear Systems',
-        credits: 3.0,
-        courseType: 'Theory',
-        syllabusOverview:
-          'Signal classification, LTI system properties (linearity, time-invariance, causality, BIBO stability), convolution integral/sum, Fourier Series, Fourier Transform, and unilateral/bilateral Laplace & Z-Transforms.',
-        professorFollowedBooks: [
-          'Alan V. Oppenheim & Alan S. Willsky — Signals and Systems (2nd Edition)',
-        ],
-        syllabusRecommendedBooks: [
-          'B. P. Lathi — Linear Systems and Signals (3rd Edition)',
-        ],
-        chapters: [
-          {
-            id: 'eece3111-u01',
-            unitNumber: 'Unit 01',
-            title: 'Signal Properties, LTI System Tests & Convolution Integral',
-            summary:
-              'Energy vs. Power signals, step-by-step tests for linearity, time invariance, causality, and graphical convolution y(t) = x(t) * h(t).',
-            estimatedMinutes: 30,
-            lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'eece3111-u01-b1',
-                type: 'definition',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 02 (Energy vs. Power Signal Classification)',
-                title: 'Total Signal Energy (E_∞) and Average Signal Power (P_∞)',
-                summaryText:
-                  'Energy signals have 0 < E_∞ < ∞ and P_∞ = 0; Periodic/Power signals have 0 < P_∞ < ∞ and E_∞ = ∞.',
-                paragraphs: [
-                  'Deterministic bounded periodic signals and unit step signals are Power Signals, whereas decaying transients that vanish as |t| → ∞ are Energy Signals.',
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    subtitle: 'No courses added yet',
+    totalCredits: 0,
+    subjects: [],
   },
   {
     id: 'eece32',
@@ -1267,51 +1415,9 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
     year: 3,
     semester: 2,
     title: '3rd Year · 2nd Semester',
-    subtitle: 'Digital Signal Processing (DFT/FFT, FIR/IIR Filters), Communication Theory & Microprocessors',
-    totalCredits: 20.5,
-    subjects: [
-      {
-        id: 'eece3211',
-        code: 'EECE3211',
-        title: 'Digital Signal Processing',
-        credits: 3.0,
-        courseType: 'Theory',
-        syllabusOverview:
-          'Sampling theorem, aliasing, Z-transform ROC, Discrete Fourier Transform (DFT), Radix-2 FFT butterfly algorithms, and FIR/IIR digital filter design.',
-        professorFollowedBooks: [
-          'John G. Proakis & Dimitris G. Manolakis — Digital Signal Processing (4th Edition)',
-        ],
-        syllabusRecommendedBooks: [
-          'Alan V. Oppenheim & Ronald W. Schafer — Discrete-Time Signal Processing',
-        ],
-        chapters: [
-          {
-            id: 'eece3211-u01',
-            unitNumber: 'Unit 01',
-            title: 'Nyquist-Shannon Sampling Theorem & Radix-2 FFT Complexity',
-            summary:
-              'Nyquist rate f_s ≥ 2f_max to prevent spectral aliasing, and N-point DFT vs. FFT computational savings.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'eece3211-u01-b1',
-                type: 'memorize',
-                priorityTier: 2,
-                sourceCitation: 'Previous Year Question · Final Exam 2023 Q1(a)',
-                title: 'Direct N-Point DFT vs. Radix-2 FFT Computational Complexity',
-                summaryText:
-                  'Direct DFT requires N² complex multiplications; Radix-2 FFT requires (N/2)·log₂(N) complex multiplications.',
-                examYears: ['2023', '2021'],
-                paragraphs: [
-                  'For N = 1024 points, direct DFT requires 1,048,576 complex multiplications whereas Radix-2 FFT requires only 5,120 — a speed improvement factor of 204.8×.',
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    subtitle: 'No courses added yet',
+    totalCredits: 0,
+    subjects: [],
   },
   {
     id: 'eece41',
@@ -1319,51 +1425,9 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
     year: 4,
     semester: 1,
     title: '4th Year · 1st Semester',
-    subtitle: 'Power System Analysis (Per-Unit, Load Flow, Faults) & Control System Engineering',
-    totalCredits: 19.5,
-    subjects: [
-      {
-        id: 'eece4111',
-        code: 'EECE4111',
-        title: 'Power System Analysis',
-        credits: 3.0,
-        courseType: 'Theory',
-        syllabusOverview:
-          'Single-line diagrams, per-unit (p.u.) impedance conversions, Y_bus admittance matrix, Gauss-Seidel & Newton-Raphson load flow, symmetrical 3-phase faults, and symmetrical components (positive, negative, zero sequence networks).',
-        professorFollowedBooks: [
-          'John J. Grainger & William D. Stevenson — Power System Analysis',
-          'Hadi Saadat — Power System Analysis (3rd Edition)',
-        ],
-        syllabusRecommendedBooks: [
-          'J. Duncan Glover, Thomas Overbye & Mulukutla S. Sarma — Power System Analysis and Design',
-        ],
-        chapters: [
-          {
-            id: 'eece4111-u01',
-            unitNumber: 'Unit 01',
-            title: 'Per-Unit (p.u.) Impedance Base Change & Bus Admittance Matrix (Y_bus)',
-            summary:
-              'Changing per-unit impedance from old base to new base and building Y_bus by inspection.',
-            estimatedMinutes: 30,
-            lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'eece4111-u01-b1',
-                type: 'memorize',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 02 (Per-Unit Base Conversion Formula)',
-                title: 'Per-Unit Impedance Base Conversion Formula',
-                summaryText:
-                  'Z_{pu,new} = Z_{pu,old} × (kV_{base,old} / kV_{base,new})² × (MVA_{base,new} / MVA_{base,old}).',
-                paragraphs: [
-                  'When converting components across transformer zones to a common system MVA base and zone voltage base, apply the base-change equation before assembling the impedance diagram.',
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    subtitle: 'No courses added yet',
+    totalCredits: 0,
+    subjects: [],
   },
   {
     id: 'eece42',
@@ -1371,49 +1435,8 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
     year: 4,
     semester: 2,
     title: '4th Year · 2nd Semester',
-    subtitle: 'VLSI CMOS Design, Power System Protection, Optical Fiber & Microwave Engineering',
-    totalCredits: 19.0,
-    subjects: [
-      {
-        id: 'eece4211',
-        code: 'EECE4211',
-        title: 'VLSI Circuits & CMOS Design',
-        credits: 3.0,
-        courseType: 'Theory',
-        syllabusOverview:
-          'CMOS inverter voltage transfer characteristic (VTC), noise margins, pull-up (PMOS) and pull-down (NMOS) complementary logic synthesis, stick diagrams, lambda-based layout rules, and dynamic/static power dissipation.',
-        professorFollowedBooks: [
-          'Neil H. E. Weste & David Money Harris — CMOS VLSI Design: A Circuits and Systems Perspective (4th Edition)',
-        ],
-        syllabusRecommendedBooks: [
-          'Sung-Mo Kang & Yusuf Leblebici — CMOS Digital Integrated Circuits',
-        ],
-        chapters: [
-          {
-            id: 'eece4211-u01',
-            unitNumber: 'Unit 01',
-            title: 'CMOS Complementary Logic Synthesis (PUN / PDN Dual Networks)',
-            summary:
-              'Constructing static CMOS gates where NMOS Pull-Down Network implements series-AND / parallel-OR and PMOS Pull-Up Network is its exact topological dual.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'eece4211-u01-b1',
-                type: 'memorize',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 03 (CMOS Gate Synthesis Rules)',
-                title: 'Dual Network Rules for Static CMOS Logic Gates',
-                summaryText:
-                  'NMOS passes strong 0 (Pull-Down to GND); PMOS passes strong 1 (Pull-Up to V_DD). Total transistors = 2N for N inputs.',
-                paragraphs: [
-                  'To synthesize any inverted boolean expression Y = ¬F(A,B,C), build the NMOS Pull-Down Network (PDN) using series NMOS for AND (·) and parallel NMOS for OR (+), then form the PMOS Pull-Up Network (PUN) as the exact series-parallel dual.',
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    subtitle: 'No courses added yet',
+    totalCredits: 0,
+    subjects: [],
   },
 ];
