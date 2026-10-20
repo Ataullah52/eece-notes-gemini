@@ -21,9 +21,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Build Vite static site
-        run: npx vite build --base=./
-        
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -36,7 +33,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build Vite static site
-        run: npm run build
+        run: npx vite build --base=./
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
