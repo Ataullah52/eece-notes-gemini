@@ -20,7 +20,6 @@ import {
 } from './data/curriculumData';
 import {
   PRIORITY_TIER_META,
-  parseCourseCode,
   filterNoteBlocks,
   type PriorityTier,
   type NoteBlockType,
@@ -28,7 +27,7 @@ import {
 import { NoteBlockCard } from './components/NoteBlockCard';
 import { PriorityGuideModal } from './components/PriorityGuideModal';
 
-type ViewLevel = 'semesters' | 'subjects' | 'note';
+type ViewLevel = 'semesters' | 'subjects' | 'subject-detail' | 'note';
 
 export default function App() {
   // Theme state (persisted in localStorage)
@@ -54,13 +53,13 @@ export default function App() {
     }
   }, [darkMode]);
 
-  // Hierarchy Navigation State: Semester > Subject > Note
+  // Hierarchy Navigation State: Semester > Subjects List > Dedicated Subject Page > Chapter Note Page
   const [viewLevel, setViewLevel] = useState<ViewLevel>('semesters');
   const [selectedSemesterId, setSelectedSemesterId] = useState<string>('eece11');
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>('eece1111');
   const [selectedChapterId, setSelectedChapterId] = useState<string>('eece1111-u01');
 
-  // Revision Filter State (Level 3 Note View)
+  // Revision Filter State (Note View)
   const [priorityFilter, setPriorityFilter] = useState<PriorityTier | 'all'>('all');
   const [blockTypeFilter, setBlockTypeFilter] = useState<NoteBlockType | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -91,11 +90,6 @@ export default function App() {
     [activeSubject, selectedChapterId]
   );
 
-  const parsedSubjectCode = useMemo(
-    () => parseCourseCode(activeSubject.code),
-    [activeSubject.code]
-  );
-
   // Filtered Note Blocks
   const filteredBlocks = useMemo(
     () =>
@@ -121,12 +115,16 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSelectSubject = (subject: SubjectCourse) => {
+  const handleOpenSubjectPage = (subject: SubjectCourse, semesterId?: string) => {
+    if (semesterId) {
+      setSelectedSemesterId(semesterId);
+    }
     setSelectedSubjectId(subject.id);
     if (subject.chapters.length > 0) {
       setSelectedChapterId(subject.chapters[0].id);
     }
-    setViewLevel('subjects');
+    setViewLevel('subject-detail');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleOpenChapterNote = (subject: SubjectCourse, chapter: ChapterNote) => {
@@ -194,7 +192,7 @@ export default function App() {
             type="button"
             onClick={() => setViewLevel('subjects')}
             className={`transition-colors whitespace-nowrap shrink-0 hover:text-slate-900 hover:underline dark:hover:text-slate-100 ${
-              viewLevel === 'subjects'
+              viewLevel === 'subjects' || viewLevel === 'subject-detail'
                 ? 'font-semibold text-slate-900 underline decoration-sky-600 decoration-2 underline-offset-4 dark:text-slate-100 dark:decoration-sky-400'
                 : ''
             }`}
@@ -230,7 +228,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* Main Content Container (1440px baseline with generous breathing room) */}
+      {/* Main Content Container */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 print:max-w-none print:px-0 print:py-0">
         {/* Hierarchical Breadcrumb Bar (Semester > Subject > Notes) */}
         <nav
@@ -250,30 +248,42 @@ export default function App() {
               All Semesters (EECE11–EECE42)
             </button>
 
-            <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
-
-            <button
-              type="button"
-              onClick={() => setViewLevel('subjects')}
-              className={`font-mono font-medium transition-colors hover:text-slate-900 dark:hover:text-slate-100 ${
-                viewLevel === 'subjects'
-                  ? 'font-semibold text-sky-700 dark:text-sky-400'
-                  : ''
-              }`}
-            >
-              {activeSemester.code} ({activeSemester.title})
-            </button>
-
-            {viewLevel === 'note' && (
+            {viewLevel !== 'semesters' && (
               <>
                 <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
                 <button
                   type="button"
                   onClick={() => setViewLevel('subjects')}
-                  className="font-mono font-medium hover:text-slate-900 dark:hover:text-slate-100"
+                  className={`font-mono font-medium transition-colors hover:text-slate-900 dark:hover:text-slate-100 ${
+                    viewLevel === 'subjects'
+                      ? 'font-semibold text-sky-700 dark:text-sky-400'
+                      : ''
+                  }`}
+                >
+                  {activeSemester.code} ({activeSemester.title})
+                </button>
+              </>
+            )}
+
+            {(viewLevel === 'subject-detail' || viewLevel === 'note') && (
+              <>
+                <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                <button
+                  type="button"
+                  onClick={() => setViewLevel('subject-detail')}
+                  className={`font-mono font-medium transition-colors hover:text-slate-900 dark:hover:text-slate-100 ${
+                    viewLevel === 'subject-detail'
+                      ? 'font-semibold text-sky-700 dark:text-sky-400'
+                      : ''
+                  }`}
                 >
                   {activeSubject.code}: {activeSubject.title}
                 </button>
+              </>
+            )}
+
+            {viewLevel === 'note' && (
+              <>
                 <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
                 <span className="font-semibold text-slate-900 dark:text-slate-100">
                   {activeChapter.unitNumber} · {activeChapter.title}
@@ -288,7 +298,7 @@ export default function App() {
         </nav>
 
         {/* =====================================================================
-            LEVEL 1: SEMESTER DIRECTORY (EECE11 – EECE42)
+            PAGE 1: SEMESTER DIRECTORY (EECE11 – EECE42)
            ===================================================================== */}
         {viewLevel === 'semesters' && (
           <section aria-labelledby="semester-hub-heading" className="space-y-8">
@@ -304,7 +314,7 @@ export default function App() {
               </h1>
               <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                 Select a semester (<span className="font-mono font-semibold">EECE11</span> through{' '}
-                <span className="font-mono font-semibold">EECE42</span>) to browse course syllabi, textbook hierarchies, and chapter study notes organized by our four-tier exam priority system.
+                <span className="font-mono font-semibold">EECE42</span>) to open its Subject Directory, or click any subject code directly to open that subject’s dedicated page.
               </p>
 
               {/* Unboxed Priority Legend Strip */}
@@ -355,7 +365,6 @@ export default function App() {
                     }`}
                   >
                     <div>
-                      {/* Unboxed Metadata Line */}
                       <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                         <span className="font-mono text-sm font-bold text-sky-700 dark:text-sky-400">
                           {sem.code}
@@ -373,21 +382,23 @@ export default function App() {
                         {sem.subtitle}
                       </p>
 
-                      {/* Course preview list */}
+                      {/* Clickable subject links inside semester card */}
                       <div className="mt-4 space-y-1.5 border-t border-slate-100 pt-3 dark:border-slate-800/80">
                         <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
-                          Indexed Subjects ({sem.subjects.length}):
+                          Subjects ({sem.subjects.length}):
                         </div>
                         {sem.subjects.map((sub) => (
-                          <div
+                          <button
                             key={sub.id}
-                            className="truncate text-xs text-slate-700 dark:text-slate-300"
+                            type="button"
+                            onClick={() => handleOpenSubjectPage(sub, sem.id)}
+                            className="block w-full truncate text-left text-xs text-slate-700 hover:text-sky-700 hover:underline dark:text-slate-300 dark:hover:text-sky-400"
                           >
                             <span className="font-mono font-semibold text-slate-900 dark:text-slate-100">
                               {sub.code}
                             </span>{' '}
                             · {sub.title}
-                          </div>
+                          </button>
                         ))}
                       </div>
                     </div>
@@ -418,15 +429,23 @@ export default function App() {
         )}
 
         {/* =====================================================================
-            LEVEL 2: SUBJECT SYLLABUS & CHAPTER DIRECTORY
+            PAGE 2: SEMESTER'S SUBJECT DIRECTORY (SELECT A SUBJECT)
            ===================================================================== */}
         {viewLevel === 'subjects' && (
           <section aria-labelledby="subject-directory-heading" className="space-y-8">
-            {/* Semester Switcher Strip */}
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-5 dark:border-slate-800">
               <div>
-                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                  <span className="font-mono font-semibold text-sky-700 dark:text-sky-400">
+                <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                  <button
+                    type="button"
+                    onClick={() => setViewLevel('semesters')}
+                    className="inline-flex items-center gap-1 font-medium text-sky-700 hover:underline dark:text-sky-400"
+                  >
+                    <ArrowLeft className="h-3.5 w-3.5" />
+                    <span>All Semesters</span>
+                  </button>
+                  <span aria-hidden="true">·</span>
+                  <span className="font-mono font-semibold text-slate-900 dark:text-slate-100">
                     {activeSemester.code}
                   </span>
                   <span aria-hidden="true">·</span>
@@ -438,10 +457,13 @@ export default function App() {
                 </div>
                 <h1
                   id="subject-directory-heading"
-                  className="mt-1 font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl dark:text-slate-100"
+                  className="mt-1.5 font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl dark:text-slate-100"
                 >
-                  {activeSemester.code} Subject & Chapter Directory
+                  {activeSemester.code} — Select a Subject
                 </h1>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                  {activeSemester.subtitle}. Click any subject below to open its dedicated course syllabus, textbook hierarchy, and chapter notes page.
+                </p>
               </div>
 
               {/* Quick Semester Selector Tabs */}
@@ -469,200 +491,234 @@ export default function App() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-              {/* Left Column (4 cols): Subjects List in Current Semester */}
-              <div className="space-y-3 lg:col-span-4">
-                <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                  Subjects in {activeSemester.code} ({activeSemester.subjects.length})
+            {/* Clean Full-Page Subject Cards Grid */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {activeSemester.subjects.map((subject) => {
+                const totalBlocks = subject.chapters.reduce(
+                  (acc, ch) => acc + ch.blocks.length,
+                  0
+                );
+
+                return (
+                  <div
+                    key={subject.id}
+                    className="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 transition-colors hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
+                  >
+                    <div>
+                      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <div className="flex items-center gap-2 font-mono">
+                          <span className="text-sm font-bold text-sky-700 dark:text-sky-400">
+                            {subject.code}
+                          </span>
+                          <span aria-hidden="true">·</span>
+                          <span className="text-slate-600 dark:text-slate-300">{subject.courseType}</span>
+                        </div>
+                        <span className="font-mono tabular-nums">
+                          {subject.credits.toFixed(1)} Credits
+                        </span>
+                      </div>
+
+                      <h2 className="mt-2 font-display text-xl font-bold text-slate-900 dark:text-slate-100">
+                        {subject.code}: {subject.title}
+                      </h2>
+
+                      <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                        {subject.syllabusOverview}
+                      </p>
+
+                      <div className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-600 dark:border-slate-800 dark:text-slate-400">
+                        <span className="font-semibold text-slate-800 dark:text-slate-200">
+                          Primary Text:{' '}
+                        </span>
+                        <span>{subject.professorFollowedBooks[0]}</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-4 dark:border-slate-800">
+                      <div className="font-mono text-xs text-slate-500 tabular-nums dark:text-slate-400">
+                        {subject.chapters.length} Chapter Units · {totalBlocks} Study Blocks
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => handleOpenSubjectPage(subject)}
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white transition-colors whitespace-nowrap hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
+                      >
+                        <span>Open {subject.code} Page</span>
+                        <ChevronRight className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* =====================================================================
+            PAGE 3: DEDICATED SUBJECT PAGE (SYLLABUS, BOOKS & CHAPTER NOTES)
+           ===================================================================== */}
+        {viewLevel === 'subject-detail' && (
+          <section aria-labelledby="subject-page-heading" className="space-y-8">
+            {/* Subject Header Card */}
+            <div className="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <span className="font-mono font-bold text-slate-900 dark:text-slate-100">
+                    {activeSemester.code} ({activeSemester.title})
+                  </span>
+                  <span aria-hidden="true">·</span>
+                  <span className="font-mono font-bold text-sky-700 dark:text-sky-400">
+                    {activeSubject.code}
+                  </span>
+                  <span aria-hidden="true">·</span>
+                  <span className="font-mono tabular-nums">
+                    {activeSubject.credits.toFixed(1)} Credits
+                  </span>
+                  <span aria-hidden="true">·</span>
+                  <span>{activeSubject.courseType}</span>
                 </div>
 
-                {activeSemester.subjects.map((subject) => {
-                  const isCurrent = subject.id === activeSubject.id;
-                  const decoded = parseCourseCode(subject.code);
-                  return (
-                    <button
-                      key={subject.id}
-                      type="button"
-                      onClick={() => handleSelectSubject(subject)}
-                      className={`w-full rounded-xl border p-4 text-left transition-colors ${
-                        isCurrent
-                          ? 'border-sky-600 bg-white dark:border-sky-400 dark:bg-slate-900'
-                          : 'border-slate-200 bg-white/70 hover:border-slate-300 hover:bg-white dark:border-slate-800 dark:bg-slate-900/50 dark:hover:border-slate-700'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-                        <span className="font-mono text-sm font-bold text-sky-700 dark:text-sky-400">
-                          {subject.code}
-                        </span>
-                        <span className="font-mono tabular-nums">
-                          {subject.credits.toFixed(1)} Credits · {subject.courseType}
-                        </span>
-                      </div>
-                      <div className="mt-1 font-display text-base font-semibold text-slate-900 dark:text-slate-100">
-                        {subject.title}
-                      </div>
-                      <div className="mt-2 flex flex-wrap items-center gap-x-2 text-[11px] font-mono text-slate-500 dark:text-slate-400">
-                        <span>Yr {decoded.yearDigit}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>Sem {decoded.semesterDigit}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>Series {decoded.courseSeries}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>{subject.chapters.length} Units</span>
-                      </div>
-                    </button>
-                  );
-                })}
+                <button
+                  type="button"
+                  onClick={() => setViewLevel('subjects')}
+                  className="inline-flex items-center gap-1 font-medium text-sky-700 hover:underline dark:text-sky-400"
+                >
+                  <ArrowLeft className="h-3.5 w-3.5" />
+                  <span>Back to {activeSemester.code} Subjects</span>
+                </button>
               </div>
 
-              {/* Right Column (8 cols): Active Subject Details, Books & Chapter Notes */}
-              <div className="space-y-6 lg:col-span-8">
-                <div className="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500 dark:text-slate-400">
-                    <span className="font-mono font-bold text-sky-700 dark:text-sky-400">
-                      {activeSubject.code}
-                    </span>
-                    <span aria-hidden="true">·</span>
-                    <span>
-                      1st Digit ({parsedSubjectCode.yearDigit}) = {parsedSubjectCode.yearLabel}
-                    </span>
-                    <span aria-hidden="true">·</span>
-                    <span>
-                      2nd Digit ({parsedSubjectCode.semesterDigit}) = {parsedSubjectCode.semesterLabel}
-                    </span>
-                    <span aria-hidden="true">·</span>
-                    <span>
-                      Last 2 Digits ({parsedSubjectCode.courseSeries}) = Course Series
-                    </span>
+              <h1
+                id="subject-page-heading"
+                className="mt-2 font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl dark:text-slate-100"
+              >
+                {activeSubject.code}: {activeSubject.title}
+              </h1>
+
+              <p className="mt-2 max-w-4xl text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                {activeSubject.syllabusOverview}
+              </p>
+
+              {/* Textbook Hierarchy (Priority Tier 3 vs Priority Tier 4) */}
+              <div className="mt-5 grid grid-cols-1 gap-4 border-t border-slate-200 pt-4 sm:grid-cols-2 dark:border-slate-800">
+                <div>
+                  <div className="text-xs font-semibold text-sky-700 dark:text-sky-400">
+                    [P3] Priority 3 · Professor-Followed Books
                   </div>
-
-                  <h2 className="mt-2 font-display text-2xl font-bold text-slate-900 dark:text-slate-100">
-                    {activeSubject.code}: {activeSubject.title}
-                  </h2>
-
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-                    {activeSubject.syllabusOverview}
-                  </p>
-
-                  {/* Textbook Hierarchy (Priority Tier 3 vs Priority Tier 4) */}
-                  <div className="mt-5 grid grid-cols-1 gap-4 border-t border-slate-200 pt-4 sm:grid-cols-2 dark:border-slate-800">
-                    <div>
-                      <div className="text-xs font-semibold text-sky-700 dark:text-sky-400">
-                        [P3] Priority 3 · Professor-Followed Books
-                      </div>
-                      <ul className="mt-1.5 list-disc space-y-1 pl-4 text-xs text-slate-700 dark:text-slate-300">
-                        {activeSubject.professorFollowedBooks.map((book, idx) => (
-                          <li key={idx}>{book}</li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div>
-                      <div className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
-                        [P4] Priority 4 · Syllabus Recommended Books
-                      </div>
-                      <ul className="mt-1.5 list-disc space-y-1 pl-4 text-xs text-slate-700 dark:text-slate-300">
-                        {activeSubject.syllabusRecommendedBooks.map((book, idx) => (
-                          <li key={idx}>{book}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                  <ul className="mt-1.5 list-disc space-y-1 pl-4 text-xs text-slate-700 dark:text-slate-300">
+                    {activeSubject.professorFollowedBooks.map((book, idx) => (
+                      <li key={idx}>{book}</li>
+                    ))}
+                  </ul>
                 </div>
 
-                {/* Chapter Notes List for Active Subject */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-slate-100">
-                      Available Chapter Study Notes ({activeSubject.chapters.length})
-                    </h3>
-                    <span className="text-xs text-slate-500 dark:text-slate-400">
-                      Click any unit to open interactive notes &amp; PDF export
-                    </span>
+                <div>
+                  <div className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                    [P4] Priority 4 · Syllabus Recommended Books
                   </div>
-
-                  {activeSubject.chapters.map((chapter) => {
-                    const c1 = chapter.blocks.filter((b) => b.priorityTier === 1).length;
-                    const c2 = chapter.blocks.filter((b) => b.priorityTier === 2).length;
-                    const c3 = chapter.blocks.filter((b) => b.priorityTier === 3).length;
-                    const c4 = chapter.blocks.filter((b) => b.priorityTier === 4).length;
-
-                    return (
-                      <div
-                        key={chapter.id}
-                        className="rounded-xl border border-slate-200 bg-white p-5 transition-colors hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
-                      >
-                        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="font-mono font-bold text-sky-700 dark:text-sky-400">
-                              {activeSubject.code} · {chapter.unitNumber}
-                            </span>
-                            <span aria-hidden="true">·</span>
-                            <span className="font-mono tabular-nums">
-                              {chapter.blocks.length} Study Blocks
-                            </span>
-                            <span aria-hidden="true">·</span>
-                            <span className="font-mono tabular-nums">
-                              {chapter.estimatedMinutes} min study
-                            </span>
-                          </div>
-                          <span>Updated {chapter.lastUpdated}</span>
-                        </div>
-
-                        <h4 className="mt-1.5 font-display text-lg font-semibold text-slate-900 dark:text-slate-100">
-                          {chapter.unitNumber}: {chapter.title}
-                        </h4>
-
-                        <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-                          {chapter.summary}
-                        </p>
-
-                        <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-3.5 dark:border-slate-800">
-                          {/* Unboxed Priority Breakdown */}
-                          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-xs tabular-nums">
-                            <span className="text-amber-700 dark:text-amber-400">
-                              [P1] Class Note: {c1}
-                            </span>
-                            <span aria-hidden="true" className="text-slate-400">
-                              ·
-                            </span>
-                            <span className="text-rose-700 dark:text-rose-400">
-                              [P2] PYQ: {c2}
-                            </span>
-                            <span aria-hidden="true" className="text-slate-400">
-                              ·
-                            </span>
-                            <span className="text-sky-700 dark:text-sky-400">
-                              [P3] Prof. Book: {c3}
-                            </span>
-                            <span aria-hidden="true" className="text-slate-400">
-                              ·
-                            </span>
-                            <span className="text-emerald-700 dark:text-emerald-400">
-                              [P4] Syllabus Ref: {c4}
-                            </span>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => handleOpenChapterNote(activeSubject, chapter)}
-                            className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white transition-colors whitespace-nowrap hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
-                          >
-                            <BookOpen className="h-3.5 w-3.5" />
-                            <span>Read Chapter Note</span>
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
+                  <ul className="mt-1.5 list-disc space-y-1 pl-4 text-xs text-slate-700 dark:text-slate-300">
+                    {activeSubject.syllabusRecommendedBooks.map((book, idx) => (
+                      <li key={idx}>{book}</li>
+                    ))}
+                  </ul>
                 </div>
+              </div>
+            </div>
+
+            {/* Chapter Notes List for Active Subject */}
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="font-display text-xl font-semibold text-slate-900 dark:text-slate-100">
+                  Chapter Study Notes in {activeSubject.code} ({activeSubject.chapters.length})
+                </h2>
+                <span className="text-xs text-slate-500 dark:text-slate-400">
+                  Select a chapter unit to open its study note and PDF export
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4">
+                {activeSubject.chapters.map((chapter) => {
+                  const c1 = chapter.blocks.filter((b) => b.priorityTier === 1).length;
+                  const c2 = chapter.blocks.filter((b) => b.priorityTier === 2).length;
+                  const c3 = chapter.blocks.filter((b) => b.priorityTier === 3).length;
+                  const c4 = chapter.blocks.filter((b) => b.priorityTier === 4).length;
+
+                  return (
+                    <div
+                      key={chapter.id}
+                      className="rounded-xl border border-slate-200 bg-white p-5 transition-colors hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-mono font-bold text-sky-700 dark:text-sky-400">
+                            {activeSubject.code} · {chapter.unitNumber}
+                          </span>
+                          <span aria-hidden="true">·</span>
+                          <span className="font-mono tabular-nums">
+                            {chapter.blocks.length} Study Blocks
+                          </span>
+                          <span aria-hidden="true">·</span>
+                          <span className="font-mono tabular-nums">
+                            {chapter.estimatedMinutes} min study
+                          </span>
+                        </div>
+                        <span>Updated {chapter.lastUpdated}</span>
+                      </div>
+
+                      <h3 className="mt-1.5 font-display text-lg font-semibold text-slate-900 dark:text-slate-100">
+                        {chapter.unitNumber}: {chapter.title}
+                      </h3>
+
+                      <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                        {chapter.summary}
+                      </p>
+
+                      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-3.5 dark:border-slate-800">
+                        {/* Unboxed Priority Breakdown */}
+                        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-xs tabular-nums">
+                          <span className="text-amber-700 dark:text-amber-400">
+                            [P1] Class Note: {c1}
+                          </span>
+                          <span aria-hidden="true" className="text-slate-400">
+                            ·
+                          </span>
+                          <span className="text-rose-700 dark:text-rose-400">
+                            [P2] PYQ: {c2}
+                          </span>
+                          <span aria-hidden="true" className="text-slate-400">
+                            ·
+                          </span>
+                          <span className="text-sky-700 dark:text-sky-400">
+                            [P3] Prof. Book: {c3}
+                          </span>
+                          <span aria-hidden="true" className="text-slate-400">
+                            ·
+                          </span>
+                          <span className="text-emerald-700 dark:text-emerald-400">
+                            [P4] Syllabus Ref: {c4}
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => handleOpenChapterNote(activeSubject, chapter)}
+                          className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white transition-colors whitespace-nowrap hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
+                        >
+                          <BookOpen className="h-3.5 w-3.5" />
+                          <span>Read Chapter Note</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </section>
         )}
 
         {/* =====================================================================
-            LEVEL 3: INTERACTIVE CHAPTER STUDY NOTE VIEWER & PDF EXPORT
+            PAGE 4: INTERACTIVE CHAPTER STUDY NOTE VIEWER & PDF EXPORT
            ===================================================================== */}
         {viewLevel === 'note' && (
           <section aria-labelledby="chapter-note-heading" className="space-y-6">
@@ -683,11 +739,11 @@ export default function App() {
 
                 <button
                   type="button"
-                  onClick={() => setViewLevel('subjects')}
+                  onClick={() => setViewLevel('subject-detail')}
                   className="inline-flex items-center gap-1 font-medium text-sky-700 hover:underline dark:text-sky-400 print:hidden"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
-                  <span>Back to {activeSubject.code} Units</span>
+                  <span>Back to {activeSubject.code} Page</span>
                 </button>
               </div>
 
@@ -772,7 +828,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Second Row: Block Type Filter + Chapter Switcher */}
+              {/* Second Row: Block Type Filter */}
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-3 dark:border-slate-800">
                 <div className="flex flex-wrap items-center gap-1.5">
                   <span className="mr-1 text-xs font-semibold text-slate-700 dark:text-slate-300">
