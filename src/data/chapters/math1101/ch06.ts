@@ -13,8 +13,12 @@ export const MATH1101_CH06: ChapterNote = {
       "type": "memorize",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Units 16–18 (Conic Sections Classification, Properties & System of Circles)",
-      "title": "Classification of Conics, Standard Properties Table & System of Circles Formulas",
+      "title": "Conic Classification, Standard Properties & System of Circles",
       "summaryText": "With Δ ≠ 0: ab − h² > 0 ⇒ Ellipse; ab − h² < 0 ⇒ Hyperbola; ab − h² = 0 ⇒ Parabola. Two circles cut orthogonally iff 2g₁g₂ + 2f₁f₂ = c₁ + c₂.",
+      "memorizeStatements": [
+        "With Δ ≠ 0: ab − h² > 0 ⇒ Ellipse; ab − h² < 0 ⇒ Hyperbola; ab − h² = 0 ⇒ Parabola.",
+        "Two circles cut orthogonally iff 2g₁g₂ + 2f₁f₂ = c₁ + c₂."
+      ],
       "equations": [
         {
           "label": "Conic Discriminant Classification (Δ ≠ 0) & Principal Axis Equation",
@@ -81,7 +85,7 @@ export const MATH1101_CH06: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23, 2021–22 & 2020–21 Semester Final Exams [7 Marks]",
-      "title": "PUST Past Exam Questions on Reduction of Central Conics (Hyperbola) & Parabola to Standard Form",
+      "title": "Reduction of Central Conics & Parabolas to Standard Form",
       "summaryText": "Complete exam-style vertical derivations for reducing general second-degree equations to canonical hyperbola and parabola forms.",
       "examYears": [
         "2022–23",
@@ -111,8 +115,11 @@ export const MATH1101_CH06: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23, 2021–22 & 2020–21 Semester Final Exams [5 Marks]",
-      "title": "PUST Past Exam Questions on Orthogonal Circles, Radical Axis & Limiting Points of Coaxial Systems",
+      "title": "Orthogonal Circles, Radical Axis & Limiting Points",
       "summaryText": "Solve 2gg_i + 2ff_i = c + c_i for the orthogonal circle, and set radius R = 0 in S₁ + λ(S₁ − S₂) = 0 for limiting points.",
+      "memorizeStatements": [
+        "Solve 2gg_i + 2ff_i = c + c_i for the orthogonal circle, and set radius R = 0 in S₁ + λ(S₁ − S₂) = 0 for limiting points."
+      ],
       "examYears": [
         "2022–23",
         "2021–22",
@@ -138,8 +145,11 @@ export const MATH1101_CH06: ChapterNote = {
       "type": "example",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · Rahman & Bhattacharjee (Ch. 4) & Howard Anton (Sec. 10.6)",
-      "title": "Rahman & Bhattacharjee & Anton: Reduction of Ellipse to Standard Form & Polar Equations of Conics",
+      "title": "Ellipse Reduction & Polar Equations of Conics",
       "summaryText": "When ab − h² > 0 and λ₁, λ₂ have the same sign opposite to c′, the second-degree equation reduces to a real ellipse X²/A² + Y²/B² = 1.",
+      "memorizeStatements": [
+        "When ab − h² > 0 and λ₁, λ₂ have the same sign opposite to c′, the second-degree equation reduces to a real ellipse X²/A² + Y²/B² = 1."
+      ],
       "equations": [
         {
           "label": "Polar Equation of a Conic (Focus at the Pole)",
@@ -165,8 +175,11 @@ export const MATH1101_CH06: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · E. H. Askwith (Analytic Geometry of Conic Sections, Ch. V)",
-      "title": "Syllabus Book Problems (Askwith): Radical Center of Three Circles & Coaxial System from Limiting Points",
+      "title": "Radical Center & Coaxial System from Limiting Points",
       "summaryText": "If (α₁, β₁) and (α₂, β₂) are the limiting points (point-circles R = 0) of a coaxial system, the system is S₁ + λS₂ = 0 where S_i = (x − α_i)² + (y − β_i)² = 0.",
+      "memorizeStatements": [
+        "If (α₁, β₁) and (α₂, β₂) are the limiting points (point-circles R = 0) of a coaxial system, the system is S₁ + λS₂ = 0 where S_i = (x − α_i)² + (y − β_i)² = 0."
+      ],
       "problemStatement": "(1) [E. H. Askwith] Find the Radical Center of the three circles x² + y² − 2x − 4y + 1 = 0, x² + y² − 4x − 2y + 1 = 0, and x² + y² + 2x − 6y − 3 = 0. (2) Find the equation of the coaxial system of circles whose limiting points are (1, −1) and (3, 1).",
       "solutionSteps": [
         {

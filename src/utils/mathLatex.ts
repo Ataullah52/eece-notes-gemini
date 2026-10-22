@@ -166,6 +166,51 @@ const MATH_WORDS = new Set([
   'lcm',
   'mod',
   'sgn',
+  'sqrt',
+  'Vth',
+  'Rth',
+  'Zth',
+  'Ith',
+  'Isc',
+  'Voc',
+  'Vs',
+  'Is',
+  'Rs',
+  'Req',
+  'Rin',
+  'Rout',
+  'Vin',
+  'Vout',
+  'Vm',
+  'Im',
+  'Vrms',
+  'Irms',
+  'Vavg',
+  'Iavg',
+  'Veq',
+  'Ieq',
+  'Ceq',
+  'Leq',
+  'ZL',
+  'RL',
+  'VR',
+  'VC',
+  'VL',
+  'IR',
+  'IC',
+  'IL',
+  'XL',
+  'XC',
+  'Zin',
+  'Vab',
+  'Iab',
+  'Rab',
+  'Vo',
+  'Io',
+  'Vx',
+  'Ix',
+  'Pmax',
+  'Pavg',
   'dx',
   'dy',
   'dz',
@@ -174,9 +219,25 @@ const MATH_WORDS = new Set([
   'dv',
   'dw',
   'dr',
+  'di',
+  'dq',
   'ds',
   'dh',
+  'vi',
+  'vR',
+  'vC',
+  'vL',
+  'iC',
+  'iL',
 ]);
+
+function isMathIdentifierWord(word: string): boolean {
+  return (
+    MATH_WORDS.has(word) ||
+    /^[a-z][A-Z][A-Za-z]*$/.test(word) ||
+    /^[A-Z][a-z]?[A-Z][a-z]?$/.test(word)
+  );
+}
 
 export function normalizeMathString(raw: string): string {
   let s = raw
@@ -254,7 +315,8 @@ export function findTopLevelFractionSlash(str: string): {
         rightWordMatch &&
         leftWordMatch[1].length >= 3 &&
         rightWordMatch[1].length >= 3 &&
-        !/^(sin|cos|tan|cot|sec|csc|log|lim)$/.test(leftWordMatch[1])
+        !isMathIdentifierWord(leftWordMatch[1]) &&
+        !isMathIdentifierWord(rightWordMatch[1])
       ) {
         continue;
       }
@@ -399,6 +461,7 @@ function plainChunkToLatex(chunk: string): string {
       out += ch;
     }
   }
+  out = out.replace(/\b([LR]\.H\.[LSD]\.)/g, '\\mathrm{$1}');
   out = out.replace(
     /\b(sin|cos|tan|cot|sec|csc|sinh|cosh|tanh|arcsin|arccos|arctan|ln|log|exp|det|min|max|gcd)\b/g,
     '\\$1'
@@ -454,6 +517,24 @@ export function exprToLatex(str: string): string {
           i = closeIdx + 1;
           continue;
         }
+      }
+    }
+
+    if (
+      str.startsWith('sqrt', i) &&
+      (i === 0 || !/[A-Za-z0-9]/.test(str[i - 1])) &&
+      i + 4 < str.length &&
+      (str[i + 4] === '(' || str[i + 4] === '[' || str[i + 4] === '{')
+    ) {
+      const openCh = str[i + 4];
+      const closeCh = openCh === '(' ? ')' : openCh === '[' ? ']' : '}';
+      const closeIdx = findMatchingClose(str, i + 4, openCh, closeCh);
+      if (closeIdx !== -1) {
+        flush();
+        const radContent = str.slice(i + 5, closeIdx);
+        out += `\\sqrt{${exprToLatex(radContent || ' ')}}`;
+        i = closeIdx + 1;
+        continue;
       }
     }
 
@@ -558,7 +639,7 @@ function hasMathSignal(s: string): boolean {
   ) {
     return true;
   }
-  if (/\b(?:sin|cos|tan|cot|sec|csc|sinh|cosh|tanh|ln|log|exp|lim|det)\b/.test(s)) {
+  if (/\b(?:sin|cos|tan|cot|sec|csc|sinh|cosh|tanh|ln|log|exp|lim|det|sqrt)\b/.test(s)) {
     return true;
   }
   if (/[A-Za-z]\([A-Za-z0-9, +\-−]+\)/.test(s)) {
@@ -579,6 +660,20 @@ export interface TextOrMathSegment {
 }
 
 function splitGapIntoProseAndMath(gapText: string): TextOrMathSegment[] {
+  if (gapText.includes('—')) {
+    const parts = gapText.split('—');
+    const segments: TextOrMathSegment[] = [];
+    for (let idx = 0; idx < parts.length; idx++) {
+      if (parts[idx].length > 0) {
+        segments.push(...splitGapIntoProseAndMath(parts[idx]));
+      }
+      if (idx < parts.length - 1) {
+        segments.push({ type: 'prose', text: '—' });
+      }
+    }
+    return segments;
+  }
+
   let start = 0;
   let end = gapText.length;
 
@@ -596,6 +691,9 @@ function splitGapIntoProseAndMath(gapText: string): TextOrMathSegment[] {
 
   while (end > start) {
     const rest = gapText.slice(start, end);
+    if (/(?:L\.H\.[LSD]|R\.H\.[LSD])\.$/.test(rest)) {
+      break;
+    }
     const trailMatch = rest.match(/(?:[\s,;:.?!]|[\(\[])+$/);
     if (trailMatch && trailMatch[0].length > 0) {
       end -= trailMatch[0].length;
@@ -644,10 +742,39 @@ function splitGapIntoProseAndMath(gapText: string): TextOrMathSegment[] {
 }
 
 const PROSE_WORD_REGEX =
-  /\b(?:e\.g\.|i\.e\.|w\.r\.t\.|L\.H\.[LSD]\.|R\.H\.[LSD]\.|20\d\d[–\-]\d\d\b|Q\d+[a-z]?\b|Ex\.|Ch\.|Fig\.|Eq\.|Sec\.|(?:[AaI]\b(?=\s+[A-Za-z]{2,})|[A-Za-z]{2,}(?:['\-][A-Za-z]+)*\b)(?!\s*[_^]))/g;
+  /\b(?:e\.g\.|i\.e\.|w\.r\.t\.|20\d\d[–\-]\d\d\b|Q\d+[a-z]?\b|Ex\.|Ch\.|Fig\.|Eq\.|Sec\.|(?:[AaI]\b(?=\s+[A-Za-z]{2,})|[A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u017F]{2,}(?:['’\-][A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u017F]+)*\b)(?!\s*[_^]))/g;
 
 export function segmentMathAndProse(normalizedStr: string): TextOrMathSegment[] {
   if (!normalizedStr) return [];
+
+  if (normalizedStr.includes('\\(') && normalizedStr.includes('\\)')) {
+    const explicitSegments: TextOrMathSegment[] = [];
+    const delimRegex = /\\\(([\s\S]*?)\\\)/g;
+    let lastPos = 0;
+    let delimMatch: RegExpExecArray | null;
+    while ((delimMatch = delimRegex.exec(normalizedStr)) !== null) {
+      if (delimMatch.index > lastPos) {
+        explicitSegments.push({
+          type: 'prose',
+          text: normalizedStr.slice(lastPos, delimMatch.index),
+        });
+      }
+      if (delimMatch[1].length > 0) {
+        explicitSegments.push({
+          type: 'math',
+          text: delimMatch[1],
+        });
+      }
+      lastPos = delimMatch.index + delimMatch[0].length;
+    }
+    if (lastPos < normalizedStr.length) {
+      explicitSegments.push({
+        type: 'prose',
+        text: normalizedStr.slice(lastPos),
+      });
+    }
+    return explicitSegments;
+  }
 
   const raw: TextOrMathSegment[] = [];
   let lastIdx = 0;
@@ -656,13 +783,23 @@ export function segmentMathAndProse(normalizedStr: string): TextOrMathSegment[] 
 
   while ((match = PROSE_WORD_REGEX.exec(normalizedStr)) !== null) {
     const word = match[0];
-    if (MATH_WORDS.has(word)) continue;
+    const idx = match.index;
 
-    if (match.index > lastIdx) {
-      raw.push(...splitGapIntoProseAndMath(normalizedStr.slice(lastIdx, match.index)));
+    const prevOne = idx >= 1 ? normalizedStr[idx - 1] : '';
+    const prevTwo = idx >= 2 ? normalizedStr.slice(idx - 2, idx) : '';
+    if (prevTwo === '_{' || prevTwo === '^{' || prevOne === '_' || prevOne === '^') {
+      continue;
+    }
+
+    if (isMathIdentifierWord(word)) {
+      continue;
+    }
+
+    if (idx > lastIdx) {
+      raw.push(...splitGapIntoProseAndMath(normalizedStr.slice(lastIdx, idx)));
     }
     raw.push({ type: 'prose', text: word });
-    lastIdx = match.index + word.length;
+    lastIdx = idx + word.length;
   }
 
   if (lastIdx < normalizedStr.length) {

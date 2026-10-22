@@ -4,7 +4,7 @@ export const EECE1111_CH04: ChapterNote = {
   "id": "eece1111-ch04",
   "unitNumber": "Module 04",
   "title": "DC Network Theorem",
-  "summary": "Thevenin's theorem, Norton's theorem and superposition theorem with applications in circuits having independent and dependent sources, Millman's theorem, Substitution theorem, Maximum power transfer theorem and Reciprocity Theorem.",
+  "summary": "Thevenin’s theorem, Norton’s theorem and superposition theorem with applications in circuits having independent and dependent sources, Millman’s theorem, Substitution theorem, Maximum power transfer theorem and Reciprocity Theorem.",
   "estimatedMinutes": 40,
   "lastUpdated": "October 2026",
   "blocks": [
@@ -13,7 +13,7 @@ export const EECE1111_CH04: ChapterNote = {
       "type": "memorize",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Lecture 10 (Three Cases for Finding R_Th)",
-      "title": "Three Standard Cases for Computing Thevenin Resistance (R_Th)",
+      "title": "Three Cases for Computing Thevenin Resistance (R_Th)",
       "summaryText": "How to find R_Th for circuits with (Case 1) only independent sources, (Case 2) both independent & dependent sources, and (Case 3) only dependent sources.",
       "paragraphs": [
         "Choosing the right method to compute R_Th depends strictly on whether dependent sources exist inside the linear two-terminal network."
@@ -50,8 +50,11 @@ export const EECE1111_CH04: ChapterNote = {
       "type": "definition",
       "priorityTier": 2,
       "sourceCitation": "Previous Year Question · Final Exam 2023 Q4(a), 2022 Q4(a), 2020 Q4(b)",
-      "title": "Maximum Power Transfer Theorem & Proof (dP_L / dR_L = 0)",
+      "title": "Maximum Power Transfer Theorem & Proof",
       "summaryText": "A resistive load R_L receives maximum power from a linear DC network when R_L = R_Th, yielding P_max = V_Th² / (4R_Th) at 50% efficiency.",
+      "memorizeStatements": [
+        "A resistive load R_L receives maximum power from a linear DC network when R_L = R_Th, yielding P_max = V_Th² / (4R_Th) at 50% efficiency."
+      ],
       "examYears": [
         "2023",
         "2022",
@@ -85,8 +88,11 @@ export const EECE1111_CH04: ChapterNote = {
       "type": "theory",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · B. L. Theraja Vol. I & Boylestad Ch. 9",
-      "title": "Millman’s Theorem, Substitution Theorem & Reciprocity Theorem",
+      "title": "Millman’s, Substitution & Reciprocity Theorems",
       "summaryText": "Millman’s Theorem combines N parallel voltage branches into a single equivalent source V_eq = (∑ V_k G_k) / (∑ G_k).",
+      "memorizeStatements": [
+        "Millman’s Theorem combines N parallel voltage branches into a single equivalent source V_eq = (∑ V_k G_k) / (∑ G_k)."
+      ],
       "paragraphs": [
         "Millman’s Theorem simplifies parallel branches of voltage sources in series with resistors by converting each branch to its Norton current equivalent, summing the parallel conductances G_k = 1/R_k, and converting back to a single Thevenin source.",
         "The Reciprocity Theorem states that in any linear bilateral single-source network, the ratio of excitation voltage in loop A to the response current in loop B remains invariant when the positions of the voltage source and ammeter are interchanged."
@@ -104,7 +110,7 @@ export const EECE1111_CH04: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · Robert L. Boylestad & R. P. Ward (Ch. 9)",
-      "title": "Worked Millman’s Theorem Problem for Three Parallel Battery Branches",
+      "title": "Millman’s Theorem for Parallel Battery Branches",
       "summaryText": "Find the terminal voltage V_L across a 10 Ω load fed by three parallel branches: (12 V, 2 Ω), (6 V, 3 Ω), and (24 V, 6 Ω).",
       "problemStatement": "Three parallel DC voltage branches — Branch 1 (12 V in series with 2 Ω), Branch 2 (6 V in series with 3 Ω), and Branch 3 (24 V in series with 6 Ω) — supply a common load resistor R_L = 9 Ω. Find V_eq, R_eq, and load current I_L using Millman’s Theorem.",
       "solutionSteps": [

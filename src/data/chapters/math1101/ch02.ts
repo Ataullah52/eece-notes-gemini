@@ -13,7 +13,7 @@ export const MATH1101_CH02: ChapterNote = {
       "type": "theory",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Unit 5.1 (Standard n-th Derivative Formulas y_n = Dⁿy & Class Problems)",
-      "title": "Standard n-th Derivative Formulas, Partial Fractions & Trigonometric Reduction",
+      "title": "Standard n-th Derivative Formulas",
       "summaryText": "Complete reference table of n-th derivatives and worked solutions for rational partial fractions, trigonometric powers/products, and log-trig differential equations.",
       "table": {
         "caption": "Table 2.1 — Standard n-th Derivative Formulas (y_n = dⁿy / dxⁿ)",
@@ -91,8 +91,12 @@ export const MATH1101_CH02: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23 Q1(c) [5.5 Marks], 2021–22 Q2(a) [5 Marks]",
-      "title": "PUST Past Exam Questions on Differentiability at a Point & Continuity vs. Differentiability",
+      "title": "Differentiability at a Point & Continuity Relation",
       "summaryText": "f(x) is differentiable at x = a iff L.H.D. = R.H.D. (both finite). Every differentiable function is continuous, but the converse is false.",
+      "memorizeStatements": [
+        "f(x) is differentiable at x = a iff L.H.D. = R.H.D. (both finite).",
+        "Every differentiable function is continuous, but the converse is false."
+      ],
       "examYears": [
         "2022–23",
         "2021–22"
@@ -135,8 +139,11 @@ export const MATH1101_CH02: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23 Q2(b) [4.5 Marks], Q4(c) [5 Marks], 2021–22 Q2(b) [5 Marks], 2020–21 Q2(a) [5 Marks]",
-      "title": "PUST Past Exam Questions on Leibniz’s Theorem: Induction Proof, Differential Equations & y_n(0)",
+      "title": "Leibniz’s Theorem for Successive Differentiation",
       "summaryText": "(uv)_n = u_n v + ⁿC₁ u_{n−1} v₁ + ⁿC₂ u_{n−2} v₂ + ··· + ⁿC_r u_{n−r} v_r + ··· + u v_n.",
+      "memorizeStatements": [
+        "(uv)_n = u_n v + ⁿC₁ u_{n−1} v₁ + ⁿC₂ u_{n−2} v₂ + ··· + ⁿC_r u_{n−r} v_r + ··· + u v_n."
+      ],
       "examYears": [
         "2022–23",
         "2021–22",
@@ -178,8 +185,11 @@ export const MATH1101_CH02: ChapterNote = {
       "type": "example",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · Howard Anton Sec. 2.2 & Sec. 4.4 (Differentiability & Absolute Extrema)",
-      "title": "Howard Anton Sec. 4.4: Absolute (Global) Maxima and Minima on a Closed Interval [a, b]",
+      "title": "Absolute Maxima and Minima on Closed Intervals",
       "summaryText": "By the Extreme Value Theorem, evaluate f(x) at all critical points c ∈ (a, b) where f′(c) = 0 or f′(c) DNE, and at the endpoints x = a, b.",
+      "memorizeStatements": [
+        "By the Extreme Value Theorem, evaluate f(x) at all critical points c ∈ (a, b) where f′(c) = 0 or f′(c) DNE, and at the endpoints x = a, b."
+      ],
       "equations": [
         {
           "label": "Closed-Interval Absolute Extrema Procedure",
@@ -205,11 +215,11 @@ export const MATH1101_CH02: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · J. Edwards (Differential Calculus, Ch. III) & F. Ayres (Schaum’s Calculus)",
-      "title": "Syllabus Book Derivations: n-th Derivative of tan⁻¹(x/a) & Implicit Power-Sum Leibniz Theorem",
+      "title": "n-th Derivative of Inverse Tangent & Implicit Functions",
       "summaryText": "Using the polar substitution x = a cot θ reduces y = tan⁻¹(x/a) and y = 1/(x² + a²) to compact trigonometric n-th derivatives.",
       "equations": [
         {
-          "label": "Edwards’ Polar Substitution for y = tan⁻¹(x / a)",
+          "label": "Polar Substitution for y = tan⁻¹(x / a)",
           "formula": "y_n = [(−1)^{n−1} (n − 1)! / aⁿ] · sinⁿθ · sin(nθ),   where θ = cot⁻¹(x / a)"
         }
       ],

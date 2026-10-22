@@ -13,8 +13,11 @@ export const EECE1111_CH06: ChapterNote = {
       "type": "theory",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Sinusoidal Steady-State, Phasors & RLC Branch Impedance",
-      "title": "Phasor Representation, Complex Impedance (Z) & Admittance (Y) of RL, RC and RLC Branches",
+      "title": "Phasors, Complex Impedance & Admittance of RLC Branches",
       "summaryText": "Impedance Z = R + jX = |Z|∠θ (Ω) and Admittance Y = 1/Z = G + jB (S), where X_L = ωL and X_C = 1/(ωC).",
+      "memorizeStatements": [
+        "Impedance Z = R + jX = |Z|∠θ (Ω) and Admittance Y = 1/Z = G + jB (S), where X_L = ωL and X_C = 1/(ωC)."
+      ],
       "paragraphs": [
         "A sinusoidal waveform v(t) = V_m cos(ωt + φ) is represented in the phasor domain as V = V_m∠φ (or in RMS form as (V_m/√2)∠φ). Time differentiation d/dt corresponds to multiplying by jω, and integration ∫ dt corresponds to dividing by jω.",
         "In an inductive branch (RL), voltage leads current by phase angle θ = tan⁻¹(X_L/R) > 0. In a capacitive branch (RC), current leads voltage (θ = −tan⁻¹(X_C/R) < 0)."
@@ -60,7 +63,7 @@ export const EECE1111_CH06: ChapterNote = {
       "type": "pyq",
       "priorityTier": 2,
       "sourceCitation": "Previous Year Question · PUST EECE Final Exam 2023 Q6(a) & 2021 Q6(b)",
-      "title": "Series RLC Branch Impedance, Admittance, Power Factor & Average Power",
+      "title": "Series RLC Impedance, Power Factor & Average Power",
       "summaryText": "Calculate Z, Y, current phasor I, power factor cos θ, and average power P = V_rms I_rms cos θ for a series RLC branch.",
       "examYears": [
         "2023",
@@ -81,8 +84,11 @@ export const EECE1111_CH06: ChapterNote = {
       "type": "theory",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · B. L. Theraja Vol. I (Ch. 11–13) & Alexander & Sadiku (Ch. 9)",
-      "title": "Instantaneous Power p(t), Average Power P, Reactive Power Q & Complex Power S",
+      "title": "Instantaneous, Average, Reactive & Complex Power",
       "summaryText": "Complex power S = V_rms I_rms* = P + jQ (VA), where P = V_rms I_rms cos θ (W) and Q = V_rms I_rms sin θ (VAR).",
+      "memorizeStatements": [
+        "Complex power S = V_rms I_rms* = P + jQ (VA), where P = V_rms I_rms cos θ (W) and Q = V_rms I_rms sin θ (VAR)."
+      ],
       "equations": [
         {
           "label": "Complex, Active & Reactive Power Triangle",
@@ -95,8 +101,11 @@ export const EECE1111_CH06: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · Corcoran & Kerchner & Robert L. Boylestad (Ch. 15)",
-      "title": "Series-Parallel Admittance Conversion (Conductance G & Susceptance B)",
+      "title": "Series-Parallel Admittance Conversion (Conductance & Susceptance)",
       "summaryText": "For a parallel RL or RC branch, sum the conductances G = ∑ G_k and susceptances B = ∑ B_k directly.",
+      "memorizeStatements": [
+        "For a parallel RL or RC branch, sum the conductances G = ∑ G_k and susceptances B = ∑ B_k directly."
+      ],
       "equations": [
         {
           "label": "Series Impedance (R + jX) to Parallel Admittance (G + jB)",

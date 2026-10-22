@@ -13,8 +13,11 @@ export const MATH1101_CH01: ChapterNote = {
       "type": "definition",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Unit 1 (Concept of Function, Classification, Domain & Range)",
-      "title": "Definition of a Function, Classification & Class Lecture Domain/Range Problems",
+      "title": "Definition of a Function, Classification & Domain Rules",
       "summaryText": "If for every permissible input x ∈ D there corresponds one and only one finite real output y, then y = f(x) is a function of x.",
+      "memorizeStatements": [
+        "If for every permissible input x ∈ D there corresponds one and only one finite real output y, then y = f(x) is a function of x."
+      ],
       "paragraphs": [
         "A function y = f(x) assigns to each input x in the domain D_f a unique finite real number y in the range R_f. For example, y = x² + 1 is a valid function (x = 1 ⇒ y = 2; x = 2 ⇒ y = 5), whereas y² = x ⇒ y = ±√x is not a function because a single input x = 4 produces two distinct outputs y = +2 and y = −2.",
         "A function can be expressed in four ways: (1) Analytically/Algebraically by a formula, (2) Numerically by a table of values, (3) Geometrically by its graph in the xy-plane, and (4) Verbally in plain language."
@@ -123,7 +126,7 @@ export const MATH1101_CH01: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23 Q1(a) [4 Marks], 2021–22 Q1(a) [5 Marks], 2020–21 Q1(a) [5 Marks]",
-      "title": "PUST Past Exam Questions on Domain, Range, Piecewise Functions & Even/Odd/Periodic Symmetry",
+      "title": "Domain, Range, Piecewise Functions & Symmetry",
       "summaryText": "Complete exam-style vertical solutions for PUST 2020–21 Q1(a), 2021–22 Q1(a), and 2022–23 Q1(a).",
       "examYears": [
         "2022–23",
@@ -133,7 +136,7 @@ export const MATH1101_CH01: ChapterNote = {
       "marks": "4–5 Marks",
       "equations": [
         {
-          "label": "Even & Odd Function Symmetry (PUST 2020–21 Q1a)",
+          "label": "Even & Odd Function Symmetry",
           "formula": "Even: f(−x) = f(x) [y-axis symmetry]  |  Odd: f(−x) = −f(x) [Origin (0,0) symmetry]"
         },
         {
@@ -165,7 +168,7 @@ export const MATH1101_CH01: ChapterNote = {
       "type": "example",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · Howard Anton Sec. 0.1 (Ex. 8–14, 19, 35) & Sec. 0.4 (Ex. 20–25, 37)",
-      "title": "Howard Anton Sec. 0.1 & Sec. 0.4: Solved Exercises on Domain, Range & Inverse Functions",
+      "title": "Domain, Range & Inverse Function Derivations",
       "summaryText": "Complete vertical step-by-step solutions for Anton Section 0.1 (Domain & Range) and Section 0.4 (Bijective Inverse Functions).",
       "equations": [
         {
@@ -198,8 +201,11 @@ export const MATH1101_CH01: ChapterNote = {
       "type": "theory",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Unit 2.1 & Unit 3.1–3.3 (Graph Transformations & Existence of Limits)",
-      "title": "Graph Transformations (Shifting, Scaling, Reflecting) & One-Sided Existence of Limits",
+      "title": "Graph Transformations & Existence of One-Sided Limits",
       "summaryText": "lim_{x→a} f(x) = L exists if and only if both L.H.L. = lim_{x→a⁻} f(x) and R.H.L. = lim_{x→a⁺} f(x) exist finitely and are equal.",
+      "memorizeStatements": [
+        "lim_{x→a} f(x) = L exists if and only if both L.H.L. = lim_{x→a⁻} f(x) and R.H.L. = lim_{x→a⁺} f(x) exist finitely and are equal."
+      ],
       "equations": [
         {
           "label": "Graph Shifting & Reflecting Rules (c > 0)",
@@ -241,7 +247,7 @@ export const MATH1101_CH01: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23 Q1(b) [4.5 Marks], 2020–21 Q1(b) [4.5 Marks], 2020–21 Q1(c) [4.5 Marks]",
-      "title": "PUST Past Exam Questions on Formal (ε-δ) Limit Proof & Piecewise Continuity (Finding a and b)",
+      "title": "Formal (ε-δ) Limit Definition & Piecewise Continuity",
       "summaryText": "Formal Cauchy ε-δ proof (PUST 2020–21 Q1c) and piecewise continuity parameter problems (PUST 2022–23 Q1b & 2020–21 Q1b).",
       "examYears": [
         "2022–23",
@@ -282,7 +288,7 @@ export const MATH1101_CH01: ChapterNote = {
       "type": "example",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · Howard Anton Sec. 1.2, 1.3, 1.5 & 1.6 (Limits & Continuity Homework Sets)",
-      "title": "Howard Anton Sec. 1.2, 1.3, 1.5 & 1.6: Radical Limits at ±∞, Trig Limits & Intermediate Value Theorem",
+      "title": "Radical Limits at Infinity, Trig Limits & IVT",
       "summaryText": "When factoring x² out of a square root as x → −∞, always use √(x²) = |x| = −x.",
       "equations": [
         {
@@ -291,7 +297,7 @@ export const MATH1101_CH01: ChapterNote = {
           "note": "Critical rule when dividing radicals by x as x → −∞"
         },
         {
-          "label": "Classification of Discontinuities (Anton Sec. 1.5)",
+          "label": "Classification of Discontinuities",
           "formula": "Removable: lim exists ≠ f(a)  |  Jump: LHL ≠ RHL (both finite)  |  Infinite: LHL or RHL = ±∞",
           "note": "Correction to PDF Note p.17 (Anton 1.5 Ex. 35b): For f(x) = (x² − 9) / (x + 3) at x = −3, removable limit is lim_{x→−3}(x − 3) = −6 (not −3)"
         }
@@ -320,8 +326,11 @@ export const MATH1101_CH01: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · G. B. Thomas & R. L. Finney (Ch. 1) & M. R. Spiegel (Advanced Calculus)",
-      "title": "Syllabus Book Problems: Squeeze (Sandwich) Theorem, Exponential Jump Discontinuity & Non-Linear ε-δ Proof",
+      "title": "Squeeze Theorem & Jump Discontinuity",
       "summaryText": "If g(x) ≤ f(x) ≤ h(x) near x = a and lim_{x→a} g(x) = lim_{x→a} h(x) = L, then lim_{x→a} f(x) = L.",
+      "memorizeStatements": [
+        "If g(x) ≤ f(x) ≤ h(x) near x = a and lim_{x→a} g(x) = lim_{x→a} h(x) = L, then lim_{x→a} f(x) = L."
+      ],
       "equations": [
         {
           "label": "Squeeze (Sandwich) Theorem Criterion",

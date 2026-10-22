@@ -4,7 +4,7 @@ export const MATH1101_CH03: ChapterNote = {
   "id": "math1101-ch03",
   "unitNumber": "Module 03",
   "title": "Mean Value Theorems, Series Expansion and Maxima/Minima",
-  "summary": "3.1 Rolle's Theorem, Mean value Theorem, Taylor's and Maclaurin's Theorems, approximation of a function by polynomials and series, indeterminate forms and L'Hospital's rule. 3.2 Application of derivative for curve tracing, maxima and minima of functions of a single variable.",
+  "summary": "3.1 Rolle’s Theorem, Mean value Theorem, Taylor’s and Maclaurin’s Theorems, approximation of a function by polynomials and series, indeterminate forms and L’Hospital’s rule. 3.2 Application of derivative for curve tracing, maxima and minima of functions of a single variable.",
   "estimatedMinutes": 75,
   "lastUpdated": "October 2026",
   "blocks": [
@@ -13,8 +13,12 @@ export const MATH1101_CH03: ChapterNote = {
       "type": "theory",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Units 6–7 & Professor’s Rolle’s / MVT Handout (#2, #5, #6, #9)",
-      "title": "Rolle’s Theorem, Lagrange’s MVT, Cauchy’s MVT & Class Handout Solutions",
+      "title": "Rolle’s Theorem, Lagrange’s MVT & Cauchy’s MVT",
       "summaryText": "Rolle’s Theorem: f(a) = f(b) ⇒ f′(c) = 0 for some c ∈ (a, b). Lagrange’s MVT: f′(c) = [f(b) − f(a)] / (b − a) for some c ∈ (a, b).",
+      "memorizeStatements": [
+        "Rolle’s Theorem: f(a) = f(b) ⇒ f′(c) = 0 for some c ∈ (a, b).",
+        "Lagrange’s MVT: f′(c) = [f(b) − f(a)] / (b − a) for some c ∈ (a, b)."
+      ],
       "equations": [
         {
           "label": "Rolle’s Theorem Condition & Conclusion",
@@ -56,7 +60,7 @@ export const MATH1101_CH03: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23 Q2(a), Q4(a), 2021–22 Q1(b,c), Q4(a), 2020–21 Q2(b)",
-      "title": "PUST Past Exam Questions on Rolle’s Theorem, Lagrange’s MVT & Maclaurin’s Series Expansions",
+      "title": "Mean Value Theorem Proofs & Maclaurin’s Series",
       "summaryText": "Proofs of Rolle’s and Lagrange’s MVT, interval verifications, and Maclaurin expansions of ln(1 + x) and e^x sec x.",
       "examYears": [
         "2022–23",
@@ -101,7 +105,7 @@ export const MATH1101_CH03: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23 Q2(c), Q4(b), 2021–22 Q2(c), Q3(c), Q4(b), 2020–21 Q2(c), Q4(a)",
-      "title": "PUST Past Exam Questions on L’Hôpital’s Rule (Indeterminate Forms) & Maxima/Minima/Inflection Points",
+      "title": "L’Hôpital’s Rule for Indeterminate Forms & Extrema",
       "summaryText": "Complete solutions to all PUST L’Hôpital limits (0/0, ∞ − ∞, 1^∞, 0⁰) and polynomial relative extrema & concavity problems.",
       "examYears": [
         "2022–23",
@@ -138,8 +142,11 @@ export const MATH1101_CH03: ChapterNote = {
       "type": "example",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · Howard Anton Sec. 3.6 (Ex. 66) & Sec. 9.8–9.9 (Ex. 45)",
-      "title": "Howard Anton Sec. 3.6 & Sec. 9.8: Unknown L’Hôpital Parameters & Power Series Interval of Convergence",
+      "title": "Indeterminate Parameters & Power Series Convergence",
       "summaryText": "Use the Ratio Test lim_{k→∞} |u_{k+1}/u_k| < 1 for the radius of convergence R, and test both endpoints x = x₀ ± R separately.",
+      "memorizeStatements": [
+        "Use the Ratio Test lim_{k→∞} |u_{k+1}/u_k| < 1 for the radius of convergence R, and test both endpoints x = x₀ ± R separately."
+      ],
       "equations": [
         {
           "label": "Ratio Test for Radius of Convergence R of ∑ c_k (x − a)^k",
@@ -170,11 +177,14 @@ export const MATH1101_CH03: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · J. Edwards (Differential Calculus, Ch. XII) & G. B. Thomas & R. L. Finney",
-      "title": "Syllabus Book Curve Tracing: Complete 4-Step Working Rule & Classical Algebraic Curves",
+      "title": "Algebraic Curve Tracing Rules & Classical Curves",
       "summaryText": "Systematic curve tracing using (1) Symmetry, (2) Origin & Tangents at Origin, (3) Intercepts & Asymptotes, and (4) Regions of Exclusion.",
+      "memorizeStatements": [
+        "Systematic curve tracing using (1) Symmetry, (2) Origin & Tangents at Origin, (3) Intercepts & Asymptotes, and (4) Regions of Exclusion."
+      ],
       "equations": [
         {
-          "label": "Four-Step Curve Tracing Working Rule (J. Edwards)",
+          "label": "Four-Step Curve Tracing Working Rule",
           "formula": "1. Symmetry (x/y/origin/y=x)  →  2. Origin & Tangents  →  3. Intercepts & Asymptotes  →  4. Excluded Regions"
         }
       ],

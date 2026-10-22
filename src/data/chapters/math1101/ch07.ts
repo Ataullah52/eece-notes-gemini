@@ -13,8 +13,12 @@ export const MATH1101_CH07: ChapterNote = {
       "type": "memorize",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Units 19–21 (3D Coordinate Systems, Direction Cosines/Ratios, Planes & Skew Lines)",
-      "title": "3D Coordinate Conversions (Cartesian, Cylindrical, Spherical), Direction Cosines & Plane/Line Formulas",
+      "title": "3D Coordinate Conversions, Direction Cosines & Plane/Line Formulas",
       "summaryText": "Direction cosines l = cos α, m = cos β, n = cos γ satisfy l² + m² + n² = 1. Two lines in 3D are coplanar iff their 3×3 determinant vanishes.",
+      "memorizeStatements": [
+        "Direction cosines l = cos α, m = cos β, n = cos γ satisfy l² + m² + n² = 1.",
+        "Two lines in 3D are coplanar iff their 3×3 determinant vanishes."
+      ],
       "equations": [
         {
           "label": "Direction Cosines Identity & Normalization from Direction Ratios (a, b, c)",
@@ -67,8 +71,11 @@ export const MATH1101_CH07: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23, 2021–22 & 2020–21 Semester Final Exams [5 Marks]",
-      "title": "PUST Past Exam Questions on Cube Diagonal Theorems & Direction Cosine Algebraic Relations",
+      "title": "Cube Diagonal Theorems & Direction Cosine Relations",
       "summaryText": "Angle between any two diagonals of a cube is cos⁻¹(1/3), and a line making angles α, β, γ, δ with the four diagonals satisfies cos²α + cos²β + cos²γ + cos²δ = 4/3.",
+      "memorizeStatements": [
+        "Angle between any two diagonals of a cube is cos⁻¹(1/3), and a line making angles α, β, γ, δ with the four diagonals satisfies cos²α + cos²β + cos²γ + cos²δ = 4/3."
+      ],
       "examYears": [
         "2022–23",
         "2021–22",
@@ -97,7 +104,7 @@ export const MATH1101_CH07: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23, 2021–22 & 2020–21 Semester Final Exams [5–7 Marks]",
-      "title": "PUST Past Exam Questions on Plane Families, Centroid Locus & Shortest Distance Between Skew Lines",
+      "title": "Plane Families, Centroid Locus & Shortest Distance",
       "summaryText": "Complete exam solutions for plane families P₁ + λP₂ = 0, centroid locus x⁻² + y⁻² + z⁻² = 9p⁻², and length & equation of the line of shortest distance.",
       "examYears": [
         "2022–23",
@@ -124,7 +131,7 @@ export const MATH1101_CH07: ChapterNote = {
       "type": "example",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · Rahman & Bhattacharjee (3D Geometry, Ch. 3) & Anton Ch. 11",
-      "title": "Rahman & Bhattacharjee: Unsymmetric-to-Symmetric Line Conversion & Coplanar Lines Plane Equation",
+      "title": "Symmetric Line Conversion & Coplanar Lines Plane",
       "summaryText": "Find the direction ratios (l, m, n) of the intersection of two planes by taking the cross product of their normal vectors, and find a point by setting z = 0.",
       "problemStatement": "(1) [Rahman & Bhattacharjee] Reduce the unsymmetric line x + y + z + 1 = 0 = 4x + y − 2z + 2 to symmetric form. (2) Show that the lines (x + 1)/(−3) = (y − 3)/2 = (z + 2)/1 and x/1 = (y − 7)/(−3) = (z + 7)/2 are coplanar, and find the equation of the plane containing them.",
       "solutionSteps": [
@@ -145,8 +152,11 @@ export const MATH1101_CH07: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · G. B. Thomas & R. L. Finney (Ch. 10) & M. R. Spiegel",
-      "title": "Syllabus Book Problems: Angle Between Line & Plane (sin φ) and Mirror Image of a Point in a Plane",
+      "title": "Line-Plane Angle & Mirror Image in a Plane",
       "summaryText": "The angle φ between a line (l, m, n) and a plane Ax + By + Cz + D = 0 is complementary to the angle with the plane normal: sin φ = |Al + Bm + Cn| / [√(A² + B² + C²)√(l² + m² + n²)].",
+      "memorizeStatements": [
+        "The angle φ between a line (l, m, n) and a plane Ax + By + Cz + D = 0 is complementary to the angle with the plane normal: sin φ = |Al + Bm + Cn| / [√(A² + B² + C²)√(l² + m² + n²)]."
+      ],
       "equations": [
         {
           "label": "Angle φ Between a Line (l, m, n) and a Plane Ax + By + Cz + D = 0",

@@ -10,6 +10,7 @@ export interface FilterableBlock {
   title: string;
   sourceCitation: string;
   summaryText?: string;
+  memorizeStatements?: string[];
   examYears?: string[];
   equations?: { label: string; formula: string; units?: string; note?: string }[];
   table?: { caption?: string; headers: string[]; rows: string[][] };
@@ -325,64 +326,16 @@ export function matchesPriorityTier(
   return false;
 }
 
-const NON_MEMORIZE_STATEMENT_RE =
-  /\b(?:complete\s+(?:exam-style|vertical|reference|formula)|quick-reference|lookup\s+table|formula\s+sheet|worked\s+solutions?|step-by-step\s+solutions?|solved\s+exercises?|past\s+exam|for\s+example|e\.g\.|whereas|commit\s+both|when\s+a\s+bridge\s+network|choosing\s+the\s+right\s+method|in\s+circuit\s+analysis,\s+assigning|a\s+function\s+can\s+be\s+expressed\s+in\s+four\s+ways|how\s+to\s+find|find\s+the\s+terminal\s+voltage|calculate\s+the\s+power|calculate\s+z,\s+y|given\s+z_th|given\s+q\(t\)|solve\s+for\s+node\s+voltages|find\s+total\s+equivalent|move\s+all\s+dependent|proofs\s+of\s+rolle|formal\s+cauchy\s+ε-δ\s+proof|master\s+formula\s+sheet|convert\s+parallel\s+ac\s+voltage|when\s+factoring\s+x²\s+out\s+of\s+a\s+square\s+root)\b/i;
-
 export function getMemorizeBlockTitle(
   block: Pick<FilterableBlock, 'title'>
 ): string {
-  const cleaned = block.title
-    .trim()
-    .replace(/^PUST Past Exam Questions on\s+/i, '')
-    .replace(/^Howard Anton[^:]*:\s*(?:Solved Exercises on\s*)?/i, '')
-    .replace(/^Syllabus Book(?:s\s*\([^)]*\))?(?:\s*Problems)?:\s*/i, '')
-    .replace(/^Core Formulas\s*&\s*Proofs:\s*/i, '')
-    .replace(/^Worked\s+/i, '')
-    .replace(
-      /\s*&\s*(?:Class Lecture|Class Handout|Worked|Solved|PUST).*$/i,
-      ''
-    )
-    .replace(/,\s*Partial Fractions\s*&\s*Trigonometric Reduction$/i, '')
-    .replace(
-      /,\s*Exponential Jump Discontinuity\s*&\s*Non-Linear\s*ε-δ\s*Proof$/i,
-      ''
-    )
-    .replace(/\s*\(Finding\s+[^)]+\)$/i, '')
-    .replace(/\bLimit Proof\b/gi, 'Limit Definition')
-    .replace(
-      /^Definition of a Function,\s*Classification$/i,
-      'Definition of a Function & Classification'
-    )
-    .trim();
-
-  return cleaned || block.title;
+  return block.title.trim();
 }
 
 export function getMemorizeStatements(
-  block: Pick<FilterableBlock, 'summaryText'>
+  block: Pick<FilterableBlock, 'memorizeStatements'>
 ): string[] {
-  if (!block.summaryText) {
-    return [];
-  }
-  const rawSentences = block.summaryText
-    .split(/(?<=\.)\s+(?=[A-Z∀∃(])/)
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0);
-
-  return rawSentences.filter((s) => !NON_MEMORIZE_STATEMENT_RE.test(s));
-}
-
-export function cleanMemorizeEquationLabel(label: string): string {
-  return label
-    .replace(/\s*\((?:PUST|Anton|Thomas|Spiegel)[^)]*\)/gi, '')
-    .trim();
-}
-
-export function cleanMemorizeTableText(text: string): string {
-  return text
-    .replace(/General Form\s*&\s*Standard Examples/gi, 'General Form & Condition')
-    .replace(/,\s*e\.g\.,\s*[^.]+\.?/gi, '.')
-    .trim();
+  return block.memorizeStatements ?? [];
 }
 
 export function matchesBlockType(

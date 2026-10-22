@@ -4,7 +4,7 @@ export const MATH1101_CH04: ChapterNote = {
   "id": "math1101-ch04",
   "unitNumber": "Module 04",
   "title": "Tangent, Normal, Curvature and Functions of Double Variables",
-  "summary": "4.1 Tangent, normal, Asymptote, curvature. 4.2 Function of double variables, domain, continuity, partial derivatives and total derivative, Euler's Theorem, Jacobian and Hessian.",
+  "summary": "4.1 Tangent, normal, Asymptote, curvature. 4.2 Function of double variables, domain, continuity, partial derivatives and total derivative, Euler’s Theorem, Jacobian and Hessian.",
   "estimatedMinutes": 75,
   "lastUpdated": "October 2026",
   "blocks": [
@@ -13,7 +13,7 @@ export const MATH1101_CH04: ChapterNote = {
       "type": "theory",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Units 10–13 (Tangents, Asymptotes, Curvature, Euler’s Theorem & Jacobian Formulas)",
-      "title": "Core Formulas & Proofs: Tangents, Oblique Asymptotes φ_n(m) = 0, Curvature ρ & Euler’s Theorem",
+      "title": "Tangents, Oblique Asymptotes, Curvature & Euler’s Theorem",
       "summaryText": "Complete reference formulas for tangent/normal lines, oblique asymptotes, Cartesian/Parametric/Polar/Newton curvature ρ, and 1st & 2nd order Euler’s Theorem.",
       "equations": [
         {
@@ -55,7 +55,7 @@ export const MATH1101_CH04: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23 Q3(b,c) [9 Marks], 2021–22 Q3(b) [5 Marks], 2020–21 Q3(c), Q4(b,c) [13.5 Marks]",
-      "title": "PUST Past Exam Questions on Tangents, Normals, Oblique Asymptotes & Radius of Curvature (ρ)",
+      "title": "Implicit Tangents, Oblique Asymptotes & Radius of Curvature",
       "summaryText": "Complete vertical exam solutions for implicit tangent/normal, degree-3 asymptotes, and Cartesian/Astroid/Newton radius of curvature.",
       "examYears": [
         "2022–23",
@@ -90,8 +90,11 @@ export const MATH1101_CH04: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23 Q3(a) [5 Marks], 2021–22 Q3(a) [4.5 Marks], Q4(c) [4.5 Marks], 2020–21 Q3(b) [4.5 Marks]",
-      "title": "PUST Past Exam Questions on Euler’s Homogeneous Theorem & Jacobian Chain Rule",
+      "title": "Euler’s Homogeneous Theorem & Jacobian Chain Rule",
       "summaryText": "For composite homogeneous functions z = trig(u) of degree n, apply x z_x + y z_y = n z and simplify.",
+      "memorizeStatements": [
+        "For composite homogeneous functions z = trig(u) of degree n, apply x z_x + y z_y = n z and simplify."
+      ],
       "examYears": [
         "2022–23",
         "2021–22",
@@ -117,8 +120,11 @@ export const MATH1101_CH04: ChapterNote = {
       "type": "example",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · Howard Anton Ch. 13 (Multivariable Limits, Chain Rule & Hessian Extrema)",
-      "title": "Howard Anton Ch. 13: Two-Variable Limit Path Test, Total Derivative & Hessian Extrema Classification",
+      "title": "Two-Variable Limit Path Test & Hessian Extrema",
       "summaryText": "If f(x, y) approaches different values along different paths y = mx as (x, y) → (0, 0), the two-variable limit does not exist.",
+      "memorizeStatements": [
+        "If f(x, y) approaches different values along different paths y = mx as (x, y) → (0, 0), the two-variable limit does not exist."
+      ],
       "equations": [
         {
           "label": "Hessian Determinant & 2D Extrema Classification at f_x = f_y = 0",
@@ -144,8 +150,11 @@ export const MATH1101_CH04: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · J. Edwards (Differential Calculus) & M. R. Spiegel (Advanced Calculus)",
-      "title": "Syllabus Book Problems: Polar Radius of Curvature of Cardioid & Inverse Jacobian Identity J · J′ = 1",
+      "title": "Polar Radius of Curvature & Inverse Jacobian Identity",
       "summaryText": "For polar curve r = f(θ), radius of curvature is ρ = (r² + r₁²)^{3/2} / |r² + 2r₁² − r r₂|.",
+      "memorizeStatements": [
+        "For polar curve r = f(θ), radius of curvature is ρ = (r² + r₁²)^{3/2} / |r² + 2r₁² − r r₂|."
+      ],
       "equations": [
         {
           "label": "Inverse Jacobian Product Identity & Implicit Derivative Formula",

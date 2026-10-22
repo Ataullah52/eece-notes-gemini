@@ -4,7 +4,7 @@ export const EECE1111_CH02: ChapterNote = {
   "id": "eece1111-ch02",
   "unitNumber": "Module 02",
   "title": "Basic Laws",
-  "summary": "Ohm's law, Kirchhoff's current and voltage laws, Voltage divider and current divider rules, Delt-Wye equivalent circuits. Series, parallel and series-parallel circuits and their equivalents.",
+  "summary": "Ohm’s law, Kirchhoff’s current and voltage laws, Voltage divider and current divider rules, Delt-Wye equivalent circuits. Series, parallel and series-parallel circuits and their equivalents.",
   "estimatedMinutes": 45,
   "lastUpdated": "October 2026",
   "blocks": [
@@ -13,8 +13,11 @@ export const EECE1111_CH02: ChapterNote = {
       "type": "theory",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Lecture 04 (Professor Board Derivation & Curve Analysis)",
-      "title": "Ohm’s Law, Conductance & Power Dissipation Characteristics",
+      "title": "Ohm’s Law, Conductance & Power Dissipation",
       "summaryText": "v = iR (under PSC), Conductance G = 1/R = i/v (Siemens), and non-negative resistor power p = i²R = v²/R ≥ 0.",
+      "memorizeStatements": [
+        "v = iR (under PSC), Conductance G = 1/R = i/v (Siemens), and non-negative resistor power p = i²R = v²/R ≥ 0."
+      ],
       "paragraphs": [
         "Ohm’s Law states that the voltage v across a linear resistor is directly proportional to the current i flowing through it, provided the current enters the positive terminal (v = +iR). If the reference current enters the negative terminal, v = −iR.",
         "Conductance G is the reciprocal of resistance (G = 1/R), measured in Siemens (S) or mhos (℧). Because a passive resistor cannot generate energy, its absorbed power p = i²R = v²G is always non-negative regardless of voltage or current polarity."
@@ -39,8 +42,12 @@ export const EECE1111_CH02: ChapterNote = {
       "type": "theory",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Lecture 05 (Kirchhoff’s Laws & Two-Loop T-Network)",
-      "title": "Kirchhoff’s Current Law (KCL) & Kirchhoff’s Voltage Law (KVL)",
+      "title": "Kirchhoff’s Current Law (KCL) & Voltage Law (KVL)",
       "summaryText": "KCL (Conservation of Charge): ∑ i_in = ∑ i_out at any node. KVL (Conservation of Energy): ∑ v_m = 0 around any closed path.",
+      "memorizeStatements": [
+        "KCL (Conservation of Charge): ∑ i_in = ∑ i_out at any node.",
+        "KVL (Conservation of Energy): ∑ v_m = 0 around any closed path."
+      ],
       "paragraphs": [
         "Kirchhoff’s Current Law (KCL) is based on the conservation of electric charge: a node cannot store net charge, so the algebraic sum of currents entering a node (or closed Gaussian boundary) must equal zero at every instant.",
         "Kirchhoff’s Voltage Law (KVL) is based on the conservation of energy: the work done moving a unit charge around a complete closed loop returns to the same potential, so the algebraic sum of all branch voltages around any closed loop is identically zero."
@@ -69,7 +76,7 @@ export const EECE1111_CH02: ChapterNote = {
       "type": "memorize",
       "priorityTier": 2,
       "sourceCitation": "Previous Year Question · Final Exam 2023 Q2(a), 2022 Q2(b), 2019 Q2(a)",
-      "title": "Voltage Divider, Current Divider & Wye-Delta (Y-Δ) Conversion Formulas",
+      "title": "Divider Rules & Wye-Delta (Y-Δ) Conversion Formulas",
       "summaryText": "Complete formula sheet for two-resistor dividers and Δ ↔ Y bridge conversions.",
       "examYears": [
         "2023",
@@ -152,7 +159,7 @@ export const EECE1111_CH02: ChapterNote = {
       "type": "example",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · Alexander & Sadiku (6th Ed.), Ch. 2",
-      "title": "Ladder Network Reduction & Current Divider Branch Analysis",
+      "title": "Ladder Network Reduction & Current Division",
       "summaryText": "Reduce a resistive ladder from the load end back to the source, then use current division at each node.",
       "problemStatement": "In a resistive ladder connected to a 30 V source, series resistor R₁ = 4 Ω feeds a parallel combination of R₂ = 6 Ω and a right-hand branch of R₃ = 2 Ω in series with R₄ = 4 Ω. Find the total equivalent resistance R_eq, source current I_s, and current I₄ through R₄.",
       "solutionSteps": [
@@ -173,8 +180,11 @@ export const EECE1111_CH02: ChapterNote = {
       "type": "theory",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · Robert L. Boylestad (Introductory Circuit Analysis, Ch. 7)",
-      "title": "Balanced Wheatstone Bridge Condition & Zero-Galvanometer Current Proof",
+      "title": "Balanced Wheatstone Bridge Condition",
       "summaryText": "A 4-arm Wheatstone bridge is balanced (I_G = 0 A) when the products of opposite arm resistances are equal: R₁R₄ = R₂R₃.",
+      "memorizeStatements": [
+        "A 4-arm Wheatstone bridge is balanced (I_G = 0 A) when the products of opposite arm resistances are equal: R₁R₄ = R₂R₃."
+      ],
       "equations": [
         {
           "label": "Balanced Wheatstone Bridge Ratio",

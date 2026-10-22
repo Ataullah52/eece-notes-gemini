@@ -305,7 +305,6 @@ test('matchesBlockType and memorize helpers include only definitions, laws, theo
     matchesBlockType,
     getMemorizeBlockTitle,
     getMemorizeStatements,
-    cleanMemorizeTableText,
   } = await import('./circuitMath.ts');
   const { MATH1101_CHAPTERS } = await import('../data/math1101Data.ts');
   const { EECE1111_CHAPTERS } = await import('../data/eece1111Data.ts');
@@ -314,34 +313,26 @@ test('matchesBlockType and memorize helpers include only definitions, laws, theo
     id: 'math-m1-b1',
     type: 'definition',
     priorityTier: 1,
-    title:
-      'Definition of a Function, Classification & Class Lecture Domain/Range Problems',
+    title: 'Definition of a Function, Classification & Domain Rules',
     sourceCitation: 'Class Note',
     summaryText:
       'If for every permissible input x ∈ D there corresponds one and only one finite real output y, then y = f(x) is a function of x.',
+    memorizeStatements: [
+      'If for every permissible input x ∈ D there corresponds one and only one finite real output y, then y = f(x) is a function of x.',
+    ],
   };
   assert.equal(matchesBlockType(defBlock, 'memorize'), true);
   assert.equal(matchesBlockType(defBlock, 'definition'), true);
   assert.equal(
     getMemorizeBlockTitle(defBlock),
-    'Definition of a Function & Classification'
+    'Definition of a Function, Classification & Domain Rules'
   );
   assert.equal(getMemorizeStatements(defBlock).length, 1);
 
   assert.equal(
-    getMemorizeStatements({
-      summaryText:
-        'Complete exam-style vertical solutions for PUST 2020–21 Q1(a), 2021–22 Q1(a), and 2022–23 Q1(a).',
-    }).length,
+    getMemorizeStatements({}).length,
     0,
-    'Should exclude worked-solution meta-summaries from Memorize view'
-  );
-
-  assert.equal(
-    cleanMemorizeTableText(
-      'Defined by different formulas on distinct intervals, e.g., f(x) = |x|.'
-    ),
-    'Defined by different formulas on distinct intervals.'
+    'Should return empty array when block has no memorizeStatements'
   );
 
   for (const ch of [...MATH1101_CHAPTERS, ...EECE1111_CHAPTERS]) {
@@ -350,6 +341,23 @@ test('matchesBlockType and memorize helpers include only definitions, laws, theo
       memorizeBlocks.length >= 2,
       `Chapter ${ch.id} should have at least 2 blocks in the Memorize category`
     );
+    for (const block of ch.blocks) {
+      const wordCount = block.title.trim().split(/\s+/).length;
+      assert.ok(
+        wordCount <= 10,
+        `Block ${block.id} title "${block.title}" has ${wordCount} words (must be at most 10)`
+      );
+      assert.ok(
+        !block.title.includes("'"),
+        `Block ${block.id} title "${block.title}" must use curly apostrophe ’ instead of '`
+      );
+      assert.ok(
+        !/\b(?:PUST|Howard Anton|Syllabus Book|Rahman|Askwith|Class Lecture|Class Handout)\b/i.test(
+          block.title
+        ),
+        `Block ${block.id} title "${block.title}" must not contain book or exam names`
+      );
+    }
   }
 });
 

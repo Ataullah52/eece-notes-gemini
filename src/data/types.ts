@@ -33,6 +33,7 @@ export interface NoteBlock {
   sourceCitation: string;
   title: string;
   summaryText: string;
+  memorizeStatements?: string[];
   paragraphs?: string[];
   bulletPoints?: string[];
   equations?: EquationItem[];

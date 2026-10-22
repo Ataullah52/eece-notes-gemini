@@ -13,8 +13,12 @@ export const MATH1101_CH05: ChapterNote = {
       "type": "definition",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Units 14–15 (2D Coordinate Systems, Axis Transformations & Pair of Straight Lines)",
-      "title": "2D Coordinate Systems, Translation & Rotation Formulas, Orthogonal Invariants & Pair of Lines Theory",
+      "title": "2D Coordinate Transformations & Pair of Straight Lines",
       "summaryText": "Translation to center (α, β) removes first-degree terms; rotation by tan 2θ = 2h/(a − b) removes the xy-term. S = 0 represents a pair of lines iff Δ = abc + 2fgh − af² − bg² − ch² = 0.",
+      "memorizeStatements": [
+        "Translation to center (α, β) removes first-degree terms; rotation by tan 2θ = 2h/(a − b) removes the xy-term.",
+        "S = 0 represents a pair of lines iff Δ = abc + 2fgh − af² − bg² − ch² = 0."
+      ],
       "equations": [
         {
           "label": "Cartesian ↔ Polar Conversion & Polar Distance Formula",
@@ -72,7 +76,7 @@ export const MATH1101_CH05: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23 & 2020–21 Semester Final Exams [7 Marks]",
-      "title": "PUST Past Exam Questions on Transformation of Coordinates (Removing First-Degree & XY Terms)",
+      "title": "Removing First-Degree & Cross-Product Terms via Axis Transformation",
       "summaryText": "Complete vertical exam solutions for removing linear terms via center translation and removing the xy-term via orthogonal invariants.",
       "examYears": [
         "2022–23",
@@ -101,7 +105,7 @@ export const MATH1101_CH05: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23, 2021–22 & 2020–21 Semester Final Exams [5 Marks]",
-      "title": "PUST Past Exam Questions on General Pair of Straight Lines (Δ = 0) & Homogenization",
+      "title": "General Pair of Straight Lines & Homogenization",
       "summaryText": "Verify Δ = 0, factor into separate linear equations, find intersection and angle θ, and homogenize curve-line intersections.",
       "examYears": [
         "2022–23",
@@ -128,8 +132,11 @@ export const MATH1101_CH05: ChapterNote = {
       "type": "example",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · Rahman & Bhattacharjee (Co-ordinate Geometry, Ch. 2)",
-      "title": "Rahman & Bhattacharjee Worked Problems: Angle Bisectors & Perpendicular Line Pairs",
+      "title": "Angle Bisectors & Perpendicular Line Pairs Through Origin",
       "summaryText": "The pair of lines through the origin perpendicular to ax² + 2hxy + by² = 0 is bx² − 2hxy + ay² = 0, and the angle bisectors (x² − y²)/(a − b) = xy/h are always orthogonal.",
+      "memorizeStatements": [
+        "The pair of lines through the origin perpendicular to ax² + 2hxy + by² = 0 is bx² − 2hxy + ay² = 0, and the angle bisectors (x² − y²)/(a − b) = xy/h are always orthogonal."
+      ],
       "problemStatement": "(1) [Rahman & Bhattacharjee] Prove that the bisectors of the angles between the lines ax² + 2hxy + by² = 0 are given by (x² − y²)/(a − b) = xy/h and are always mutually perpendicular. (2) Find the equation of the pair of straight lines through the origin perpendicular to 5x² − 8xy + 3y² = 0.",
       "solutionSteps": [
         {
@@ -149,11 +156,14 @@ export const MATH1101_CH05: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · E. H. Askwith (Analytic Geometry of Conic Sections, Ch. III)",
-      "title": "Syllabus Book Problems (Askwith): Area of Triangle Formed by ax² + 2hxy + by² = 0 and lx + my + n = 0",
+      "title": "Triangle Area & Distance Between Parallel Line Pairs",
       "summaryText": "The area of the triangle formed by the pair of lines ax² + 2hxy + by² = 0 and the line lx + my + n = 0 is Δ = n²√(h² − ab) / |am² − 2hlm + bl²|.",
+      "memorizeStatements": [
+        "The area of the triangle formed by the pair of lines ax² + 2hxy + by² = 0 and the line lx + my + n = 0 is Δ = n²√(h² − ab) / |am² − 2hlm + bl²|."
+      ],
       "equations": [
         {
-          "label": "Askwith’s Triangle Area & Parallel Line-Pair Distance Formulas",
+          "label": "Triangle Area & Parallel Line-Pair Distance Formulas",
           "formula": "Area = n²√(h² − ab) / |am² − 2hlm + bl²|   |   Parallel Distance (h² = ab): d = 2√[(g² − ac) / (a(a + b))]"
         }
       ],

@@ -15,6 +15,9 @@ export const EECE1111_CH03: ChapterNote = {
       "sourceCitation": "Class Note · Lecture 07 (Professor’s Supernode & Supermesh Rules)",
       "title": "Supernode & Supermesh Constraint Equations",
       "summaryText": "A Supernode encloses a floating voltage source between two non-reference nodes; a Supermesh bypasses a current source shared by two adjacent meshes.",
+      "memorizeStatements": [
+        "A Supernode encloses a floating voltage source between two non-reference nodes; a Supermesh bypasses a current source shared by two adjacent meshes."
+      ],
       "paragraphs": [
         "When a voltage source (independent or dependent) is connected between two non-reference nodes, the current through that voltage source is unknown, preventing a standalone KCL equation at either node. Enclose both nodes and the voltage source inside a dashed surface called a Supernode.",
         "Similarly, when a current source lies on the boundary shared by two meshes, exclude the shared branch to form a single outer KVL loop (Supermesh), and write the current source relation at the shared branch."
@@ -51,7 +54,7 @@ export const EECE1111_CH03: ChapterNote = {
       "type": "pyq",
       "priorityTier": 2,
       "sourceCitation": "Previous Year Question · Final Exam 2023 Q3(b) & 2021 Q3(a)",
-      "title": "Nodal Analysis with a Floating Supernode & Dependent Source",
+      "title": "Nodal Analysis with Floating Supernode & Dependent Source",
       "summaryText": "Solve for node voltages v₁ and v₂ when a 10 V source connects Node 1 and Node 2.",
       "examYears": [
         "2023",
@@ -90,6 +93,9 @@ export const EECE1111_CH03: ChapterNote = {
       "sourceCitation": "Professor-Followed Book · Alexander & Sadiku (6th Ed.), Ch. 3 & Ch. 4",
       "title": "Source Transformation & Nodal/Mesh Equations by Inspection",
       "summaryText": "A practical voltage source V_s in series with R converts to an equivalent current source I_s = V_s/R in parallel with R.",
+      "memorizeStatements": [
+        "A practical voltage source V_s in series with R converts to an equivalent current source I_s = V_s/R in parallel with R."
+      ],
       "paragraphs": [
         "Source Transformation replaces a voltage source v_s in series with a resistor R by a current source i_s = v_s / R in parallel with the same resistor R (or vice versa), preserving terminal v-i characteristics.",
         "When a linear resistive network contains no dependent sources, the Nodal Conductance Matrix [G][v] = [i] and Mesh Resistance Matrix [R][i] = [v] are symmetric and can be written directly by inspection."
@@ -107,7 +113,7 @@ export const EECE1111_CH03: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · R. C. Dorf & J. A. Svoboda (Introduction to Electric Circuits, Ch. 4)",
-      "title": "Cramer’s Rule Solution for 2-Mesh Network with Dependent CCVS",
+      "title": "Two-Mesh Network with Dependent CCVS via Cramer’s Rule",
       "summaryText": "Move all dependent source terms involving mesh currents to the left-hand resistance matrix before applying Cramer’s Rule.",
       "problemStatement": "A two-mesh circuit has Mesh 1 with a 20 V source, a 2 Ω series resistor, and a shared 4 Ω resistor with Mesh 2. Mesh 2 contains the shared 4 Ω resistor, a 6 Ω resistor, and a dependent voltage source 2i₁ opposing i₂. Find mesh currents i₁ and i₂.",
       "solutionSteps": [

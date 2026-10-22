@@ -13,8 +13,12 @@ export const MATH1101_CH08: ChapterNote = {
       "type": "memorize",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Units 22–24 (Sphere, Right Circular Cone/Cylinder & 3D Quadric Surfaces)",
-      "title": "Standard Equations of Sphere, Right Circular Cone, Right Circular Cylinder & 3D Quadric Surfaces",
+      "title": "Sphere, Right Circular Cone, Cylinder & Quadric Surfaces",
       "summaryText": "General sphere S ≡ x² + y² + z² + 2ux + 2vy + 2wz + d = 0 has center C = (−u, −v, −w) and radius R = √(u² + v² + w² − d). Plane section at distance p < R is a circle of radius r = √(R² − p²).",
+      "memorizeStatements": [
+        "General sphere S ≡ x² + y² + z² + 2ux + 2vy + 2wz + d = 0 has center C = (−u, −v, −w) and radius R = √(u² + v² + w² − d).",
+        "Plane section at distance p < R is a circle of radius r = √(R² − p²)."
+      ],
       "equations": [
         {
           "label": "General Sphere Equation, Center, Radius & Plane Section Circle",
@@ -77,7 +81,7 @@ export const MATH1101_CH08: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23, 2021–22 & 2020–21 Semester Final Exams [5 Marks]",
-      "title": "PUST Past Exam Questions on Sphere Plane Sections (Circle Center & Radius) & Spheres Through a Circle",
+      "title": "Sphere Plane Sections & Spheres Through a Circle",
       "summaryText": "Find circle center N as the foot of the normal from sphere center C to the cutting plane, and use S + λP = 0 for spheres passing through a circle.",
       "examYears": [
         "2022–23",
@@ -107,7 +111,7 @@ export const MATH1101_CH08: ChapterNote = {
         1
       ],
       "sourceCitation": "Previous Year Question · PUST EECE 2022–23, 2021–22 & 2020–21 Semester Final Exams [5–7 Marks]",
-      "title": "PUST Past Exam Questions on Guiding-Curve Cone, Right Circular Cylinder & 3D Conicoid Reduction",
+      "title": "Guiding-Curve Cone, Right Circular Cylinder & Conicoid Reduction",
       "summaryText": "Complete exam derivations for cones with a given vertex and guiding curve, right circular cylinders, and 3D central conicoid reduction.",
       "examYears": [
         "2022–23",
@@ -139,8 +143,11 @@ export const MATH1101_CH08: ChapterNote = {
       "type": "example",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · Rahman & Bhattacharjee (3D Geometry: Sphere & Cone)",
-      "title": "Rahman & Bhattacharjee Worked Problems: Sphere Through Four Points & Mutually Perpendicular Cone Generators",
+      "title": "Sphere Through Four Points & Orthogonal Cone Generators",
       "summaryText": "A homogeneous second-degree cone ax² + by² + cz² + 2fyz + 2gzx + 2hxy = 0 has sets of three mutually perpendicular generators iff a + b + c = 0.",
+      "memorizeStatements": [
+        "A homogeneous second-degree cone ax² + by² + cz² + 2fyz + 2gzx + 2hxy = 0 has sets of three mutually perpendicular generators iff a + b + c = 0."
+      ],
       "problemStatement": "(1) [Rahman & Bhattacharjee] Find the equation of the sphere passing through the origin (0, 0, 0) and the three axial intercepts (a, 0, 0), (0, b, 0), (0, 0, c). (2) Find the equation of the cone with vertex at the origin (0, 0, 0) that passes through the circle x² + y² + z² + 2ux + d = 0, lx + my + nz = p.",
       "solutionSteps": [
         {
@@ -160,8 +167,11 @@ export const MATH1101_CH08: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · E. H. Askwith & G. B. Thomas & R. L. Finney (Quadric Surfaces)",
-      "title": "Syllabus Book Problems: Radical Plane, Limiting Points of Coaxial Spheres & Enveloping Cone SS₁ = T²",
+      "title": "Radical Plane, Coaxial Spheres & Enveloping Cone",
       "summaryText": "The tangent cone (enveloping cone) from an external point P(x₁, y₁, z₁) to a sphere S = 0 is given by SS₁ = T².",
+      "memorizeStatements": [
+        "The tangent cone (enveloping cone) from an external point P(x₁, y₁, z₁) to a sphere S = 0 is given by SS₁ = T²."
+      ],
       "equations": [
         {
           "label": "Enveloping Cone from (x₁, y₁, z₁) & Radical Plane of Two Spheres",

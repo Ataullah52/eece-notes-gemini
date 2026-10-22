@@ -4,7 +4,7 @@ export const EECE1111_CH05: ChapterNote = {
   "id": "eece1111-ch05",
   "unitNumber": "Module 05",
   "title": "AC Network Theorem",
-  "summary": "Thevenin's theorem, Norton's theorem, superposition theorem, Millman's theorem, Substitution theorem, Maximum power transfer theorem and Reciprocity Theorem.",
+  "summary": "Thevenin’s theorem, Norton’s theorem, superposition theorem, Millman’s theorem, Substitution theorem, Maximum power transfer theorem and Reciprocity Theorem.",
   "estimatedMinutes": 35,
   "lastUpdated": "October 2026",
   "blocks": [
@@ -13,8 +13,11 @@ export const EECE1111_CH05: ChapterNote = {
       "type": "theory",
       "priorityTier": 1,
       "sourceCitation": "Class Note · AC Network Theorems & Complex Conjugate Matching",
-      "title": "Maximum Average Power Transfer Theorem in AC Sinusoidal Networks",
+      "title": "Maximum Average Power Transfer in AC Networks",
       "summaryText": "For a complex load impedance Z_L = R_L + jX_L connected to an AC Thevenin network Z_Th = R_Th + jX_Th, maximum average power occurs when Z_L = Z_Th* = R_Th − jX_Th.",
+      "memorizeStatements": [
+        "For a complex load impedance Z_L = R_L + jX_L connected to an AC Thevenin network Z_Th = R_Th + jX_Th, maximum average power occurs when Z_L = Z_Th* = R_Th − jX_Th."
+      ],
       "paragraphs": [
         "In sinusoidal steady-state AC circuits, all DC network theorems (Superposition, Thevenin, Norton, Millman, Substitution, and Reciprocity) extend directly to the frequency domain by replacing real voltages/currents with phasors (V, I) and resistances with complex impedances (Z = R + jX).",
         "For Maximum Average Power Transfer to a variable complex load Z_L = R_L + jX_L, the load reactance must first cancel the Thevenin reactance (X_L = −X_Th) and the load resistance must match the Thevenin resistance (R_L = R_Th)."
@@ -42,7 +45,7 @@ export const EECE1111_CH05: ChapterNote = {
       "type": "pyq",
       "priorityTier": 2,
       "sourceCitation": "Previous Year Question · PUST EECE Final Exam 2022 Q5(b) & 2021 Q5(c)",
-      "title": "AC Thevenin Equivalent & Maximum Average Power Delivered to Load Z_L",
+      "title": "AC Thevenin Equivalent & Maximum Average Power",
       "summaryText": "Given Z_Th = 4 + j3 Ω and V_Th = 20∠0° V (RMS), find Z_L for maximum average power and compute P_max.",
       "examYears": [
         "2022",
@@ -65,6 +68,9 @@ export const EECE1111_CH05: ChapterNote = {
       "sourceCitation": "Professor-Followed Book · Alexander & Sadiku (Ch. 10 & Ch. 11)",
       "title": "AC Superposition with Multi-Frequency Sources",
       "summaryText": "When AC sources operate at different angular frequencies ω₁ ≠ ω₂, phasors cannot be added directly; sum the time-domain responses.",
+      "memorizeStatements": [
+        "When AC sources operate at different angular frequencies ω₁ ≠ ω₂, phasors cannot be added directly; sum the time-domain responses."
+      ],
       "equations": [
         {
           "label": "Multi-Frequency Superposition Rule",
@@ -77,7 +83,7 @@ export const EECE1111_CH05: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · Corcoran & Kerchner (Alternating-Current Circuits)",
-      "title": "AC Millman’s & Norton Phasor Equivalence in Parallel Impedance Branches",
+      "title": "AC Millman’s & Norton Phasor Equivalence",
       "summaryText": "Convert parallel AC voltage branches into Norton phasor currents I_N = V_k Y_k and sum admittances Y_eq = ∑ Y_k.",
       "equations": [
         {

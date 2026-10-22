@@ -15,6 +15,10 @@ export const EECE1111_CH01: ChapterNote = {
       "sourceCitation": "Class Note · Lecture 01 & 02 (Professor Board Emphasis)",
       "title": "Passive Sign Convention (PSC) & Power Direction Criterion",
       "summaryText": "Whenever reference current i enters the positive (+) voltage terminal, use p = +vi. If current enters the negative (−) terminal, use p = −vi.",
+      "memorizeStatements": [
+        "Whenever reference current i enters the positive (+) voltage terminal, use p = +vi.",
+        "If current enters the negative (−) terminal, use p = −vi."
+      ],
       "paragraphs": [
         "In circuit analysis, assigning power as absorbed or supplied requires inspecting the relative orientation of the voltage polarity (+ / −) and the current arrow before substituting signed numbers.",
         "Under the Passive Sign Convention (PSC), if the current arrow enters the positive (+) terminal of an element, calculate instantaneous power as p = +v · i. Conversely, if the current arrow enters the negative (−) terminal (leaves the positive terminal), negate the expression to p = −v · i."
@@ -52,8 +56,13 @@ export const EECE1111_CH01: ChapterNote = {
       "type": "definition",
       "priorityTier": 2,
       "sourceCitation": "Previous Year Question · Final Exam 2023 Q1(a), 2021 Q1(a), 2019 Q1(b)",
-      "title": "Fundamental Definitions: Electric Charge, Current, Voltage & Energy",
+      "title": "Electric Charge, Current, Voltage & Energy Definitions",
       "summaryText": "Electric charge q is the fundamental electrical property of matter in Coulombs (C). Electric current i = dq/dt is the time rate of change of charge in Amperes (A). Voltage v_ab = dw/dq is the work required per unit charge in Volts (V).",
+      "memorizeStatements": [
+        "Electric charge q is the fundamental electrical property of matter in Coulombs (C).",
+        "Electric current i = dq/dt is the time rate of change of charge in Amperes (A).",
+        "Voltage v_ab = dw/dq is the work required per unit charge in Volts (V)."
+      ],
       "examYears": [
         "2023",
         "2021",
@@ -92,7 +101,7 @@ export const EECE1111_CH01: ChapterNote = {
       "type": "memorize",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Lecture 02 Summary Sheet",
-      "title": "Sign Matrix for Power & Dependent Source Classification",
+      "title": "Power Sign Matrix & Dependent Source Classification",
       "summaryText": "Quick-reference lookup table for all four terminal-polarity combinations and the four linear dependent source types.",
       "paragraphs": [
         "Commit both the four-case Passive Sign Convention truth table and the four dependent source symbols (VCVS, CCVS, VCCS, CCCS) to memory for rapid problem setup."
@@ -138,7 +147,7 @@ export const EECE1111_CH01: ChapterNote = {
       "type": "example",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Lecture 03 Worked Problem (Professor Board Example)",
-      "title": "Time-Varying Charge Waveform & Instantaneous Power Delivered",
+      "title": "Time-Varying Charge Waveform & Instantaneous Power",
       "summaryText": "Given q(t) = 5t·sin(4πt) mC and v(t) = 2·cos(4πt) V, determine i(t) and p(t) at t = 0.25 s.",
       "problemStatement": "The total charge entering the positive terminal of a circuit element is given by q(t) = 5t · sin(4πt) mC, while the voltage across the element (with + at the entry terminal) is v(t) = 2 · cos(4πt) V. Calculate the current i(t) and the power absorbed at t = 0.25 s.",
       "givenData": [
@@ -170,7 +179,7 @@ export const EECE1111_CH01: ChapterNote = {
       "type": "pyq",
       "priorityTier": 2,
       "sourceCitation": "Previous Year Question · Semester Final 2023 Q1(c) & 2020 Q1(b)",
-      "title": "Conservation of Power & Unknown Dependent Source Current in a 5-Element Network",
+      "title": "Conservation of Power in a Five-Element Network",
       "summaryText": "Calculate the power of each element in a 5-branch network and verify ∑ p = 0 to find unknown current i_x.",
       "examYears": [
         "2023",
@@ -206,8 +215,11 @@ export const EECE1111_CH01: ChapterNote = {
       "type": "theory",
       "priorityTier": 3,
       "sourceCitation": "Professor-Followed Book · B. L. Theraja & Alexander & Sadiku Ch. 1",
-      "title": "RMS and Average Values for Non-Sinusoidal & Periodic Waveforms",
+      "title": "RMS and Average Values for Periodic Waveforms",
       "summaryText": "For any periodic waveform x(t) with period T: Average value X_avg = (1/T) ∫ x(t) dt and Effective (RMS) value X_rms = √[(1/T) ∫ x²(t) dt].",
+      "memorizeStatements": [
+        "For any periodic waveform x(t) with period T: Average value X_avg = (1/T) ∫ x(t) dt and Effective (RMS) value X_rms = √[(1/T) ∫ x²(t) dt]."
+      ],
       "paragraphs": [
         "An alternating or non-sinusoidal periodic waveform x(t) = x(t + T) is characterized by its average (DC) component and its Root-Mean-Square (RMS or effective) value, which represents the equivalent DC value that delivers the same average power to a resistor.",
         "For a composite non-sinusoidal wave containing a DC term plus harmonics x(t) = X_0 + X_{m1}sin(ωt) + X_{m2}sin(2ωt + φ_2) + ···, the total RMS value is the square root of the sum of squares of the individual RMS components."
@@ -235,8 +247,11 @@ export const EECE1111_CH01: ChapterNote = {
       "type": "example",
       "priorityTier": 4,
       "sourceCitation": "Syllabus Book · Robert L. Boylestad & R. C. Dorf & J. A. Svoboda",
-      "title": "Worked RMS & Average Value Calculation for Non-Sinusoidal Sawtooth & Composite Waveforms",
+      "title": "RMS & Average Values for Sawtooth and Composite Waveforms",
       "summaryText": "For a periodic sawtooth wave v(t) = (V_m / T)t on [0, T], V_avg = V_m / 2 and V_rms = V_m / √3.",
+      "memorizeStatements": [
+        "For a periodic sawtooth wave v(t) = (V_m / T)t on [0, T], V_avg = V_m / 2 and V_rms = V_m / √3."
+      ],
       "problemStatement": "(1) Derive the average value V_avg and effective (RMS) value V_rms of a periodic sawtooth voltage v(t) = (V_m / T)t for 0 ≤ t < T. (2) Calculate the total RMS current of i(t) = 3 + 4√2 sin(ωt) + 3√2 cos(3ωt) A.",
       "solutionSteps": [
         {
