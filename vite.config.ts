@@ -3,13 +3,19 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
-export default defineConfig(() => {
+export default defineConfig(({ command }) => {
   return {
     base: './',
     plugins: [react(), tailwindcss()],
+    define:
+      command === 'build'
+        ? {
+            'process.env.NODE_ENV': JSON.stringify('production'),
+          }
+        : undefined,
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(import.meta.dirname, '.'),
       },
     },
     server: {
@@ -21,3 +27,4 @@ export default defineConfig(() => {
     },
   };
 });
+

@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark {
+  @media not print {
+    &:where(.dark, .dark *) {
+      @slot;
+    }
+  }
+}
 
 @theme {
   --font-display: "Outfit", "Noto Sans Math", system-ui, -apple-system, sans-serif;
@@ -12,6 +18,21 @@
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  select option {
+    background-color: #ffffff;
+    color: #0f172a;
+  }
+
+  html.dark select option {
+    background-color: #0f172a;
+    color: #f1f5f9;
   }
 
   h1, h2, h3, h4 {
@@ -33,6 +54,7 @@
 
   html,
   body {
+    color-scheme: light !important;
     background: #ffffff !important;
     color: #0f172a !important;
     font-size: 10.5pt;

@@ -11,6 +11,8 @@ export interface FilterableBlock {
   sourceCitation: string;
   summaryText?: string;
   examYears?: string[];
+  equations?: { label: string; formula: string; units?: string; note?: string }[];
+  table?: { caption?: string; headers: string[]; rows: string[][] };
 }
 
 export interface ParsedCourseCode {
@@ -86,7 +88,7 @@ export interface PriorityTierMeta {
 export const PRIORITY_TIER_META: Record<PriorityTier, PriorityTierMeta> = {
   1: {
     tier: 1,
-    stars: '[P1]',
+    stars: '★★★★★',
     shortLabel: 'Class Note',
     fullTitle: 'Priority 1 (P1) · Class Note (Professor Provided)',
     description:
@@ -94,7 +96,7 @@ export const PRIORITY_TIER_META: Record<PriorityTier, PriorityTierMeta> = {
   },
   2: {
     tier: 2,
-    stars: '[P2]',
+    stars: '★★★★',
     shortLabel: 'Previous Year Question',
     fullTitle: 'Priority 2 (P2) · Previous Year Question (PYQ)',
     description:
@@ -102,7 +104,7 @@ export const PRIORITY_TIER_META: Record<PriorityTier, PriorityTierMeta> = {
   },
   3: {
     tier: 3,
-    stars: '[P3]',
+    stars: '★★★',
     shortLabel: 'Professor-Followed Book',
     fullTitle: 'Priority 3 (P3) · Professor-Followed Textbook',
     description:
@@ -110,13 +112,28 @@ export const PRIORITY_TIER_META: Record<PriorityTier, PriorityTierMeta> = {
   },
   4: {
     tier: 4,
-    stars: '[P4]',
+    stars: '★',
     shortLabel: 'Syllabus Book',
     fullTitle: 'Priority 4 (P4) · Syllabus Recommended Book',
     description:
       'Fourth priority. Supplementary topics and reference problems from other recommended books in the syllabus.',
   },
 };
+
+export function getBlockPriorityStars(
+  block: Pick<FilterableBlock, 'priorityTier' | 'examYears'>
+): string {
+  if (block.priorityTier === 1) {
+    return '★★★★★';
+  }
+  if (block.priorityTier === 2) {
+    return (block.examYears?.length ?? 0) >= 3 ? '★★★★★' : '★★★★';
+  }
+  if (block.priorityTier === 3) {
+    return '★★★';
+  }
+  return '★';
+}
 
 export interface PassiveSignResult {
   signedPowerWatts: number;
@@ -281,12 +298,17 @@ export function calculateRcTransient(
   };
 }
 
+export type PriorityFilter = PriorityTier | 'all' | 'exam';
+
 export function matchesPriorityTier(
   block: FilterableBlock,
-  priorityFilter: PriorityTier | 'all'
+  priorityFilter: PriorityFilter
 ): boolean {
   if (priorityFilter === 'all') {
     return true;
+  }
+  if (priorityFilter === 'exam') {
+    return matchesPriorityTier(block, 1) || matchesPriorityTier(block, 2);
   }
   if (block.priorityTier === priorityFilter) {
     return true;
@@ -303,9 +325,109 @@ export function matchesPriorityTier(
   return false;
 }
 
+const NON_MEMORIZE_STATEMENT_RE =
+  /\b(?:complete\s+(?:exam-style|vertical|reference|formula)|quick-reference|lookup\s+table|formula\s+sheet|worked\s+solutions?|step-by-step\s+solutions?|solved\s+exercises?|past\s+exam|for\s+example|e\.g\.|whereas|commit\s+both|when\s+a\s+bridge\s+network|choosing\s+the\s+right\s+method|in\s+circuit\s+analysis,\s+assigning|a\s+function\s+can\s+be\s+expressed\s+in\s+four\s+ways|how\s+to\s+find|find\s+the\s+terminal\s+voltage|calculate\s+the\s+power|calculate\s+z,\s+y|given\s+z_th|given\s+q\(t\)|solve\s+for\s+node\s+voltages|find\s+total\s+equivalent|move\s+all\s+dependent|proofs\s+of\s+rolle|formal\s+cauchy\s+ε-δ\s+proof|master\s+formula\s+sheet|convert\s+parallel\s+ac\s+voltage|when\s+factoring\s+x²\s+out\s+of\s+a\s+square\s+root)\b/i;
+
+export function getMemorizeBlockTitle(
+  block: Pick<FilterableBlock, 'title'>
+): string {
+  const cleaned = block.title
+    .trim()
+    .replace(/^PUST Past Exam Questions on\s+/i, '')
+    .replace(/^Howard Anton[^:]*:\s*(?:Solved Exercises on\s*)?/i, '')
+    .replace(/^Syllabus Book(?:s\s*\([^)]*\))?(?:\s*Problems)?:\s*/i, '')
+    .replace(/^Core Formulas\s*&\s*Proofs:\s*/i, '')
+    .replace(/^Worked\s+/i, '')
+    .replace(
+      /\s*&\s*(?:Class Lecture|Class Handout|Worked|Solved|PUST).*$/i,
+      ''
+    )
+    .replace(/,\s*Partial Fractions\s*&\s*Trigonometric Reduction$/i, '')
+    .replace(
+      /,\s*Exponential Jump Discontinuity\s*&\s*Non-Linear\s*ε-δ\s*Proof$/i,
+      ''
+    )
+    .replace(/\s*\(Finding\s+[^)]+\)$/i, '')
+    .replace(/\bLimit Proof\b/gi, 'Limit Definition')
+    .replace(
+      /^Definition of a Function,\s*Classification$/i,
+      'Definition of a Function & Classification'
+    )
+    .trim();
+
+  return cleaned || block.title;
+}
+
+export function getMemorizeStatements(
+  block: Pick<FilterableBlock, 'summaryText'>
+): string[] {
+  if (!block.summaryText) {
+    return [];
+  }
+  const rawSentences = block.summaryText
+    .split(/(?<=\.)\s+(?=[A-Z∀∃(])/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+
+  return rawSentences.filter((s) => !NON_MEMORIZE_STATEMENT_RE.test(s));
+}
+
+export function cleanMemorizeEquationLabel(label: string): string {
+  return label
+    .replace(/\s*\((?:PUST|Anton|Thomas|Spiegel)[^)]*\)/gi, '')
+    .trim();
+}
+
+export function cleanMemorizeTableText(text: string): string {
+  return text
+    .replace(/General Form\s*&\s*Standard Examples/gi, 'General Form & Condition')
+    .replace(/,\s*e\.g\.,\s*[^.]+\.?/gi, '.')
+    .trim();
+}
+
+export function matchesBlockType(
+  block: FilterableBlock,
+  blockTypeFilter: NoteBlockType | 'all'
+): boolean {
+  if (blockTypeFilter === 'all') {
+    return true;
+  }
+  if (blockTypeFilter === 'memorize') {
+    const hasEquations = Boolean(block.equations && block.equations.length > 0);
+    const hasTable = Boolean(block.table);
+    const hasFormalStatement = getMemorizeStatements(block).length > 0;
+    return (
+      hasEquations ||
+      hasTable ||
+      ((block.type === 'memorize' ||
+        block.type === 'definition' ||
+        block.type === 'theory') &&
+        hasFormalStatement)
+    );
+  }
+  if (blockTypeFilter === 'definition') {
+    return (
+      block.type === 'definition' ||
+      /\b(?:definition|define|law|theorem|criterion|identity|axiom|principle)\b/i.test(
+        `${block.title} ${block.summaryText ?? ''}`
+      )
+    );
+  }
+  if (blockTypeFilter === 'theory') {
+    return (
+      block.type === 'theory' ||
+      block.type === 'definition' ||
+      /\b(?:theory|theorem|law|derivation|proof|principle|properties|formula)\b/i.test(
+        `${block.title} ${block.summaryText ?? ''}`
+      )
+    );
+  }
+  return block.type === blockTypeFilter;
+}
+
 export function filterNoteBlocks<T extends FilterableBlock>(
   blocks: T[],
-  priorityFilter: PriorityTier | 'all',
+  priorityFilter: PriorityFilter,
   blockTypeFilter: NoteBlockType | 'all',
   searchQuery: string
 ): T[] {
@@ -315,7 +437,7 @@ export function filterNoteBlocks<T extends FilterableBlock>(
     if (!matchesPriorityTier(block, priorityFilter)) {
       return false;
     }
-    if (blockTypeFilter !== 'all' && block.type !== blockTypeFilter) {
+    if (!matchesBlockType(block, blockTypeFilter)) {
       return false;
     }
     if (normalizedQuery.length > 0) {
@@ -328,4 +450,5 @@ export function filterNoteBlocks<T extends FilterableBlock>(
     return true;
   });
 }
+
 

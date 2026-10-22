@@ -7,6 +7,8 @@ import {
   solveTwoLoopKclKvl,
   calculateRcTransient,
   filterNoteBlocks,
+  PRIORITY_TIER_META,
+  getBlockPriorityStars,
   type FilterableBlock,
 } from './circuitMath.ts';
 
@@ -202,6 +204,177 @@ test('hashRouter builds and parses chapter, subject, semester, and block links a
   assert.equal(parsedBlock.blockId, 'math-m1-b2');
 });
 
+test('globalSearch indexes all courses and chapters and matches titles, summaries, paragraphs, and PYQ years', async () => {
+  const { buildGlobalSearchIndex, searchGlobalIndex } = await import(
+    './globalSearch.ts'
+  );
+  const { CURRICULUM_SEMESTERS } = await import('../data/curriculumData.ts');
 
+  const index = buildGlobalSearchIndex(CURRICULUM_SEMESTERS);
+  assert.ok(index.length >= 60, 'Should index all note blocks across EECE1111 and MATH1101');
 
+  const leibnizGroups = searchGlobalIndex(index, 'leibniz');
+  assert.ok(leibnizGroups.length >= 1, 'Should find Leibniz theorem in MATH1101');
+  assert.equal(leibnizGroups[0].subjectCode, 'MATH1101');
+
+  const pyqYearGroups = searchGlobalIndex(index, '2022–23');
+  assert.ok(pyqYearGroups.length >= 1, 'Should match PYQ exam years across courses');
+});
+
+test('revisionState toggles bookmark, weak, and done flags and exam filter selects Priority 1 and Priority 2 blocks', async () => {
+  const {
+    REVISION_STORAGE_KEY,
+    toggleRevisionField,
+  } = await import('./revisionState.ts');
+  type RevisionStateMap = import('./revisionState.ts').RevisionStateMap;
+  assert.equal(REVISION_STORAGE_KEY, 'eece-notes-revision-v1');
+
+  let state: RevisionStateMap = {};
+  state = toggleRevisionField(state, 'math-m1-b1', 'bookmarked');
+  assert.equal(state['math-m1-b1']?.bookmarked, true);
+  assert.equal(state['math-m1-b1']?.weak, false);
+  assert.equal(state['math-m1-b1']?.done, false);
+
+  state = toggleRevisionField(state, 'math-m1-b1', 'weak');
+  assert.equal(state['math-m1-b1']?.weak, true);
+
+  state = toggleRevisionField(state, 'math-m1-b1', 'bookmarked');
+  state = toggleRevisionField(state, 'math-m1-b1', 'weak');
+  assert.equal(state['math-m1-b1'], undefined, 'Should clean up entry when all flags are false');
+
+  const sampleBlocks: FilterableBlock[] = [
+    { id: 'b1', type: 'definition', priorityTier: 1, title: 'P1', sourceCitation: 'C1' },
+    { id: 'b2', type: 'pyq', priorityTier: 2, title: 'P2', sourceCitation: 'C2' },
+    { id: 'b3', type: 'theory', priorityTier: 3, title: 'P3', sourceCitation: 'C3' },
+    { id: 'b4', type: 'example', priorityTier: 4, title: 'P4', sourceCitation: 'C4' },
+  ];
+  const examFiltered = filterNoteBlocks(sampleBlocks, 'exam', 'all', '');
+  assert.equal(examFiltered.length, 2);
+  assert.deepEqual(
+    examFiltered.map((b) => b.id),
+    ['b1', 'b2']
+  );
+});
+
+test('courseLoader dynamically imports course chapter data on demand', async () => {
+  const {
+    INITIAL_CURRICULUM_SEMESTERS,
+    loadCourseChapters,
+    mergeCourseChaptersIntoSemesters,
+  } = await import('../data/courseLoader.ts');
+
+  const eeceChapters = await loadCourseChapters('eece1111');
+  assert.ok(eeceChapters && eeceChapters.length === 6);
+
+  const mathChapters = await loadCourseChapters('math1101');
+  assert.ok(mathChapters && mathChapters.length === 8);
+
+  const merged = mergeCourseChaptersIntoSemesters(
+    INITIAL_CURRICULUM_SEMESTERS,
+    'math1101',
+    mathChapters!
+  );
+  const mathSub = merged[0].subjects.find((s) => s.id === 'math1101');
+  assert.ok(mathSub && mathSub.chapters[0].blocks.length >= 5);
+});
+
+test('getBlockPriorityStars maps P1->★★★★★, P2->★★★★ or ★★★★★, P3->★★★, P4->★', () => {
+  assert.equal(PRIORITY_TIER_META[1].stars, '★★★★★');
+  assert.equal(PRIORITY_TIER_META[2].stars, '★★★★');
+  assert.equal(PRIORITY_TIER_META[3].stars, '★★★');
+  assert.equal(PRIORITY_TIER_META[4].stars, '★');
+
+  assert.equal(getBlockPriorityStars({ priorityTier: 1 }), '★★★★★');
+  assert.equal(
+    getBlockPriorityStars({ priorityTier: 2, examYears: ['2022–23', '2020–21'] }),
+    '★★★★'
+  );
+  assert.equal(
+    getBlockPriorityStars({
+      priorityTier: 2,
+      examYears: ['2022–23', '2021–22', '2020–21'],
+    }),
+    '★★★★★'
+  );
+  assert.equal(getBlockPriorityStars({ priorityTier: 3 }), '★★★');
+  assert.equal(getBlockPriorityStars({ priorityTier: 4 }), '★');
+});
+
+test('matchesBlockType and memorize helpers include only definitions, laws, theorems, formulas, and tables without explanations or examples', async () => {
+  const {
+    matchesBlockType,
+    getMemorizeBlockTitle,
+    getMemorizeStatements,
+    cleanMemorizeTableText,
+  } = await import('./circuitMath.ts');
+  const { MATH1101_CHAPTERS } = await import('../data/math1101Data.ts');
+  const { EECE1111_CHAPTERS } = await import('../data/eece1111Data.ts');
+
+  const defBlock: FilterableBlock = {
+    id: 'math-m1-b1',
+    type: 'definition',
+    priorityTier: 1,
+    title:
+      'Definition of a Function, Classification & Class Lecture Domain/Range Problems',
+    sourceCitation: 'Class Note',
+    summaryText:
+      'If for every permissible input x ∈ D there corresponds one and only one finite real output y, then y = f(x) is a function of x.',
+  };
+  assert.equal(matchesBlockType(defBlock, 'memorize'), true);
+  assert.equal(matchesBlockType(defBlock, 'definition'), true);
+  assert.equal(
+    getMemorizeBlockTitle(defBlock),
+    'Definition of a Function & Classification'
+  );
+  assert.equal(getMemorizeStatements(defBlock).length, 1);
+
+  assert.equal(
+    getMemorizeStatements({
+      summaryText:
+        'Complete exam-style vertical solutions for PUST 2020–21 Q1(a), 2021–22 Q1(a), and 2022–23 Q1(a).',
+    }).length,
+    0,
+    'Should exclude worked-solution meta-summaries from Memorize view'
+  );
+
+  assert.equal(
+    cleanMemorizeTableText(
+      'Defined by different formulas on distinct intervals, e.g., f(x) = |x|.'
+    ),
+    'Defined by different formulas on distinct intervals.'
+  );
+
+  for (const ch of [...MATH1101_CHAPTERS, ...EECE1111_CHAPTERS]) {
+    const memorizeBlocks = filterNoteBlocks(ch.blocks, 'all', 'memorize', '');
+    assert.ok(
+      memorizeBlocks.length >= 2,
+      `Chapter ${ch.id} should have at least 2 blocks in the Memorize category`
+    );
+  }
+});
+
+test('splitTextIntoVerticalItems and splitFormulaPipeItems convert dense paragraphs and pipe-separated formulas into vertical lists', async () => {
+  const { splitTextIntoVerticalItems, splitFormulaPipeItems } = await import(
+    './mathLatex.ts'
+  );
+
+  const fourWays = splitTextIntoVerticalItems(
+    'A function can be expressed in four ways: (1) Analytically/Algebraically by a formula, (2) Numerically by a table of values, (3) Geometrically by its graph in the xy-plane, and (4) Verbally in plain language.'
+  );
+  assert.equal(fourWays.length, 5);
+  assert.equal(fourWays[0], 'A function can be expressed in four ways:');
+  assert.ok(fourWays[1].startsWith('(1)'));
+  assert.ok(fourWays[4].startsWith('(4)'));
+
+  const multiSentence = splitTextIntoVerticalItems(
+    'A function y = f(x) assigns to each input x in the domain D_f a unique finite real number y in the range R_f. For example, y = x² + 1 is a valid function (x = 1 ⇒ y = 2; x = 2 ⇒ y = 5), whereas y² = x ⇒ y = ±√x is not a function.'
+  );
+  assert.equal(multiSentence.length, 3);
+
+  const pipeFormulas = splitFormulaPipeItems(
+    'lim_{x→0} (sin x) / x = 1  |  lim_{x→0} (tan x) / x = 1  |  lim_{x→±∞} 1 / |x| = 0'
+  );
+  assert.equal(pipeFormulas.length, 3);
+  assert.ok(pipeFormulas[2].includes('|x|'), 'Should preserve absolute value bars');
+});
 

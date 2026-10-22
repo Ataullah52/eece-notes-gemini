@@ -53,7 +53,7 @@ export const EECE1111_CH01: ChapterNote = {
       "priorityTier": 2,
       "sourceCitation": "Previous Year Question · Final Exam 2023 Q1(a), 2021 Q1(a), 2019 Q1(b)",
       "title": "Fundamental Definitions: Electric Charge, Current, Voltage & Energy",
-      "summaryText": "Formal mathematical definitions of charge q, current i = dq/dt, voltage v_ab = dw/dq, and energy w = ∫ p dt.",
+      "summaryText": "Electric charge q is the fundamental electrical property of matter in Coulombs (C). Electric current i = dq/dt is the time rate of change of charge in Amperes (A). Voltage v_ab = dw/dq is the work required per unit charge in Volts (V).",
       "examYears": [
         "2023",
         "2021",
@@ -98,37 +98,37 @@ export const EECE1111_CH01: ChapterNote = {
         "Commit both the four-case Passive Sign Convention truth table and the four dependent source symbols (VCVS, CCVS, VCCS, CCCS) to memory for rapid problem setup."
       ],
       "table": {
-        "caption": "Table 1.1 — Complete Four-Case Power Sign Matrix & Dependent Source Parameters",
+        "caption": "Table 1.1 — Complete Four-Case Power Sign Matrix",
         "headers": [
           "Terminal Entry of Current i",
-          "Values of v and i",
-          "Formula & Sign of p",
-          "Physical Interpretation"
+          "Signs of v and i",
+          "Power Formula & Sign of p",
+          "Physical State"
         ],
         "rows": [
           [
             "Enters + terminal",
-            "v = +10 V, i = +3 A",
-            "p = +(+10)(+3) = +30 W",
-            "Absorbing 30 W (Load)"
+            "v > 0, i > 0  (or v < 0, i < 0)",
+            "p = +v · i > 0",
+            "Absorbing Power (Passive Load)"
           ],
           [
             "Enters + terminal",
-            "v = +10 V, i = −3 A",
-            "p = +(+10)(−3) = −30 W",
-            "Supplying 30 W (Source)"
+            "v > 0, i < 0  (or v < 0, i > 0)",
+            "p = +v · i < 0",
+            "Supplying Power (Active Source)"
           ],
           [
             "Enters − terminal (Leaves +)",
-            "v = +10 V, i = +3 A",
-            "p = −(+10)(+3) = −30 W",
-            "Supplying 30 W (Source)"
+            "v > 0, i > 0  (or v < 0, i < 0)",
+            "p = −v · i < 0",
+            "Supplying Power (Active Source)"
           ],
           [
             "Enters − terminal (Leaves +)",
-            "v = −10 V, i = +3 A",
-            "p = −(−10)(+3) = +30 W",
-            "Absorbing 30 W (Load)"
+            "v < 0, i > 0  (or v > 0, i < 0)",
+            "p = −v · i > 0",
+            "Absorbing Power (Passive Load)"
           ]
         ]
       }

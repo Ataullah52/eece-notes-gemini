@@ -826,3 +826,105 @@ export function splitProblemStatementLines(statement: string): string[] {
     .filter((line) => line.length > 0);
 }
 
+/**
+ * Splits dense prose paragraphs, summaries, and inline numbered lists
+ * into clean vertical list items.
+ */
+export function splitTextIntoVerticalItems(raw: string): string[] {
+  if (!raw || !raw.trim()) return [];
+  let s = raw.trim();
+
+  // 1. Break before numbered syllabus sub-sections like "1.2 ", "2.2 ", "3.2 ", "4.2 "
+  s = s.replace(/\.\s+(?=[1-9]\.[1-9]\s)/g, '.\n');
+
+  // 2. Break before inline (1), (2), (3), (4), (a), (b), (i), (ii), (Case 1) items
+  s = s.replace(/:\s+(?=\((?:\d+|i{1,3}|iv|[a-d]|Case\s+\d+)\)\s)/gi, ':\n');
+  s = s.replace(
+    /\b(?:using|with)\s+(?=\((?:\d+|i{1,3}|iv|[a-d]|Case\s+\d+)\)\s)/gi,
+    (m) => `${m.trim()}:\n`
+  );
+  s = s.replace(/(?:,\s+and|;\s+and)\s+(?=\((?:\d+|i{1,3}|iv|[a-d]|Case\s+\d+)\)\s)/gi, '\n');
+  s = s.replace(/[,;]\s+(?=\((?:\d+|i{1,3}|iv|[a-d]|Case\s+\d+)\)\s)/gi, '\n');
+
+  // 3. Walk character by character at depth 0 to split on top-level "; ", ", whereas ", and sentence boundaries ". "
+  const lines: string[] = [];
+  for (const rawLine of s.split('\n')) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    let pD = 0;
+    let bD = 0;
+    let cD = 0;
+    let last = 0;
+    let capitalizeNext = false;
+
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '(') pD++;
+      else if (ch === ')') pD = Math.max(0, pD - 1);
+      else if (ch === '[') bD++;
+      else if (ch === ']') bD = Math.max(0, bD - 1);
+      else if (ch === '{') cD++;
+      else if (ch === '}') cD = Math.max(0, cD - 1);
+      else if (pD === 0 && bD === 0 && cD === 0) {
+        if (ch === ';' && line[i + 1] === ' ') {
+          let seg = line.slice(last, i).trim();
+          if (seg) {
+            if (capitalizeNext) seg = seg.charAt(0).toUpperCase() + seg.slice(1);
+            lines.push(seg);
+          }
+          capitalizeNext = false;
+          last = i + 2;
+          i++;
+        } else if (line.slice(i, i + 10).toLowerCase() === ', whereas ') {
+          let seg = line.slice(last, i).trim();
+          if (seg) {
+            if (capitalizeNext) seg = seg.charAt(0).toUpperCase() + seg.slice(1);
+            if (!seg.endsWith('.')) seg += '.';
+            lines.push(seg);
+          }
+          capitalizeNext = true;
+          last = i + 2;
+          i++;
+        } else if ((ch === '.' || ch === '!') && line[i + 1] === ' ') {
+          const before = line.slice(last, i + 1);
+          const isAbbrev =
+            /(?:Ch|Sec|Ex|Fig|Eq|Dr|Prof|vs|etc|e\.g|i\.e|w\.r\.t|L\.H\.[LSD]|R\.H\.[LSD]|\b[A-Z]|\d)\.$/.test(
+              before.trim()
+            );
+          if (!isAbbrev) {
+            let seg = before.trim();
+            if (seg) {
+              if (capitalizeNext) seg = seg.charAt(0).toUpperCase() + seg.slice(1);
+              lines.push(seg);
+            }
+            capitalizeNext = false;
+            last = i + 2;
+            i++;
+          }
+        }
+      }
+    }
+
+    let tail = line.slice(last).trim();
+    if (tail) {
+      if (capitalizeNext) tail = tail.charAt(0).toUpperCase() + tail.slice(1);
+      lines.push(tail);
+    }
+  }
+
+  return lines;
+}
+
+/**
+ * Splits horizontal pipe-separated formulas ("A | B | C") into vertical formula lines
+ * while keeping absolute value bars ("|x|") intact.
+ */
+export function splitFormulaPipeItems(formula: string): string[] {
+  if (!formula) return [];
+  return formula
+    .split(/\s+\|\s+/)
+    .map((part) => part.trim())
+    .filter((part) => part.length > 0);
+}
+
+

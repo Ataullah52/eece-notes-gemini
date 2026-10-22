@@ -51,7 +51,7 @@ export const MATH1101_CH01: ChapterNote = {
         "headers": [
           "Main Family",
           "Sub-Type",
-          "General Form & Standard Examples"
+          "General Form & Condition"
         ],
         "rows": [
           [
@@ -67,12 +67,12 @@ export const MATH1101_CH01: ChapterNote = {
           [
             "1. Algebraic",
             "(c) Irrational",
-            "Expressions involving radicals or fractional powers, e.g., f(x) = √(x² − 5x + 6)."
+            "f(x) = [g(x)]^{p/q} involving radicals or non-integer rational exponents (p, q ∈ ℤ, q ≥ 2)."
           ],
           [
             "1. Algebraic",
             "(d) Piecewise",
-            "Defined by different formulas on distinct intervals of the domain, e.g., f(x) = |x|."
+            "Defined by distinct analytical formulas on disjoint sub-intervals of the domain D_f."
           ],
           [
             "2. Transcendental",

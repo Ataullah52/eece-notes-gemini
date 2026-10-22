@@ -10,7 +10,7 @@ export const MATH1101_CH02: ChapterNote = {
   "blocks": [
     {
       "id": "math-m2-b1",
-      "type": "memorize",
+      "type": "theory",
       "priorityTier": 1,
       "sourceCitation": "Class Note · Unit 5.1 (Standard n-th Derivative Formulas y_n = Dⁿy & Class Problems)",
       "title": "Standard n-th Derivative Formulas, Partial Fractions & Trigonometric Reduction",

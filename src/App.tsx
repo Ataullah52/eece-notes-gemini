@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, Suspense } from 'react';
 import {
   ChevronRight,
   Printer,
@@ -15,26 +15,57 @@ import {
   Moon,
   Link2,
   Check,
+  X,
+  Bookmark,
+  Flag,
+  CheckCircle2,
 } from 'lucide-react';
+import type {
+  SemesterEntry,
+  SubjectCourse,
+  ChapterNote,
+} from './data/types';
 import {
-  CURRICULUM_SEMESTERS,
-  type SemesterEntry,
-  type SubjectCourse,
-  type ChapterNote,
-} from './data/curriculumData';
+  INITIAL_CURRICULUM_SEMESTERS,
+  loadCourseChapters,
+  mergeCourseChaptersIntoSemesters,
+  loadAllCourseChaptersForStartupIndex,
+} from './data/courseLoader';
 import {
   PRIORITY_TIER_META,
   filterNoteBlocks,
   matchesPriorityTier,
+  matchesBlockType,
+  getBlockPriorityStars,
+  getMemorizeBlockTitle,
   type PriorityTier,
+  type PriorityFilter,
   type NoteBlockType,
 } from './utils/circuitMath';
+import { splitTextIntoVerticalItems } from './utils/mathLatex';
 import {
   buildRouteHash,
   parseRouteHash,
   type RouteViewLevel,
 } from './utils/hashRouter';
-import { NoteBlockCard } from './components/NoteBlockCard';
+import {
+  buildGlobalSearchIndex,
+  searchGlobalIndex,
+  type GlobalSearchEntry,
+} from './utils/globalSearch';
+import {
+  loadRevisionState,
+  saveRevisionState,
+  toggleRevisionField,
+  type RevisionStateMap,
+  type BlockRevisionStatus,
+} from './utils/revisionState';
+
+const LazyNoteBlockCard = React.lazy(() =>
+  import('./components/NoteBlockCard').then((mod) => ({
+    default: mod.NoteBlockCard,
+  }))
+);
 
 type ViewLevel = RouteViewLevel;
 
@@ -59,14 +90,87 @@ export default function App() {
     } catch {
       // Ignore storage errors
     }
+
+    const handleBeforePrint = () => {
+      root.classList.remove('dark');
+    };
+    const handleAfterPrint = () => {
+      if (darkMode) {
+        root.classList.add('dark');
+      }
+    };
+
+    window.addEventListener('beforeprint', handleBeforePrint);
+    window.addEventListener('afterprint', handleAfterPrint);
+    return () => {
+      window.removeEventListener('beforeprint', handleBeforePrint);
+      window.removeEventListener('afterprint', handleAfterPrint);
+    };
   }, [darkMode]);
+
+  // Revision tools state persisted under a single localStorage key
+  const [revisionState, setRevisionState] = useState<RevisionStateMap>(() =>
+    loadRevisionState()
+  );
+
+  const handleToggleRevision = (
+    blockId: string,
+    field: keyof BlockRevisionStatus
+  ) => {
+    setRevisionState((prev) => {
+      const next = toggleRevisionField(prev, blockId, field);
+      saveRevisionState(next);
+      return next;
+    });
+  };
+
+  const [semesters, setSemesters] = useState<SemesterEntry[]>(
+    INITIAL_CURRICULUM_SEMESTERS
+  );
+  const [isCourseLoading, setIsCourseLoading] = useState<boolean>(false);
+  const [globalSearchIndex, setGlobalSearchIndex] = useState<GlobalSearchEntry[]>(
+    () => buildGlobalSearchIndex(INITIAL_CURRICULUM_SEMESTERS)
+  );
+
+  // Build the search index once at startup from the chapter data
+  useEffect(() => {
+    let active = true;
+    loadAllCourseChaptersForStartupIndex().then((fullSemesters) => {
+      if (!active) return;
+      setGlobalSearchIndex(buildGlobalSearchIndex(fullSemesters));
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const bookmarkedEntries = useMemo(
+    () =>
+      globalSearchIndex.filter(
+        (entry) => revisionState[entry.blockId]?.bookmarked
+      ),
+    [globalSearchIndex, revisionState]
+  );
+
+  const weakTopicEntries = useMemo(
+    () =>
+      globalSearchIndex.filter((entry) => revisionState[entry.blockId]?.weak),
+    [globalSearchIndex, revisionState]
+  );
+
+  const revisionTotalCount = useMemo(() => {
+    const ids = new Set<string>();
+    for (const entry of bookmarkedEntries) ids.add(entry.blockId);
+    for (const entry of weakTopicEntries) ids.add(entry.blockId);
+    return ids.size;
+  }, [bookmarkedEntries, weakTopicEntries]);
 
   // Hierarchy Navigation synced with URL Hash (#/semester/subject/chapter)
   const initialRoute = useMemo(
     () =>
       parseRouteHash(
         typeof window !== 'undefined' ? window.location.hash : '',
-        CURRICULUM_SEMESTERS
+        INITIAL_CURRICULUM_SEMESTERS
       ),
     []
   );
@@ -82,26 +186,102 @@ export default function App() {
   );
   const [copiedChapterLink, setCopiedChapterLink] = useState<boolean>(false);
 
+  // Dynamically load course chapter data only when that course is opened
+  useEffect(() => {
+    if (viewLevel !== 'subject-detail' && viewLevel !== 'note') return;
+    let active = true;
+    setIsCourseLoading(true);
+    loadCourseChapters(selectedSubjectId)
+      .then((chapters) => {
+        if (!active) return;
+        if (chapters) {
+          setSemesters((prev) =>
+            mergeCourseChaptersIntoSemesters(prev, selectedSubjectId, chapters)
+          );
+        }
+      })
+      .finally(() => {
+        if (active) setIsCourseLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [viewLevel, selectedSubjectId]);
+
   // Note Filter State
-  const [priorityFilter, setPriorityFilter] = useState<PriorityTier | 'all'>('all');
+  const [priorityFilter, setPriorityFilter] = useState<PriorityFilter>('all');
   const [blockTypeFilter, setBlockTypeFilter] = useState<NoteBlockType | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [includeSolutionsInPdf, setIncludeSolutionsInPdf] = useState<boolean>(true);
   const [isPdfExportModalOpen, setIsPdfExportModalOpen] = useState<boolean>(false);
 
+  // Global Header Search State
+  const [globalSearchQuery, setGlobalSearchQuery] = useState<string>('');
+  const [isGlobalSearchOpen, setIsGlobalSearchOpen] = useState<boolean>(false);
+  const globalSearchInputRef = useRef<HTMLInputElement | null>(null);
+  const globalSearchContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const globalSearchGroups = useMemo(
+    () => searchGlobalIndex(globalSearchIndex, globalSearchQuery),
+    [globalSearchIndex, globalSearchQuery]
+  );
+
+  // Pressing "/" focuses the global search box; Escape closes dropdown
   useEffect(() => {
-    if (initialRoute.blockId) {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === '/') {
+        const active = document.activeElement as HTMLElement | null;
+        const tag = active?.tagName.toLowerCase();
+        if (
+          tag !== 'input' &&
+          tag !== 'textarea' &&
+          tag !== 'select' &&
+          !active?.isContentEditable
+        ) {
+          e.preventDefault();
+          globalSearchInputRef.current?.focus();
+          setIsGlobalSearchOpen(true);
+        }
+      } else if (e.key === 'Escape' && isGlobalSearchOpen) {
+        setIsGlobalSearchOpen(false);
+        globalSearchInputRef.current?.blur();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isGlobalSearchOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        globalSearchContainerRef.current &&
+        !globalSearchContainerRef.current.contains(e.target as Node)
+      ) {
+        setIsGlobalSearchOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (isCourseLoading) return;
+    const parsed = parseRouteHash(
+      typeof window !== 'undefined' ? window.location.hash : '',
+      semesters
+    );
+    if (parsed.blockId) {
       setTimeout(() => {
-        document.getElementById(initialRoute.blockId!)?.scrollIntoView({
+        document.getElementById(parsed.blockId!)?.scrollIntoView({
           behavior: 'smooth',
         });
-      }, 60);
+      }, 80);
     }
-  }, [initialRoute.blockId]);
+  }, [isCourseLoading, semesters]);
 
   useEffect(() => {
     const handleHashChange = () => {
-      const parsed = parseRouteHash(window.location.hash, CURRICULUM_SEMESTERS);
+      const parsed = parseRouteHash(window.location.hash, semesters);
       setViewLevel((prev) => {
         if (prev !== parsed.viewLevel) {
           setPriorityFilter('all');
@@ -126,19 +306,18 @@ export default function App() {
           document.getElementById(parsed.blockId!)?.scrollIntoView({
             behavior: 'smooth',
           });
-        }, 40);
+        }, 80);
       }
     };
 
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+  }, [semesters]);
 
   const activeSemester: SemesterEntry = useMemo(
     () =>
-      CURRICULUM_SEMESTERS.find((s) => s.id === selectedSemesterId) ??
-      CURRICULUM_SEMESTERS[0],
-    [selectedSemesterId]
+      semesters.find((s) => s.id === selectedSemesterId) ?? semesters[0],
+    [semesters, selectedSemesterId]
   );
 
   const activeSubject: SubjectCourse | undefined = useMemo(
@@ -278,8 +457,13 @@ export default function App() {
   const handleConfirmExportPdf = (withSolutions: boolean) => {
     setIncludeSolutionsInPdf(withSolutions);
     setIsPdfExportModalOpen(false);
+    const root = document.documentElement;
+    root.classList.remove('dark');
     setTimeout(() => {
       window.print();
+      if (darkMode) {
+        root.classList.add('dark');
+      }
     }, 60);
   };
 
@@ -289,7 +473,7 @@ export default function App() {
     setSearchQuery('');
   };
 
-  const handleSelectPriorityFilter = (tier: PriorityTier | 'all') => {
+  const handleSelectPriorityFilter = (tier: PriorityFilter) => {
     setPriorityFilter(tier);
     if (
       tier !== 'all' &&
@@ -316,25 +500,141 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 print:bg-white print:text-slate-900">
       {/* Top Bar */}
-      <header className="sticky top-0 z-30 flex items-center justify-between gap-4 border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur-xs sm:px-6 dark:border-slate-800 dark:bg-slate-950/95 print:hidden">
+      <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur-xs sm:px-6 dark:border-slate-800 dark:bg-slate-950/95 print:hidden">
         {/* Home Button -> Semesters */}
         <button
           type="button"
           onClick={() => navigateToRoute({ viewLevel: 'semesters' })}
-          className="font-display text-base font-bold tracking-tight text-slate-900 hover:text-sky-700 sm:text-lg dark:text-slate-100 dark:hover:text-sky-400"
+          className="inline-flex min-h-[44px] items-center font-display text-base font-bold tracking-tight text-slate-900 hover:text-sky-700 sm:text-lg dark:text-slate-100 dark:hover:text-sky-400"
         >
           EECE Notes
         </button>
 
-        {/* Right Controls: Two-Icon Theme Toggle & PDF Export */}
-        <div className="flex items-center gap-3">
+        {/* Global Search Box across ALL courses & chapters */}
+        <div
+          ref={globalSearchContainerRef}
+          className="relative order-3 w-full sm:order-2 sm:max-w-md sm:flex-1"
+        >
+          <div className="relative flex items-center">
+            <Search className="pointer-events-none absolute left-3 h-4 w-4 text-slate-400" />
+            <input
+              ref={globalSearchInputRef}
+              type="search"
+              value={globalSearchQuery}
+              onFocus={() => setIsGlobalSearchOpen(true)}
+              onChange={(e) => {
+                setGlobalSearchQuery(e.target.value);
+                setIsGlobalSearchOpen(true);
+              }}
+              placeholder="Search all courses, chapters & PYQs (Press /)"
+              aria-label="Search all courses and chapters"
+              className="min-h-[44px] w-full rounded-lg border border-slate-200 bg-slate-50 py-2 pr-11 pl-9 text-xs text-slate-900 placeholder:text-slate-400 focus:border-sky-600 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:bg-slate-950"
+            />
+            {globalSearchQuery ? (
+              <button
+                type="button"
+                aria-label="Clear global search"
+                onClick={() => {
+                  setGlobalSearchQuery('');
+                  globalSearchInputRef.current?.focus();
+                }}
+                className="absolute right-0 flex min-h-[44px] min-w-[44px] items-center justify-center rounded text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            ) : (
+              <kbd className="pointer-events-none absolute right-2.5 hidden rounded border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[10px] text-slate-400 sm:inline-block dark:border-slate-700 dark:bg-slate-800">
+                /
+              </kbd>
+            )}
+          </div>
+
+          {isGlobalSearchOpen && globalSearchQuery.trim().length > 0 && (
+            <div
+              role="region"
+              aria-label="Global search results"
+              className="absolute top-full right-0 left-0 z-50 mt-1.5 max-h-[70vh] overflow-y-auto rounded-xl border border-slate-200 bg-white p-3 shadow-xl dark:border-slate-800 dark:bg-slate-900"
+            >
+              {globalSearchGroups.length > 0 ? (
+                <div className="space-y-4">
+                  {globalSearchGroups.map((courseGroup) => (
+                    <div key={courseGroup.courseKey} className="space-y-2">
+                      <div className="border-b border-slate-100 pb-1 font-mono text-xs font-bold text-sky-700 dark:border-slate-800 dark:text-sky-400">
+                        {courseGroup.subjectCode} · {courseGroup.subjectTitle}
+                      </div>
+                      {courseGroup.chapters.map((chGroup) => (
+                        <div key={chGroup.chapterId} className="space-y-1.5 pl-2">
+                          <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                            {chGroup.chapterUnitNumber}: {chGroup.chapterTitle}
+                          </div>
+                          <div className="space-y-1">
+                            {chGroup.items.map((item) => (
+                              <button
+                                key={item.blockId}
+                                type="button"
+                                onClick={() => {
+                                  setIsGlobalSearchOpen(false);
+                                  navigateToRoute({
+                                    viewLevel: 'note',
+                                    semesterId: item.semesterId,
+                                    subjectId: item.subjectId,
+                                    chapterId: item.chapterId,
+                                    blockId: item.blockId,
+                                  });
+                                }}
+                                className="block min-h-[44px] w-full rounded-lg border border-transparent px-2.5 py-2 text-left transition-colors hover:border-slate-200 hover:bg-slate-50 dark:hover:border-slate-800 dark:hover:bg-slate-800/60"
+                              >
+                                <div className="text-xs font-semibold text-slate-900 dark:text-slate-100">
+                                  <span>{item.blockTitle}</span>
+                                </div>
+                                <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-slate-600 dark:text-slate-400">
+                                  {item.snippet}
+                                </p>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="py-6 text-center text-xs text-slate-500 dark:text-slate-400">
+                  No matching notes found across any course or chapter for &ldquo;
+                  {globalSearchQuery}&rdquo;.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Right Controls: My revision, Two-Icon Theme Toggle & PDF Export */}
+        <div className="order-2 flex items-center gap-2 sm:order-3 sm:gap-2.5">
+          <button
+            type="button"
+            onClick={() => navigateToRoute({ viewLevel: 'revision' })}
+            className={`inline-flex min-h-[44px] items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${
+              viewLevel === 'revision'
+                ? 'border-sky-600 bg-sky-50 text-sky-800 dark:border-sky-400 dark:bg-sky-950/60 dark:text-sky-300'
+                : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800'
+            }`}
+          >
+            <Bookmark className="h-3.5 w-3.5" />
+            <span>My revision</span>
+            {revisionTotalCount > 0 && (
+              <span className="rounded-full bg-amber-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-amber-800 dark:bg-amber-950/80 dark:text-amber-300">
+                {revisionTotalCount}
+              </span>
+            )}
+          </button>
+
           <nav aria-label="Theme Switcher" className="flex items-center">
             <button
               type="button"
               onClick={() => setDarkMode((prev) => !prev)}
               aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-100 p-1 text-slate-600 transition-colors hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-700"
+              className="inline-flex min-h-[44px] items-center gap-1 rounded-full border border-slate-200 bg-slate-100 px-2 py-1 text-slate-600 transition-colors hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-700"
             >
               <span
                 className={`flex h-6 w-6 items-center justify-center rounded-full transition-colors ${
@@ -360,7 +660,7 @@ export default function App() {
           <button
             type="button"
             onClick={handleOpenExportPdfModal}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
+            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
           >
             <Printer className="h-3.5 w-3.5" />
             <span>Export PDF</span>
@@ -445,14 +745,14 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setIsPdfExportModalOpen(false)}
-                className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                className="min-h-[44px] rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={() => handleConfirmExportPdf(includeSolutionsInPdf)}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
               >
                 <Printer className="h-3.5 w-3.5" />
                 <span>
@@ -468,7 +768,7 @@ export default function App() {
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 print:max-w-none print:px-0 print:py-0">
-        {/* Breadcrumb (Shown when inside a semester/subject/note) */}
+        {/* Breadcrumb (Shown when inside a semester/subject/note/revision) */}
         {viewLevel !== 'semesters' && (
           <nav
             aria-label="Breadcrumb"
@@ -477,56 +777,67 @@ export default function App() {
             <button
               type="button"
               onClick={() => navigateToRoute({ viewLevel: 'semesters' })}
-              className="font-medium hover:text-slate-900 dark:hover:text-slate-100"
+              className="inline-flex min-h-[44px] items-center font-medium hover:text-slate-900 dark:hover:text-slate-100"
             >
               Semesters
             </button>
 
-            <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
-            <button
-              type="button"
-              onClick={() =>
-                navigateToRoute({ viewLevel: 'subjects', semesterId: activeSemester.id })
-              }
-              className={`font-mono font-medium hover:text-slate-900 dark:hover:text-slate-100 ${
-                viewLevel === 'subjects'
-                  ? 'font-semibold text-sky-700 dark:text-sky-400'
-                  : ''
-              }`}
-            >
-              {activeSemester.code}
-            </button>
-
-            {(viewLevel === 'subject-detail' || viewLevel === 'note') &&
-              activeSubject && (
-                <>
-                  <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
-                  <button
-                    type="button"
-                    onClick={() =>
-                      navigateToRoute({
-                        viewLevel: 'subject-detail',
-                        semesterId: activeSemester.id,
-                        subjectId: activeSubject.id,
-                      })
-                    }
-                    className={`font-mono font-medium hover:text-slate-900 dark:hover:text-slate-100 ${
-                      viewLevel === 'subject-detail'
-                        ? 'font-semibold text-sky-700 dark:text-sky-400'
-                        : ''
-                    }`}
-                  >
-                    {activeSubject.code}
-                  </button>
-                </>
-              )}
-
-            {viewLevel === 'note' && activeChapter && (
+            {viewLevel === 'revision' ? (
               <>
                 <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
                 <span className="font-semibold text-slate-900 dark:text-slate-100">
-                  {activeChapter.title}
+                  My revision
                 </span>
+              </>
+            ) : (
+              <>
+                <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                <button
+                  type="button"
+                  onClick={() =>
+                    navigateToRoute({ viewLevel: 'subjects', semesterId: activeSemester.id })
+                  }
+                  className={`inline-flex min-h-[44px] items-center font-mono font-medium hover:text-slate-900 dark:hover:text-slate-100 ${
+                    viewLevel === 'subjects'
+                      ? 'font-semibold text-sky-700 dark:text-sky-400'
+                      : ''
+                  }`}
+                >
+                  {activeSemester.code}
+                </button>
+
+                {(viewLevel === 'subject-detail' || viewLevel === 'note') &&
+                  activeSubject && (
+                    <>
+                      <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          navigateToRoute({
+                            viewLevel: 'subject-detail',
+                            semesterId: activeSemester.id,
+                            subjectId: activeSubject.id,
+                          })
+                        }
+                        className={`inline-flex min-h-[44px] items-center font-mono font-medium hover:text-slate-900 dark:hover:text-slate-100 ${
+                          viewLevel === 'subject-detail'
+                            ? 'font-semibold text-sky-700 dark:text-sky-400'
+                            : ''
+                        }`}
+                      >
+                        {activeSubject.code}
+                      </button>
+                    </>
+                  )}
+
+                {viewLevel === 'note' && activeChapter && (
+                  <>
+                    <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                    <span className="font-semibold text-slate-900 dark:text-slate-100">
+                      {activeChapter.title}
+                    </span>
+                  </>
+                )}
               </>
             )}
           </nav>
@@ -544,33 +855,11 @@ export default function App() {
               >
                 Select Semester
               </h1>
-
-              {/* Priority Guide shown once here on the Semester page */}
-              <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-400">
-                <span className="font-semibold text-slate-900 dark:text-slate-200">
-                  Note Priority:
-                </span>
-                <span className="font-medium text-amber-700 dark:text-amber-400">
-                  [P1] Class Note
-                </span>
-                <span aria-hidden="true">·</span>
-                <span className="font-medium text-rose-700 dark:text-rose-400">
-                  [P2] Previous Year Question (PYQ)
-                </span>
-                <span aria-hidden="true">·</span>
-                <span className="font-medium text-sky-700 dark:text-sky-400">
-                  [P3] Professor-Followed Book
-                </span>
-                <span aria-hidden="true">·</span>
-                <span className="font-medium text-emerald-700 dark:text-emerald-400">
-                  [P4] Syllabus Book
-                </span>
-              </div>
             </div>
 
             {/* 8-Semester Grid */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {CURRICULUM_SEMESTERS.map((sem) => {
+              {semesters.map((sem) => {
                 const hasData = sem.subjects.length > 0;
                 return (
                   <button
@@ -642,7 +931,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => navigateToRoute({ viewLevel: 'semesters' })}
-                className="inline-flex items-center gap-1 text-xs font-medium text-sky-700 hover:underline dark:text-sky-400"
+                className="inline-flex min-h-[44px] items-center gap-1 text-xs font-medium text-sky-700 hover:underline dark:text-sky-400"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 <span>Back to Semesters</span>
@@ -675,9 +964,13 @@ export default function App() {
                           {subject.title}
                         </h2>
 
-                        <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-                          {subject.syllabusOverview}
-                        </p>
+                        <ul className="mt-2 list-disc space-y-1 pl-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                          {splitTextIntoVerticalItems(subject.syllabusOverview).map(
+                            (item, sIdx) => (
+                              <li key={sIdx}>{item}</li>
+                            )
+                          )}
+                        </ul>
                       </div>
 
                       <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 text-xs font-medium text-slate-600 dark:border-slate-800 dark:text-slate-400">
@@ -728,12 +1021,12 @@ export default function App() {
                                 {row.day}
                               </td>
                               {row.slots.map((slot, idx) => (
-                                <td key={idx} className="py-2.5 px-3 font-mono">
+                                <td key={idx} className="py-2 px-3 font-mono">
                                   {slot ? (
                                     <button
                                       type="button"
                                       onClick={() => handleRoutineCourseClick(slot)}
-                                      className="rounded-md bg-sky-50 px-2 py-1 font-semibold text-sky-700 transition-colors hover:bg-sky-100 dark:bg-sky-950/60 dark:text-sky-300 dark:hover:bg-sky-900/60"
+                                      className="inline-flex min-h-[44px] items-center rounded-md bg-sky-50 px-3 py-1.5 font-semibold text-sky-700 transition-colors hover:bg-sky-100 dark:bg-sky-950/60 dark:text-sky-300 dark:hover:bg-sky-900/60"
                                     >
                                       {slot}
                                     </button>
@@ -764,7 +1057,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => navigateToRoute({ viewLevel: 'semesters' })}
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950"
+                  className="mt-4 inline-flex min-h-[44px] items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>Back to Semesters</span>
@@ -809,7 +1102,7 @@ export default function App() {
                       semesterId: activeSemester.id,
                     })
                   }
-                  className="inline-flex items-center gap-1 font-medium text-sky-700 hover:underline dark:text-sky-400"
+                  className="inline-flex min-h-[44px] items-center gap-1 font-medium text-sky-700 hover:underline dark:text-sky-400"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>Back to {activeSemester.code}</span>
@@ -883,16 +1176,20 @@ export default function App() {
                       <h3 className="font-display text-base font-bold text-slate-900 dark:text-slate-100">
                         {chapter.title}
                       </h3>
-                      <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-                        {chapter.summary}
-                      </p>
+                      <ul className="list-disc space-y-1 pl-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                        {splitTextIntoVerticalItems(chapter.summary).map(
+                          (sumItem, sIdx) => (
+                            <li key={sIdx}>{sumItem}</li>
+                          )
+                        )}
+                      </ul>
                     </div>
 
                     <button
                       type="button"
                       aria-label={`Read Note: ${chapter.title}`}
                       onClick={() => handleOpenChapterNote(activeSubject, chapter)}
-                      className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-slate-800 sm:self-center dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
+                      className="inline-flex min-h-[44px] shrink-0 items-center gap-1.5 self-start rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-slate-800 sm:self-center dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
                     >
                       <BookOpen className="h-3.5 w-3.5" />
                       <span>Read Note</span>
@@ -926,18 +1223,14 @@ export default function App() {
                   <button
                     type="button"
                     onClick={handleCopyChapterLink}
-                    className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                    aria-label={copiedChapterLink ? 'Link Copied' : 'Copy Chapter Link'}
+                    title={copiedChapterLink ? 'Link Copied' : 'Copy Chapter Link'}
+                    className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-slate-200 bg-slate-50 p-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                   >
                     {copiedChapterLink ? (
-                      <>
-                        <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-                        <span>Link Copied</span>
-                      </>
+                      <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                     ) : (
-                      <>
-                        <Link2 className="h-3.5 w-3.5" />
-                        <span>Copy Chapter Link</span>
-                      </>
+                      <Link2 className="h-4 w-4" />
                     )}
                   </button>
 
@@ -950,7 +1243,7 @@ export default function App() {
                         subjectId: activeSubject.id,
                       })
                     }
-                    className="inline-flex items-center gap-1 font-medium text-sky-700 hover:underline dark:text-sky-400"
+                    className="inline-flex min-h-[44px] items-center gap-1 font-medium text-sky-700 hover:underline dark:text-sky-400"
                   >
                     <ArrowLeft className="h-3.5 w-3.5" />
                     <span>Back to {activeSubject.code}</span>
@@ -965,49 +1258,117 @@ export default function App() {
                 {activeChapter.title}
               </h1>
 
-              <p className="mt-2 max-w-4xl text-sm leading-relaxed text-slate-600 dark:text-slate-400 print:text-slate-800">
-                {activeChapter.summary}
-              </p>
+              <ul className="mt-2 max-w-4xl list-disc space-y-1 pl-5 text-sm leading-relaxed text-slate-600 dark:text-slate-400 print:text-slate-800">
+                {splitTextIntoVerticalItems(activeChapter.summary).map(
+                  (sumItem, sIdx) => (
+                    <li key={sIdx}>{sumItem}</li>
+                  )
+                )}
+              </ul>
             </div>
 
             {activeChapter.blocks.length > 0 ? (
               <>
                 {/* Filter Bar (Hidden in Print) */}
-                <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 print:hidden">
+                <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 print:hidden">
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => handleSelectPriorityFilter('all')}
-                        className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-                          priorityFilter === 'all'
-                            ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
-                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
-                        }`}
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <select
+                        aria-label="Filter by priority"
+                        value={String(priorityFilter)}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (val === 'all' || val === 'exam') {
+                            handleSelectPriorityFilter(val);
+                          } else {
+                            handleSelectPriorityFilter(Number(val) as PriorityTier);
+                          }
+                        }}
+                        className="min-h-[44px] rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-800 [color-scheme:light] focus:border-sky-600 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:[color-scheme:dark] dark:focus:bg-slate-900"
                       >
-                        All ({activeChapter.blocks.length})
-                      </button>
-                      {([1, 2, 3, 4] as PriorityTier[]).map((tier) => {
-                        const meta = PRIORITY_TIER_META[tier];
-                        const active = priorityFilter === tier;
-                        const tierCount = activeChapter.blocks.filter((b) =>
-                          matchesPriorityTier(b, tier)
-                        ).length;
-                        return (
-                          <button
-                            key={tier}
-                            type="button"
-                            onClick={() => handleSelectPriorityFilter(tier)}
-                            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-                              active
-                                ? 'bg-sky-600 text-white dark:bg-sky-500 dark:text-slate-950'
-                                : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
-                            }`}
-                          >
-                            {meta.stars} {meta.shortLabel} ({tierCount})
-                          </button>
-                        );
-                      })}
+                        <option
+                          value="all"
+                          className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100"
+                        >
+                          All Priorities ({activeChapter.blocks.length})
+                        </option>
+                        <option
+                          value="exam"
+                          className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100"
+                        >
+                          ★★★★★ / ★★★★ Exam revision (
+                          {
+                            activeChapter.blocks.filter(
+                              (b) =>
+                                matchesPriorityTier(b, 1) || matchesPriorityTier(b, 2)
+                            ).length
+                          }
+                          )
+                        </option>
+                        {([1, 2, 3, 4] as PriorityTier[]).map((tier) => {
+                          const meta = PRIORITY_TIER_META[tier];
+                          const tierCount = activeChapter.blocks.filter((b) =>
+                            matchesPriorityTier(b, tier)
+                          ).length;
+                          return (
+                            <option
+                              key={tier}
+                              value={tier}
+                              className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100"
+                            >
+                              {meta.stars} ({tierCount})
+                            </option>
+                          );
+                        })}
+                      </select>
+
+                      <select
+                        aria-label="Filter by block type"
+                        value={blockTypeFilter}
+                        onChange={(e) =>
+                          handleSelectBlockTypeFilter(
+                            e.target.value as NoteBlockType | 'all'
+                          )
+                        }
+                        className="min-h-[44px] rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-800 [color-scheme:light] focus:border-sky-600 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:[color-scheme:dark] dark:focus:bg-slate-900"
+                      >
+                        {(
+                          [
+                            ['all', 'All Types'],
+                            ['definition', 'Definition'],
+                            ['theory', 'Theory'],
+                            ['memorize', 'Memorize'],
+                            ['example', 'Example'],
+                            ['pyq', 'PYQ'],
+                          ] as const
+                        ).map(([typeKey, label]) => {
+                          const typeCount = activeChapter.blocks.filter((b) =>
+                            matchesBlockType(b, typeKey)
+                          ).length;
+                          return (
+                            <option
+                              key={typeKey}
+                              value={typeKey}
+                              className="bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100"
+                            >
+                              {label} ({typeCount})
+                            </option>
+                          );
+                        })}
+                      </select>
+
+                      {(priorityFilter !== 'all' ||
+                        blockTypeFilter !== 'all' ||
+                        searchQuery.trim() !== '') && (
+                        <button
+                          type="button"
+                          onClick={resetFilters}
+                          className="inline-flex min-h-[44px] items-center gap-1 px-2 text-xs font-medium text-sky-700 hover:underline dark:text-sky-400"
+                        >
+                          <RotateCcw className="h-3 w-3" />
+                          <span>Reset</span>
+                        </button>
+                      )}
                     </div>
 
                     <div className="relative min-w-[200px] flex-1 sm:max-w-xs">
@@ -1018,57 +1379,9 @@ export default function App() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search in note..."
                         aria-label="Search in note"
-                        className="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pr-3 pl-8 text-xs text-slate-900 placeholder:text-slate-400 focus:border-sky-600 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+                        className="min-h-[44px] w-full rounded-lg border border-slate-200 bg-slate-50 py-2 pr-3 pl-8 text-xs text-slate-900 placeholder:text-slate-400 focus:border-sky-600 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:bg-slate-900"
                       />
                     </div>
-                  </div>
-
-                  <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-3 dark:border-slate-800">
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      {(
-                        [
-                          ['all', 'All Types'],
-                          ['definition', 'Definition'],
-                          ['theory', 'Theory'],
-                          ['memorize', 'Memorize'],
-                          ['example', 'Example'],
-                          ['pyq', 'PYQ'],
-                        ] as const
-                      ).map(([typeKey, label]) => {
-                        const typeCount =
-                          typeKey === 'all'
-                            ? activeChapter.blocks.length
-                            : activeChapter.blocks.filter((b) => b.type === typeKey)
-                                .length;
-                        return (
-                          <button
-                            key={typeKey}
-                            type="button"
-                            onClick={() => handleSelectBlockTypeFilter(typeKey)}
-                            className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                              blockTypeFilter === typeKey
-                                ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
-                                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
-                            }`}
-                          >
-                            {label} ({typeCount})
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {(priorityFilter !== 'all' ||
-                      blockTypeFilter !== 'all' ||
-                      searchQuery.trim() !== '') && (
-                      <button
-                        type="button"
-                        onClick={resetFilters}
-                        className="inline-flex items-center gap-1 text-xs font-medium text-sky-700 hover:underline dark:text-sky-400"
-                      >
-                        <RotateCcw className="h-3 w-3" />
-                        <span>Reset</span>
-                      </button>
-                    )}
                   </div>
                 </div>
 
@@ -1080,49 +1393,81 @@ export default function App() {
                         Contents ({filteredBlocks.length})
                       </div>
                       <ul className="mt-2.5 space-y-2 text-xs">
-                        {filteredBlocks.map((block, idx) => (
-                          <li key={block.id}>
-                            <a
-                              href={buildRouteHash({
-                                viewLevel: 'note',
-                                semesterId: activeSemester.id,
-                                subjectId: activeSubject.id,
-                                chapterId: activeChapter.id,
-                                blockId: block.id,
-                              })}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                navigateToRoute({
+                        {filteredBlocks.map((block, idx) => {
+                          const stars = getBlockPriorityStars(block);
+                          const tocTitle =
+                            blockTypeFilter === 'memorize' ||
+                            block.type === 'memorize'
+                              ? getMemorizeBlockTitle(block)
+                              : block.title;
+                          const starColor =
+                            block.priorityTier === 1
+                              ? 'text-amber-700 dark:text-amber-400'
+                              : block.priorityTier === 2
+                                ? 'text-rose-700 dark:text-rose-400'
+                                : block.priorityTier === 3
+                                  ? 'text-sky-700 dark:text-sky-400'
+                                  : 'text-emerald-700 dark:text-emerald-400';
+                          return (
+                            <li key={block.id}>
+                              <a
+                                href={buildRouteHash({
                                   viewLevel: 'note',
                                   semesterId: activeSemester.id,
                                   subjectId: activeSubject.id,
                                   chapterId: activeChapter.id,
                                   blockId: block.id,
-                                });
-                              }}
-                              className="block text-slate-600 transition-colors hover:text-sky-700 dark:text-slate-400 dark:hover:text-sky-400"
-                            >
-                              <span className="font-mono text-[11px] text-slate-400">
-                                {String(idx + 1).padStart(2, '0')}.{' '}
-                              </span>
-                              <span>{block.title}</span>
-                            </a>
-                          </li>
-                        ))}
+                                })}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigateToRoute({
+                                    viewLevel: 'note',
+                                    semesterId: activeSemester.id,
+                                    subjectId: activeSubject.id,
+                                    chapterId: activeChapter.id,
+                                    blockId: block.id,
+                                  });
+                                }}
+                                className="block py-1 text-slate-600 transition-colors hover:text-sky-700 dark:text-slate-400 dark:hover:text-sky-400"
+                              >
+                                <span className="font-mono text-[11px] text-slate-400">
+                                  {String(idx + 1).padStart(2, '0')}.{' '}
+                                </span>
+                                <span>{tocTitle}</span>{' '}
+                                <span
+                                  className={`font-mono text-[11px] font-bold tracking-tight ${starColor}`}
+                                >
+                                  {stars}
+                                </span>
+                              </a>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                   </aside>
 
                   <div className="space-y-6 lg:col-span-9 print:col-span-12">
                     {filteredBlocks.length > 0 ? (
-                      filteredBlocks.map((block, idx) => (
-                        <NoteBlockCard
-                          key={block.id}
-                          block={block}
-                          index={idx}
-                          includeSolutionsInPdf={includeSolutionsInPdf}
-                        />
-                      ))
+                      <Suspense
+                        fallback={
+                          <div className="rounded-xl border border-slate-200 bg-white p-10 text-center text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+                            Loading chapter notes...
+                          </div>
+                        }
+                      >
+                        {filteredBlocks.map((block, idx) => (
+                          <LazyNoteBlockCard
+                            key={block.id}
+                            block={block}
+                            index={idx}
+                            memorizeMode={blockTypeFilter === 'memorize'}
+                            includeSolutionsInPdf={includeSolutionsInPdf}
+                            revisionStatus={revisionState[block.id]}
+                            onToggleRevision={handleToggleRevision}
+                          />
+                        ))}
+                      </Suspense>
                     ) : (
                       <div className="rounded-xl border border-slate-200 bg-white p-10 text-center dark:border-slate-800 dark:bg-slate-900">
                         <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -1131,7 +1476,7 @@ export default function App() {
                         <button
                           type="button"
                           onClick={resetFilters}
-                          className="mt-3 rounded-lg bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-white dark:bg-sky-500 dark:text-slate-950"
+                          className="mt-3 inline-flex min-h-[44px] items-center rounded-lg bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white dark:bg-sky-500 dark:text-slate-950"
                         >
                           Reset Filters
                         </button>
@@ -1140,6 +1485,10 @@ export default function App() {
                   </div>
                 </div>
               </>
+            ) : isCourseLoading ? (
+              <div className="rounded-xl border border-slate-200 bg-white p-10 text-center text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+                Loading course chapter data...
+              </div>
             ) : (
               <div className="rounded-xl border border-slate-200 bg-white p-10 text-center dark:border-slate-800 dark:bg-slate-900">
                 <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -1154,13 +1503,245 @@ export default function App() {
                       subjectId: activeSubject.id,
                     })
                   }
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950"
+                  className="mt-4 inline-flex min-h-[44px] items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>Back to {activeSubject.code}</span>
                 </button>
               </div>
             )}
+          </section>
+        )}
+
+        {/* =====================================================================
+            PAGE 5: MY REVISION VIEW (BOOKMARKED & WEAK TOPIC BLOCKS)
+           ===================================================================== */}
+        {viewLevel === 'revision' && (
+          <section aria-labelledby="revision-view-heading" className="space-y-8">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4 dark:border-slate-800">
+              <div>
+                <h1
+                  id="revision-view-heading"
+                  className="font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl dark:text-slate-100"
+                >
+                  My revision
+                </h1>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                  Bookmarked notes and flagged weak topics across all courses and chapters.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => navigateToRoute({ viewLevel: 'semesters' })}
+                className="inline-flex min-h-[44px] items-center gap-1 text-xs font-medium text-sky-700 hover:underline dark:text-sky-400"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" />
+                <span>Back to Semesters</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              {/* Bookmarked Blocks */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2.5 dark:border-slate-800">
+                  <h2 className="flex items-center gap-2 font-display text-lg font-bold text-slate-900 dark:text-slate-100">
+                    <Bookmark className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                    <span>Bookmarked Blocks ({bookmarkedEntries.length})</span>
+                  </h2>
+                </div>
+
+                {bookmarkedEntries.length > 0 ? (
+                  <div className="space-y-3">
+                    {bookmarkedEntries.map((item) => {
+                      const status = revisionState[item.blockId];
+                      const linkHash = buildRouteHash({
+                        viewLevel: 'note',
+                        semesterId: item.semesterId,
+                        subjectId: item.subjectId,
+                        chapterId: item.chapterId,
+                        blockId: item.blockId,
+                      });
+                      return (
+                        <div
+                          key={item.blockId}
+                          className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+                        >
+                          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+                            <span className="font-mono font-semibold text-sky-700 dark:text-sky-400">
+                              {item.subjectCode} · {item.chapterUnitNumber}
+                            </span>
+                          </div>
+                          <a
+                            href={linkHash}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigateToRoute({
+                                viewLevel: 'note',
+                                semesterId: item.semesterId,
+                                subjectId: item.subjectId,
+                                chapterId: item.chapterId,
+                                blockId: item.blockId,
+                              });
+                            }}
+                            className="mt-1.5 inline-flex min-h-[44px] flex-wrap items-baseline gap-1.5 font-display text-base font-bold text-slate-900 hover:text-sky-700 dark:text-slate-100 dark:hover:text-sky-400"
+                          >
+                            <span>{item.blockTitle}</span>
+                          </a>
+                          <ul className="mt-1 list-disc space-y-1 pl-4 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                            {splitTextIntoVerticalItems(item.summaryText).map(
+                              (sLine, sIdx) => (
+                                <li key={sIdx}>{sLine}</li>
+                              )
+                            )}
+                          </ul>
+                          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2.5 dark:border-slate-800">
+                            <a
+                              href={linkHash}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigateToRoute({
+                                  viewLevel: 'note',
+                                  semesterId: item.semesterId,
+                                  subjectId: item.subjectId,
+                                  chapterId: item.chapterId,
+                                  blockId: item.blockId,
+                                });
+                              }}
+                              className="inline-flex min-h-[44px] items-center gap-1 text-xs font-semibold text-sky-700 hover:underline dark:text-sky-400"
+                            >
+                              <span>Open in {item.chapterTitle}</span>
+                              <ChevronRight className="h-3.5 w-3.5" />
+                            </a>
+                            <div className="flex items-center gap-1.5">
+                              {status?.done && (
+                                <span className="inline-flex items-center gap-1 rounded bg-emerald-50 px-2 py-1 text-[11px] font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                                  <CheckCircle2 className="h-3 w-3" />
+                                  Done
+                                </span>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleToggleRevision(item.blockId, 'bookmarked')
+                                }
+                                className="inline-flex min-h-[44px] items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                              >
+                                Remove bookmark
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="rounded-xl border border-slate-200 bg-white p-8 text-center text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+                    No bookmarked blocks yet. Click &ldquo;Bookmark&rdquo; on any note block to save it here.
+                  </div>
+                )}
+              </div>
+
+              {/* Weak Topic Blocks */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2.5 dark:border-slate-800">
+                  <h2 className="flex items-center gap-2 font-display text-lg font-bold text-slate-900 dark:text-slate-100">
+                    <Flag className="h-4 w-4 text-rose-600 dark:text-rose-400" />
+                    <span>Weak Topics ({weakTopicEntries.length})</span>
+                  </h2>
+                </div>
+
+                {weakTopicEntries.length > 0 ? (
+                  <div className="space-y-3">
+                    {weakTopicEntries.map((item) => {
+                      const status = revisionState[item.blockId];
+                      const linkHash = buildRouteHash({
+                        viewLevel: 'note',
+                        semesterId: item.semesterId,
+                        subjectId: item.subjectId,
+                        chapterId: item.chapterId,
+                        blockId: item.blockId,
+                      });
+                      return (
+                        <div
+                          key={item.blockId}
+                          className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+                        >
+                          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+                            <span className="font-mono font-semibold text-sky-700 dark:text-sky-400">
+                              {item.subjectCode} · {item.chapterUnitNumber}
+                            </span>
+                          </div>
+                          <a
+                            href={linkHash}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigateToRoute({
+                                viewLevel: 'note',
+                                semesterId: item.semesterId,
+                                subjectId: item.subjectId,
+                                chapterId: item.chapterId,
+                                blockId: item.blockId,
+                              });
+                            }}
+                            className="mt-1.5 inline-flex min-h-[44px] flex-wrap items-baseline gap-1.5 font-display text-base font-bold text-slate-900 hover:text-sky-700 dark:text-slate-100 dark:hover:text-sky-400"
+                          >
+                            <span>{item.blockTitle}</span>
+                          </a>
+                          <ul className="mt-1 list-disc space-y-1 pl-4 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                            {splitTextIntoVerticalItems(item.summaryText).map(
+                              (sLine, sIdx) => (
+                                <li key={sIdx}>{sLine}</li>
+                              )
+                            )}
+                          </ul>
+                          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2.5 dark:border-slate-800">
+                            <a
+                              href={linkHash}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigateToRoute({
+                                  viewLevel: 'note',
+                                  semesterId: item.semesterId,
+                                  subjectId: item.subjectId,
+                                  chapterId: item.chapterId,
+                                  blockId: item.blockId,
+                                });
+                              }}
+                              className="inline-flex min-h-[44px] items-center gap-1 text-xs font-semibold text-sky-700 hover:underline dark:text-sky-400"
+                            >
+                              <span>Open in {item.chapterTitle}</span>
+                              <ChevronRight className="h-3.5 w-3.5" />
+                            </a>
+                            <div className="flex items-center gap-1.5">
+                              {status?.done && (
+                                <span className="inline-flex items-center gap-1 rounded bg-emerald-50 px-2 py-1 text-[11px] font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                                  <CheckCircle2 className="h-3 w-3" />
+                                  Done
+                                </span>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleToggleRevision(item.blockId, 'weak')
+                                }
+                                className="inline-flex min-h-[44px] items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                              >
+                                Clear weak flag
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="rounded-xl border border-slate-200 bg-white p-8 text-center text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
+                    No weak topics flagged yet. Click &ldquo;Weak topic&rdquo; on any note block to flag it for extra practice.
+                  </div>
+                )}
+              </div>
+            </div>
           </section>
         )}
       </main>

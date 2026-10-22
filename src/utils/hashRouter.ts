@@ -1,6 +1,11 @@
 import type { SemesterEntry } from '../data/curriculumData';
 
-export type RouteViewLevel = 'semesters' | 'subjects' | 'subject-detail' | 'note';
+export type RouteViewLevel =
+  | 'semesters'
+  | 'subjects'
+  | 'subject-detail'
+  | 'note'
+  | 'revision';
 
 export interface ParsedHashRoute {
   viewLevel: RouteViewLevel;
@@ -24,6 +29,8 @@ export function buildRouteHash(route: {
   switch (route.viewLevel) {
     case 'semesters':
       return '#/';
+    case 'revision':
+      return '#/revision';
     case 'subjects':
       return `#/${route.semesterId}`;
     case 'subject-detail':
@@ -64,6 +71,13 @@ export function parseRouteHash(
 
   const parts = cleaned.split('/').filter(Boolean);
   if (parts.length === 0) return fallback;
+
+  if (parts[0].toLowerCase() === 'revision') {
+    return {
+      ...fallback,
+      viewLevel: 'revision',
+    };
+  }
 
   // 1. Check if parts[0] matches a semester ID or code (e.g., "eece11")
   const matchedSem = semesters.find(
