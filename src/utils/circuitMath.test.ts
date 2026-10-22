@@ -99,12 +99,28 @@ test('filterNoteBlocks filters by 4-tier source priority and block type', () => 
   assert.equal(filterNoteBlocks(sampleBlocks, 'all', 'all', 'sadiku').length, 1);
 });
 
-test('MATH1101_CHAPTERS contains all 8 syllabus modules with boxed formulas, vertical steps, and final answers', async () => {
+test('MATH1101_CHAPTERS contains all 8 syllabus modules with P1, P2 (PYQ), P3, and P4 blocks, boxed formulas, and vertical solutions', async () => {
   const { MATH1101_CHAPTERS } = await import('../data/math1101Data.ts');
   assert.equal(MATH1101_CHAPTERS.length, 8);
 
   for (const mod of MATH1101_CHAPTERS) {
-    assert.ok(mod.blocks.length >= 2, `Module ${mod.unitNumber} should have at least 2 note blocks`);
+    assert.ok(
+      mod.blocks.length >= 5,
+      `Module ${mod.unitNumber} should have at least 5 note blocks`
+    );
+    for (const tier of [1, 2, 3, 4] as const) {
+      const tierMatches = filterNoteBlocks(mod.blocks, tier, 'all', '');
+      assert.ok(
+        tierMatches.length >= 1,
+        `Module ${mod.unitNumber} (${mod.title}) must have at least 1 block for Priority Tier P${tier}`
+      );
+    }
+    const pyqMatches = filterNoteBlocks(mod.blocks, 'all', 'pyq', '');
+    assert.ok(
+      pyqMatches.length >= 2,
+      `Module ${mod.unitNumber} (${mod.title}) must have at least 2 PYQ blocks`
+    );
+
     const hasEquations = mod.blocks.some((b) => b.equations && b.equations.length > 0);
     const hasVerticalSolution = mod.blocks.some(
       (b) =>
@@ -113,7 +129,45 @@ test('MATH1101_CHAPTERS contains all 8 syllabus modules with boxed formulas, ver
         (Boolean(b.finalAnswer) || b.solutionSteps.some((s) => s.equation?.includes('∴')))
     );
     assert.ok(hasEquations, `Module ${mod.unitNumber} should include boxed formulas`);
-    assert.ok(hasVerticalSolution, `Module ${mod.unitNumber} should include vertical step-by-step solutions with boxed answers`);
+    assert.ok(
+      hasVerticalSolution,
+      `Module ${mod.unitNumber} should include vertical step-by-step solutions with boxed answers`
+    );
   }
 });
+
+
+test('KaTeX math renderer converts radical expressions, fractions, and limits into valid KaTeX HTML', async () => {
+  const { normalizeMathString, exprToLatex, renderKatexToHtml } = await import(
+    './mathLatex.ts'
+  );
+
+  const rootLatex = exprToLatex(normalizeMathString('√(a² − x²)'));
+  assert.equal(rootLatex, '\\sqrt{a^{2} - x^{2}}');
+  const rootHtml = renderKatexToHtml(rootLatex);
+  assert.ok(rootHtml.includes('katex'), 'Should output KaTeX markup');
+  assert.ok(rootHtml.includes('sqrt'), 'Should output KaTeX connected radical sqrt element');
+
+  const nestedFracRoot = exprToLatex(normalizeMathString('√((x − 2) / (3 − x))'));
+  assert.equal(nestedFracRoot, '\\sqrt{\\frac{x - 2}{3 - x}}');
+  const nestedHtml = renderKatexToHtml(nestedFracRoot);
+  assert.ok(nestedHtml.includes('mfrac') || nestedHtml.includes('vlist'), 'Should render stacked fraction inside radical');
+
+  const { segmentMathAndProse, splitProblemStatementLines } = await import('./mathLatex.ts');
+  const invTrigSegs = segmentMathAndProse(
+    normalizeMathString('sin⁻¹ x, cos⁻¹ x (on principal branches)')
+  );
+  assert.equal(invTrigSegs[0].type, 'math');
+  assert.equal(exprToLatex(invTrigSegs[0].text), '\\sin^{-1} x, \\cos^{-1} x');
+
+  const lines = splitProblemStatementLines(
+    'Find the domain and range: (1) f(x) = 1 / (x − 3), (2) f(x) = √(x² − 5x + 6), and (3) f(x) = √((x − 2) / (3 − x)).'
+  );
+  assert.equal(lines.length, 4);
+  assert.ok(lines[1].startsWith('(1)'));
+  assert.ok(lines[2].startsWith('(2)'));
+  assert.ok(lines[3].startsWith('(3)'));
+});
+
+
 

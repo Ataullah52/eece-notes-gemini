@@ -6,9 +6,11 @@ export interface FilterableBlock {
   id: string;
   type: NoteBlockType;
   priorityTier: PriorityTier;
+  secondaryPriorityTiers?: PriorityTier[];
   title: string;
   sourceCitation: string;
   summaryText?: string;
+  examYears?: string[];
 }
 
 export interface ParsedCourseCode {
@@ -279,6 +281,28 @@ export function calculateRcTransient(
   };
 }
 
+export function matchesPriorityTier(
+  block: FilterableBlock,
+  priorityFilter: PriorityTier | 'all'
+): boolean {
+  if (priorityFilter === 'all') {
+    return true;
+  }
+  if (block.priorityTier === priorityFilter) {
+    return true;
+  }
+  if (block.secondaryPriorityTiers && block.secondaryPriorityTiers.includes(priorityFilter)) {
+    return true;
+  }
+  if (priorityFilter === 2) {
+    return (
+      block.type === 'pyq' ||
+      Boolean(block.examYears && block.examYears.length > 0)
+    );
+  }
+  return false;
+}
+
 export function filterNoteBlocks<T extends FilterableBlock>(
   blocks: T[],
   priorityFilter: PriorityTier | 'all',
@@ -288,14 +312,15 @@ export function filterNoteBlocks<T extends FilterableBlock>(
   const normalizedQuery = searchQuery.trim().toLowerCase();
 
   return blocks.filter((block) => {
-    if (priorityFilter !== 'all' && block.priorityTier !== priorityFilter) {
+    if (!matchesPriorityTier(block, priorityFilter)) {
       return false;
     }
     if (blockTypeFilter !== 'all' && block.type !== blockTypeFilter) {
       return false;
     }
     if (normalizedQuery.length > 0) {
-      const hay = `${block.title} ${block.sourceCitation} ${block.summaryText ?? ''}`.toLowerCase();
+      const yearsText = block.examYears ? block.examYears.join(' ') : '';
+      const hay = `${block.title} ${block.sourceCitation} ${block.summaryText ?? ''} ${yearsText}`.toLowerCase();
       if (!hay.includes(normalizedQuery)) {
         return false;
       }
@@ -303,3 +328,4 @@ export function filterNoteBlocks<T extends FilterableBlock>(
     return true;
   });
 }
+

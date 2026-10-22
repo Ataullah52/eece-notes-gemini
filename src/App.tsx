@@ -23,6 +23,7 @@ import {
 import {
   PRIORITY_TIER_META,
   filterNoteBlocks,
+  matchesPriorityTier,
   type PriorityTier,
   type NoteBlockType,
 } from './utils/circuitMath';
@@ -152,6 +153,30 @@ export default function App() {
     setPriorityFilter('all');
     setBlockTypeFilter('all');
     setSearchQuery('');
+  };
+
+  const handleSelectPriorityFilter = (tier: PriorityTier | 'all') => {
+    setPriorityFilter(tier);
+    if (
+      tier !== 'all' &&
+      blockTypeFilter !== 'all' &&
+      activeChapter &&
+      filterNoteBlocks(activeChapter.blocks, tier, blockTypeFilter, searchQuery).length === 0
+    ) {
+      setBlockTypeFilter('all');
+    }
+  };
+
+  const handleSelectBlockTypeFilter = (typeKey: NoteBlockType | 'all') => {
+    setBlockTypeFilter(typeKey);
+    if (
+      typeKey !== 'all' &&
+      priorityFilter !== 'all' &&
+      activeChapter &&
+      filterNoteBlocks(activeChapter.blocks, priorityFilter, typeKey, searchQuery).length === 0
+    ) {
+      setPriorityFilter('all');
+    }
   };
 
   return (
@@ -682,7 +707,7 @@ export default function App() {
                     <div className="flex flex-wrap items-center gap-1.5">
                       <button
                         type="button"
-                        onClick={() => setPriorityFilter('all')}
+                        onClick={() => handleSelectPriorityFilter('all')}
                         className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                           priorityFilter === 'all'
                             ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
@@ -694,18 +719,21 @@ export default function App() {
                       {([1, 2, 3, 4] as PriorityTier[]).map((tier) => {
                         const meta = PRIORITY_TIER_META[tier];
                         const active = priorityFilter === tier;
+                        const tierCount = activeChapter.blocks.filter((b) =>
+                          matchesPriorityTier(b, tier)
+                        ).length;
                         return (
                           <button
                             key={tier}
                             type="button"
-                            onClick={() => setPriorityFilter(tier)}
+                            onClick={() => handleSelectPriorityFilter(tier)}
                             className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                               active
                                 ? 'bg-sky-600 text-white dark:bg-sky-500 dark:text-slate-950'
                                 : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
                             }`}
                           >
-                            {meta.stars} {meta.shortLabel}
+                            {meta.stars} {meta.shortLabel} ({tierCount})
                           </button>
                         );
                       })}
@@ -735,20 +763,27 @@ export default function App() {
                           ['example', 'Example'],
                           ['pyq', 'PYQ'],
                         ] as const
-                      ).map(([typeKey, label]) => (
-                        <button
-                          key={typeKey}
-                          type="button"
-                          onClick={() => setBlockTypeFilter(typeKey)}
-                          className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                            blockTypeFilter === typeKey
-                              ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
-                              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
-                          }`}
-                        >
-                          {label}
-                        </button>
-                      ))}
+                      ).map(([typeKey, label]) => {
+                        const typeCount =
+                          typeKey === 'all'
+                            ? activeChapter.blocks.length
+                            : activeChapter.blocks.filter((b) => b.type === typeKey)
+                                .length;
+                        return (
+                          <button
+                            key={typeKey}
+                            type="button"
+                            onClick={() => handleSelectBlockTypeFilter(typeKey)}
+                            className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
+                              blockTypeFilter === typeKey
+                                ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
+                                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
+                            }`}
+                          >
+                            {label} ({typeCount})
+                          </button>
+                        );
+                      })}
                     </div>
 
                     {(priorityFilter !== 'all' ||

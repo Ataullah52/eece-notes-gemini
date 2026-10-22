@@ -17,6 +17,11 @@
   h1, h2, h3, h4 {
     text-wrap: balance;
   }
+
+  .katex {
+    font-size: 1.05em;
+    color: inherit;
+  }
 }
 
 /* Academic Print-Ready PDF Stylesheet (window.print()) */

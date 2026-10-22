@@ -4,6 +4,7 @@ import type { NoteBlock } from '../data/curriculumData';
 import { PRIORITY_TIER_META } from '../utils/circuitMath';
 import { InteractiveDiagram } from './InteractiveDiagrams';
 import { MathText, MathSolutionBlock } from './MathRenderer';
+import { splitProblemStatementLines } from '../utils/mathLatex';
 
 interface NoteBlockCardProps {
   block: NoteBlock;
@@ -54,6 +55,18 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
         <span className={`font-semibold ${tierTextColor}`}>
           {tierMeta.stars} Priority {block.priorityTier}: {tierMeta.shortLabel}
         </span>
+        {block.secondaryPriorityTiers &&
+          block.secondaryPriorityTiers.map((secTier) => {
+            const secMeta = PRIORITY_TIER_META[secTier];
+            return (
+              <span
+                key={secTier}
+                className="font-medium text-slate-500 dark:text-slate-400"
+              >
+                + {secMeta.stars} {secMeta.shortLabel}
+              </span>
+            );
+          })}
         <span aria-hidden="true">·</span>
         <span className="font-medium text-slate-700 dark:text-slate-300">
           {BLOCK_TYPE_LABELS[block.type]}
@@ -73,7 +86,7 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
 
       {/* Block Title */}
       <h3 className="font-display text-xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">
-        {block.title}
+        <MathText text={block.title} />
       </h3>
 
       {/* Concise Key Takeaway / Summary Line */}
@@ -200,9 +213,16 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
           <div className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
             Problem / Theorem Question
           </div>
-          <p className="mt-1.5 text-sm leading-relaxed text-slate-800 dark:text-slate-200">
-            <MathText text={block.problemStatement} />
-          </p>
+          <div className="mt-2 space-y-1.5 text-sm leading-relaxed text-slate-800 dark:text-slate-200">
+            {splitProblemStatementLines(block.problemStatement).map((line, lineIdx) => {
+              const isSubItem = /^\((?:\d+|i{1,3}|iv|[a-d])\)\s/.test(line);
+              return (
+                <p key={lineIdx} className={isSubItem ? 'pl-2 sm:pl-3' : ''}>
+                  <MathText text={line} />
+                </p>
+              );
+            })}
+          </div>
 
           {block.givenData && block.givenData.length > 0 && (
             <div className="mt-3 border-t border-slate-200/80 pt-2.5 dark:border-slate-800">

@@ -30,6 +30,7 @@ export interface NoteBlock {
   id: string;
   type: NoteBlockType;
   priorityTier: PriorityTier;
+  secondaryPriorityTiers?: PriorityTier[];
   sourceCitation: string;
   title: string;
   summaryText: string;
@@ -398,6 +399,33 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   },
                 ],
               },
+              {
+                id: 'u01-b7',
+                type: 'example',
+                priorityTier: 4,
+                sourceCitation:
+                  'Syllabus Book · Robert L. Boylestad & R. C. Dorf & J. A. Svoboda',
+                title:
+                  'Worked RMS & Average Value Calculation for Non-Sinusoidal Sawtooth & Composite Waveforms',
+                summaryText:
+                  'For a periodic sawtooth wave v(t) = (V_m / T)t on [0, T], V_avg = V_m / 2 and V_rms = V_m / √3.',
+                problemStatement:
+                  '(1) Derive the average value V_avg and effective (RMS) value V_rms of a periodic sawtooth voltage v(t) = (V_m / T)t for 0 ≤ t < T. (2) Calculate the total RMS current of i(t) = 3 + 4√2 sin(ωt) + 3√2 cos(3ωt) A.',
+                solutionSteps: [
+                  {
+                    stepTitle: '1. Sawtooth Waveform Average & RMS Derivation',
+                    explanation: 'Integrate v(t) and v²(t) over one period [0, T]:',
+                    equation:
+                      'V_{avg} = (1 / T) ∫_0^T (V_m / T)t dt\n        = (V_m / T²) [ t² / 2 ]_0^T\n∴  V_{avg} = V_m / 2 = 0.5 V_m\n\nV_{rms} = √[ (1 / T) ∫_0^T (V_m² / T²)t² dt ]\n        = √[ (V_m² / T³) (T³ / 3) ]\n∴  V_{rms} = V_m / √3 ≈ 0.577 V_m',
+                  },
+                  {
+                    stepTitle: '2. Multi-Harmonic RMS Current Calculation',
+                    explanation: 'Combine the DC term and the RMS values of each orthogonal harmonic:',
+                    equation:
+                      'I_0 = 3 A,   I_{rms,1} = (4√2) / √2 = 4 A,   I_{rms,3} = (3√2) / √2 = 3 A\nI_{rms} = √(I_0² + I_{rms,1}² + I_{rms,3}²)\n        = √(3² + 4² + 3²)\n∴  I_{rms} = √34 ≈ 5.83 A',
+                  },
+                ],
+              },
             ],
           },
           {
@@ -558,6 +586,50 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                 ],
                 finalAnswer: 'R_ab = 10.97 Ω,  I_s = 2.19 A',
               },
+              {
+                id: 'u02-b5',
+                type: 'example',
+                priorityTier: 3,
+                sourceCitation:
+                  'Professor-Followed Book · Alexander & Sadiku (6th Ed.), Ch. 2',
+                title:
+                  'Ladder Network Reduction & Current Divider Branch Analysis',
+                summaryText:
+                  'Reduce a resistive ladder from the load end back to the source, then use current division at each node.',
+                problemStatement:
+                  'In a resistive ladder connected to a 30 V source, series resistor R₁ = 4 Ω feeds a parallel combination of R₂ = 6 Ω and a right-hand branch of R₃ = 2 Ω in series with R₄ = 4 Ω. Find the total equivalent resistance R_eq, source current I_s, and current I₄ through R₄.',
+                solutionSteps: [
+                  {
+                    stepTitle: 'Step 1: Collapse ladder from right to left',
+                    explanation: 'Combine R₃ + R₄ in series, then in parallel with R₂:',
+                    equation:
+                      'R_{34} = R_3 + R_4 = 2 + 4 = 6 Ω\nR_p = (R_2 × R_{34}) / (R_2 + R_{34}) = (6 × 6) / 12 = 3 Ω\n∴  R_{eq} = R_1 + R_p = 4 + 3 = 7 Ω',
+                  },
+                  {
+                    stepTitle: 'Step 2: Find source current I_s and branch current I₄',
+                    explanation: 'Apply Ohm’s Law and the Current Divider Rule:',
+                    equation:
+                      'I_s = 30 / 7 = 4.29 A\nI_4 = I_s · [ R_2 / (R_2 + R_{34}) ]\n∴  I_4 = 4.29 × (6 / 12) = 2.14 A',
+                  },
+                ],
+              },
+              {
+                id: 'u02-b6',
+                type: 'theory',
+                priorityTier: 4,
+                sourceCitation:
+                  'Syllabus Book · Robert L. Boylestad (Introductory Circuit Analysis, Ch. 7)',
+                title:
+                  'Balanced Wheatstone Bridge Condition & Zero-Galvanometer Current Proof',
+                summaryText:
+                  'A 4-arm Wheatstone bridge is balanced (I_G = 0 A) when the products of opposite arm resistances are equal: R₁R₄ = R₂R₃.',
+                equations: [
+                  {
+                    label: 'Balanced Wheatstone Bridge Ratio',
+                    formula: 'R_1 / R_2 = R_3 / R_4   ⟺   R_1 R_4 = R_2 R_3   (when I_G = 0)',
+                  },
+                ],
+              },
             ],
           },
           {
@@ -675,6 +747,27 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   },
                 ],
               },
+              {
+                id: 'u03-b4',
+                type: 'example',
+                priorityTier: 4,
+                sourceCitation:
+                  'Syllabus Book · R. C. Dorf & J. A. Svoboda (Introduction to Electric Circuits, Ch. 4)',
+                title:
+                  'Cramer’s Rule Solution for 2-Mesh Network with Dependent CCVS',
+                summaryText:
+                  'Move all dependent source terms involving mesh currents to the left-hand resistance matrix before applying Cramer’s Rule.',
+                problemStatement:
+                  'A two-mesh circuit has Mesh 1 with a 20 V source, a 2 Ω series resistor, and a shared 4 Ω resistor with Mesh 2. Mesh 2 contains the shared 4 Ω resistor, a 6 Ω resistor, and a dependent voltage source 2i₁ opposing i₂. Find mesh currents i₁ and i₂.',
+                solutionSteps: [
+                  {
+                    stepTitle: 'Step 1: Write KVL for Mesh 1 and Mesh 2',
+                    explanation: 'Group coefficients of i₁ and i₂:',
+                    equation:
+                      'Mesh 1:  6i_1 − 4i_2 = 20\nMesh 2:  −2i_1 + 10i_2 = 0  ⇒  i_1 = 5i_2\nSubstituting i_1 = 5i_2 into Mesh 1:\n  6(5i_2) − 4i_2 = 20  ⇒  26i_2 = 20\n∴  i_2 = 10 / 13 ≈ 0.77 A,   i_1 = 50 / 13 ≈ 3.85 A',
+                  },
+                ],
+              },
             ],
           },
           {
@@ -783,6 +876,27 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   },
                 ],
               },
+              {
+                id: 'u04-b4',
+                type: 'example',
+                priorityTier: 4,
+                sourceCitation:
+                  'Syllabus Book · Robert L. Boylestad & R. P. Ward (Ch. 9)',
+                title:
+                  'Worked Millman’s Theorem Problem for Three Parallel Battery Branches',
+                summaryText:
+                  'Find the terminal voltage V_L across a 10 Ω load fed by three parallel branches: (12 V, 2 Ω), (6 V, 3 Ω), and (24 V, 6 Ω).',
+                problemStatement:
+                  'Three parallel DC voltage branches — Branch 1 (12 V in series with 2 Ω), Branch 2 (6 V in series with 3 Ω), and Branch 3 (24 V in series with 6 Ω) — supply a common load resistor R_L = 9 Ω. Find V_eq, R_eq, and load current I_L using Millman’s Theorem.',
+                solutionSteps: [
+                  {
+                    stepTitle: 'Step 1: Compute ∑ V_k G_k and ∑ G_k',
+                    explanation: 'With G₁ = 1/2 S, G₂ = 1/3 S, G₃ = 1/6 S:',
+                    equation:
+                      '∑ G_k = 1 / 2 + 1 / 3 + 1 / 6 = 1.0 S  ⇒  R_{eq} = 1.0 Ω\n∑ V_k G_k = 12(1 / 2) + 6(1 / 3) + 24(1 / 6) = 6 + 2 + 4 = 12 A\n∴  V_{eq} = 12 V,   R_{eq} = 1.0 Ω,   I_L = 12 / (1 + 9) = 1.2 A',
+                  },
+                ],
+              },
             ],
           },
           {
@@ -826,6 +940,63 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                   },
                 ],
               },
+              {
+                id: 'u05-b2',
+                type: 'pyq',
+                priorityTier: 2,
+                sourceCitation:
+                  'Previous Year Question · PUST EECE Final Exam 2022 Q5(b) & 2021 Q5(c)',
+                title:
+                  'AC Thevenin Equivalent & Maximum Average Power Delivered to Load Z_L',
+                summaryText:
+                  'Given Z_Th = 4 + j3 Ω and V_Th = 20∠0° V (RMS), find Z_L for maximum average power and compute P_max.',
+                examYears: ['2022', '2021'],
+                marks: '6 Marks',
+                problemStatement:
+                  'An AC two-terminal network has a Thevenin open-circuit RMS voltage V_Th = 20∠0° V and Thevenin impedance Z_Th = 4 + j3 Ω. Determine (a) the complex load impedance Z_L for maximum average power transfer and P_max, and (b) the value of a purely resistive load R_L for maximum power.',
+                solutionSteps: [
+                  {
+                    stepTitle: 'Part (a) & Part (b): Complex Conjugate vs. Purely Resistive Load',
+                    explanation: 'Apply Z_L = Z_Th* for Part (a) and R_L = |Z_Th| for Part (b):',
+                    equation:
+                      '(a) Z_L = Z_{Th}^* = 4 − j3 Ω\n    P_{max} = |V_{Th,rms}|² / (4 R_{Th}) = 20² / (4 × 4)\n    ∴  Z_L = 4 − j3 Ω,   P_{max} = 25 W\n\n(b) For purely resistive load (X_L = 0):\n    R_L = √(4² + 3²)\n    ∴  R_L = 5 Ω',
+                  },
+                ],
+              },
+              {
+                id: 'u05-b3',
+                type: 'theory',
+                priorityTier: 3,
+                sourceCitation:
+                  'Professor-Followed Book · Alexander & Sadiku (Ch. 10 & Ch. 11)',
+                title:
+                  'AC Superposition with Multi-Frequency Sources',
+                summaryText:
+                  'When AC sources operate at different angular frequencies ω₁ ≠ ω₂, phasors cannot be added directly; sum the time-domain responses.',
+                equations: [
+                  {
+                    label: 'Multi-Frequency Superposition Rule',
+                    formula: 'v(t) = v_{DC} + v_1(t; ω_1) + v_2(t; ω_2)',
+                  },
+                ],
+              },
+              {
+                id: 'u05-b4',
+                type: 'example',
+                priorityTier: 4,
+                sourceCitation:
+                  'Syllabus Book · Corcoran & Kerchner (Alternating-Current Circuits)',
+                title:
+                  'AC Millman’s & Norton Phasor Equivalence in Parallel Impedance Branches',
+                summaryText:
+                  'Convert parallel AC voltage branches into Norton phasor currents I_N = V_k Y_k and sum admittances Y_eq = ∑ Y_k.',
+                equations: [
+                  {
+                    label: 'AC Phasor Millman Formula',
+                    formula: 'V_{eq} = (∑ V_k Y_k) / (∑ Y_k),   where Y_k = 1 / Z_k',
+                  },
+                ],
+              },
             ],
           },
           {
@@ -834,7 +1005,7 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
             title: 'Sinusoidal Functions',
             summary:
               'Instantaneous current, voltage, power, effective current and voltage, phasors and complex quantities. Impedance, admittance, reactance, susceptance of RL, RC and RLC branches.',
-            estimatedMinutes: 40,
+            estimatedMinutes: 45,
             lastUpdated: 'October 2026',
             blocks: [
               {
@@ -887,6 +1058,63 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
                     ],
                   ],
                 },
+              },
+              {
+                id: 'u06-b2',
+                type: 'pyq',
+                priorityTier: 2,
+                sourceCitation:
+                  'Previous Year Question · PUST EECE Final Exam 2023 Q6(a) & 2021 Q6(b)',
+                title:
+                  'Series RLC Branch Impedance, Admittance, Power Factor & Average Power',
+                summaryText:
+                  'Calculate Z, Y, current phasor I, power factor cos θ, and average power P = V_rms I_rms cos θ for a series RLC branch.',
+                examYears: ['2023', '2021'],
+                marks: '7 Marks',
+                problemStatement:
+                  'A series RLC branch with R = 8 Ω, inductive reactance X_L = 12 Ω, and capacitive reactance X_C = 6 Ω is connected across an AC voltage source v(t) = 100√2 cos(314t) V. Find (1) total impedance Z and admittance Y, (2) RMS current I_rms and phase angle θ, and (3) power factor and average power absorbed.',
+                solutionSteps: [
+                  {
+                    stepTitle: 'Step 1: Compute Z, Y, I_rms, and Average Power P',
+                    explanation: 'Combine net reactance X = X_L − X_C = 12 − 6 = 6 Ω:',
+                    equation:
+                      'Z = 8 + j(12 − 6) = 8 + j6 = 10∠36.87° Ω\nY = 1 / Z = (8 − j6) / 100 = 0.08 − j0.06 S\nI_{rms} = V_{rms} / Z = (100∠0°) / (10∠36.87°) = 10∠−36.87° A\nPower factor:  pf = cos(36.87°) = 0.8 (lagging)\nAverage power: P = V_{rms} I_{rms} cos θ = 100 × 10 × 0.8\n∴  Z = 10∠36.87° Ω,   I_{rms} = 10∠−36.87° A,   P = 800 W (pf = 0.8 lagging)',
+                  },
+                ],
+              },
+              {
+                id: 'u06-b3',
+                type: 'theory',
+                priorityTier: 3,
+                sourceCitation:
+                  'Professor-Followed Book · B. L. Theraja Vol. I (Ch. 11–13) & Alexander & Sadiku (Ch. 9)',
+                title:
+                  'Instantaneous Power p(t), Average Power P, Reactive Power Q & Complex Power S',
+                summaryText:
+                  'Complex power S = V_rms I_rms* = P + jQ (VA), where P = V_rms I_rms cos θ (W) and Q = V_rms I_rms sin θ (VAR).',
+                equations: [
+                  {
+                    label: 'Complex, Active & Reactive Power Triangle',
+                    formula: 'S = P + jQ = V_{rms} I_{rms}^*   |   |S| = √(P² + Q²),   pf = cos θ = P / |S|',
+                  },
+                ],
+              },
+              {
+                id: 'u06-b4',
+                type: 'example',
+                priorityTier: 4,
+                sourceCitation:
+                  'Syllabus Book · Corcoran & Kerchner & Robert L. Boylestad (Ch. 15)',
+                title:
+                  'Series-Parallel Admittance Conversion (Conductance G & Susceptance B)',
+                summaryText:
+                  'For a parallel RL or RC branch, sum the conductances G = ∑ G_k and susceptances B = ∑ B_k directly.',
+                equations: [
+                  {
+                    label: 'Series Impedance (R + jX) to Parallel Admittance (G + jB)',
+                    formula: 'G = R / (R² + X²),   B = −X / (R² + X²)',
+                  },
+                ],
               },
             ],
           },
