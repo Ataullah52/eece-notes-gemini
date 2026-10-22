@@ -13,6 +13,8 @@ import {
   RotateCcw,
   Sun,
   Moon,
+  Link2,
+  Check,
 } from 'lucide-react';
 import {
   CURRICULUM_SEMESTERS,
@@ -27,9 +29,14 @@ import {
   type PriorityTier,
   type NoteBlockType,
 } from './utils/circuitMath';
+import {
+  buildRouteHash,
+  parseRouteHash,
+  type RouteViewLevel,
+} from './utils/hashRouter';
 import { NoteBlockCard } from './components/NoteBlockCard';
 
-type ViewLevel = 'semesters' | 'subjects' | 'subject-detail' | 'note';
+type ViewLevel = RouteViewLevel;
 
 export default function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -54,17 +61,78 @@ export default function App() {
     }
   }, [darkMode]);
 
-  // Hierarchy Navigation: Semesters -> Subjects -> Subject Page -> Module Note
-  const [viewLevel, setViewLevel] = useState<ViewLevel>('semesters');
-  const [selectedSemesterId, setSelectedSemesterId] = useState<string>('eece11');
-  const [selectedSubjectId, setSelectedSubjectId] = useState<string>('eece1111');
-  const [selectedChapterId, setSelectedChapterId] = useState<string>('eece1111-ch01');
+  // Hierarchy Navigation synced with URL Hash (#/semester/subject/chapter)
+  const initialRoute = useMemo(
+    () =>
+      parseRouteHash(
+        typeof window !== 'undefined' ? window.location.hash : '',
+        CURRICULUM_SEMESTERS
+      ),
+    []
+  );
+  const [viewLevel, setViewLevel] = useState<ViewLevel>(initialRoute.viewLevel);
+  const [selectedSemesterId, setSelectedSemesterId] = useState<string>(
+    initialRoute.semesterId
+  );
+  const [selectedSubjectId, setSelectedSubjectId] = useState<string>(
+    initialRoute.subjectId
+  );
+  const [selectedChapterId, setSelectedChapterId] = useState<string>(
+    initialRoute.chapterId
+  );
+  const [copiedChapterLink, setCopiedChapterLink] = useState<boolean>(false);
 
   // Note Filter State
   const [priorityFilter, setPriorityFilter] = useState<PriorityTier | 'all'>('all');
   const [blockTypeFilter, setBlockTypeFilter] = useState<NoteBlockType | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [expandAllSolutions, setExpandAllSolutions] = useState<boolean>(true);
+  const [includeSolutionsInPdf, setIncludeSolutionsInPdf] = useState<boolean>(true);
+  const [isPdfExportModalOpen, setIsPdfExportModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (initialRoute.blockId) {
+      setTimeout(() => {
+        document.getElementById(initialRoute.blockId!)?.scrollIntoView({
+          behavior: 'smooth',
+        });
+      }, 60);
+    }
+  }, [initialRoute.blockId]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const parsed = parseRouteHash(window.location.hash, CURRICULUM_SEMESTERS);
+      setViewLevel((prev) => {
+        if (prev !== parsed.viewLevel) {
+          setPriorityFilter('all');
+          setBlockTypeFilter('all');
+          setSearchQuery('');
+        }
+        return parsed.viewLevel;
+      });
+      setSelectedSemesterId(parsed.semesterId);
+      setSelectedSubjectId(parsed.subjectId);
+      setSelectedChapterId((prevCh) => {
+        if (prevCh !== parsed.chapterId) {
+          setPriorityFilter('all');
+          setBlockTypeFilter('all');
+          setSearchQuery('');
+        }
+        return parsed.chapterId;
+      });
+
+      if (parsed.blockId) {
+        setTimeout(() => {
+          document.getElementById(parsed.blockId!)?.scrollIntoView({
+            behavior: 'smooth',
+          });
+        }, 40);
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const activeSemester: SemesterEntry = useMemo(
     () =>
@@ -100,35 +168,96 @@ export default function App() {
     [activeChapter, priorityFilter, blockTypeFilter, searchQuery]
   );
 
-  const handleSelectSemester = (semester: SemesterEntry) => {
-    setSelectedSemesterId(semester.id);
-    if (semester.subjects.length > 0) {
-      setSelectedSubjectId(semester.subjects[0].id);
-      if (semester.subjects[0].chapters.length > 0) {
-        setSelectedChapterId(semester.subjects[0].chapters[0].id);
-      }
+  const navigateToRoute = (route: {
+    viewLevel: ViewLevel;
+    semesterId?: string;
+    subjectId?: string;
+    chapterId?: string;
+    blockId?: string | null;
+  }) => {
+    const semId = route.semesterId ?? selectedSemesterId;
+    const subId = route.subjectId ?? selectedSubjectId;
+    const chId = route.chapterId ?? selectedChapterId;
+
+    setViewLevel(route.viewLevel);
+    setSelectedSemesterId(semId);
+    setSelectedSubjectId(subId);
+    setSelectedChapterId(chId);
+
+    const nextHash = buildRouteHash({
+      viewLevel: route.viewLevel,
+      semesterId: semId,
+      subjectId: subId,
+      chapterId: chId,
+      blockId: route.blockId ?? null,
+    });
+
+    if (window.location.hash !== nextHash) {
+      window.location.hash = nextHash;
     }
-    setViewLevel('subjects');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (route.blockId) {
+      setTimeout(() => {
+        document.getElementById(route.blockId!)?.scrollIntoView({ behavior: 'smooth' });
+      }, 40);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleSelectSemester = (semester: SemesterEntry) => {
+    const nextSubjectId =
+      semester.subjects.length > 0 ? semester.subjects[0].id : selectedSubjectId;
+    const nextChapterId =
+      semester.subjects.length > 0 && semester.subjects[0].chapters.length > 0
+        ? semester.subjects[0].chapters[0].id
+        : selectedChapterId;
+
+    navigateToRoute({
+      viewLevel: 'subjects',
+      semesterId: semester.id,
+      subjectId: nextSubjectId,
+      chapterId: nextChapterId,
+    });
   };
 
   const handleOpenSubjectPage = (subject: SubjectCourse) => {
-    setSelectedSubjectId(subject.id);
-    if (subject.chapters.length > 0) {
-      setSelectedChapterId(subject.chapters[0].id);
-    }
-    setViewLevel('subject-detail');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const nextChapterId =
+      subject.chapters.length > 0 ? subject.chapters[0].id : selectedChapterId;
+    navigateToRoute({
+      viewLevel: 'subject-detail',
+      semesterId: activeSemester.id,
+      subjectId: subject.id,
+      chapterId: nextChapterId,
+    });
   };
 
   const handleOpenChapterNote = (subject: SubjectCourse, chapter: ChapterNote) => {
-    setSelectedSubjectId(subject.id);
-    setSelectedChapterId(chapter.id);
     setPriorityFilter('all');
     setBlockTypeFilter('all');
     setSearchQuery('');
-    setViewLevel('note');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateToRoute({
+      viewLevel: 'note',
+      semesterId: activeSemester.id,
+      subjectId: subject.id,
+      chapterId: chapter.id,
+    });
+  };
+
+  const handleCopyChapterLink = () => {
+    if (!activeSubject || !activeChapter) return;
+    const hash = buildRouteHash({
+      viewLevel: 'note',
+      semesterId: activeSemester.id,
+      subjectId: activeSubject.id,
+      chapterId: activeChapter.id,
+    });
+    const fullUrl = `${window.location.origin}${window.location.pathname}${hash}`;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fullUrl).catch(() => {});
+    }
+    setCopiedChapterLink(true);
+    setTimeout(() => setCopiedChapterLink(false), 2000);
   };
 
   const handleRoutineCourseClick = (slotText: string) => {
@@ -142,11 +271,16 @@ export default function App() {
     }
   };
 
-  const handleExportPdf = () => {
-    setExpandAllSolutions(true);
+  const handleOpenExportPdfModal = () => {
+    setIsPdfExportModalOpen(true);
+  };
+
+  const handleConfirmExportPdf = (withSolutions: boolean) => {
+    setIncludeSolutionsInPdf(withSolutions);
+    setIsPdfExportModalOpen(false);
     setTimeout(() => {
       window.print();
-    }, 50);
+    }, 60);
   };
 
   const resetFilters = () => {
@@ -186,7 +320,7 @@ export default function App() {
         {/* Home Button -> Semesters */}
         <button
           type="button"
-          onClick={() => setViewLevel('semesters')}
+          onClick={() => navigateToRoute({ viewLevel: 'semesters' })}
           className="font-display text-base font-bold tracking-tight text-slate-900 hover:text-sky-700 sm:text-lg dark:text-slate-100 dark:hover:text-sky-400"
         >
           EECE Notes
@@ -225,7 +359,7 @@ export default function App() {
 
           <button
             type="button"
-            onClick={handleExportPdf}
+            onClick={handleOpenExportPdfModal}
             className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
           >
             <Printer className="h-3.5 w-3.5" />
@@ -233,6 +367,104 @@ export default function App() {
           </button>
         </div>
       </header>
+
+      {/* Export PDF Options Modal */}
+      {isPdfExportModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4 backdrop-blur-xs print:hidden"
+          onClick={() => setIsPdfExportModalOpen(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="pdf-export-modal-title"
+            className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2
+              id="pdf-export-modal-title"
+              className="font-display text-lg font-bold text-slate-900 dark:text-slate-100"
+            >
+              Export PDF Options
+            </h2>
+            <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+              Choose whether to include the step-by-step solutions in the exported PDF document.
+            </p>
+
+            <div className="mt-4 space-y-2.5" role="radiogroup" aria-label="Solution visibility in PDF">
+              <label
+                className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3.5 transition-colors ${
+                  includeSolutionsInPdf
+                    ? 'border-sky-600 bg-sky-50/60 dark:border-sky-400 dark:bg-sky-950/30'
+                    : 'border-slate-200 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="pdf-solutions-option"
+                  checked={includeSolutionsInPdf}
+                  onChange={() => setIncludeSolutionsInPdf(true)}
+                  className="mt-0.5 h-4 w-4 accent-sky-600"
+                />
+                <span className="block text-xs">
+                  <span className="block font-semibold text-slate-900 dark:text-slate-100">
+                    Include Step-by-Step Solutions
+                  </span>
+                  <span className="mt-0.5 block text-slate-600 dark:text-slate-400">
+                    Exports all definitions, formulas, problem statements, and full vertical solutions.
+                  </span>
+                </span>
+              </label>
+
+              <label
+                className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3.5 transition-colors ${
+                  !includeSolutionsInPdf
+                    ? 'border-sky-600 bg-sky-50/60 dark:border-sky-400 dark:bg-sky-950/30'
+                    : 'border-slate-200 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/50'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="pdf-solutions-option"
+                  checked={!includeSolutionsInPdf}
+                  onChange={() => setIncludeSolutionsInPdf(false)}
+                  className="mt-0.5 h-4 w-4 accent-sky-600"
+                />
+                <span className="block text-xs">
+                  <span className="block font-semibold text-slate-900 dark:text-slate-100">
+                    Do Not Include Solutions (Questions &amp; Notes Only)
+                  </span>
+                  <span className="mt-0.5 block text-slate-600 dark:text-slate-400">
+                    Hides all step-by-step solutions in the exported PDF for self-practice and quick review.
+                  </span>
+                </span>
+              </label>
+            </div>
+
+            <div className="mt-5 flex items-center justify-end gap-2.5">
+              <button
+                type="button"
+                onClick={() => setIsPdfExportModalOpen(false)}
+                className="rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => handleConfirmExportPdf(includeSolutionsInPdf)}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
+              >
+                <Printer className="h-3.5 w-3.5" />
+                <span>
+                  {includeSolutionsInPdf
+                    ? 'Export PDF with Solutions'
+                    : 'Export PDF without Solutions'}
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 print:max-w-none print:px-0 print:py-0">
@@ -244,7 +476,7 @@ export default function App() {
           >
             <button
               type="button"
-              onClick={() => setViewLevel('semesters')}
+              onClick={() => navigateToRoute({ viewLevel: 'semesters' })}
               className="font-medium hover:text-slate-900 dark:hover:text-slate-100"
             >
               Semesters
@@ -253,7 +485,9 @@ export default function App() {
             <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
             <button
               type="button"
-              onClick={() => setViewLevel('subjects')}
+              onClick={() =>
+                navigateToRoute({ viewLevel: 'subjects', semesterId: activeSemester.id })
+              }
               className={`font-mono font-medium hover:text-slate-900 dark:hover:text-slate-100 ${
                 viewLevel === 'subjects'
                   ? 'font-semibold text-sky-700 dark:text-sky-400'
@@ -269,7 +503,13 @@ export default function App() {
                   <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
                   <button
                     type="button"
-                    onClick={() => setViewLevel('subject-detail')}
+                    onClick={() =>
+                      navigateToRoute({
+                        viewLevel: 'subject-detail',
+                        semesterId: activeSemester.id,
+                        subjectId: activeSubject.id,
+                      })
+                    }
                     className={`font-mono font-medium hover:text-slate-900 dark:hover:text-slate-100 ${
                       viewLevel === 'subject-detail'
                         ? 'font-semibold text-sky-700 dark:text-sky-400'
@@ -401,7 +641,7 @@ export default function App() {
 
               <button
                 type="button"
-                onClick={() => setViewLevel('semesters')}
+                onClick={() => navigateToRoute({ viewLevel: 'semesters' })}
                 className="inline-flex items-center gap-1 text-xs font-medium text-sky-700 hover:underline dark:text-sky-400"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
@@ -523,7 +763,7 @@ export default function App() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => setViewLevel('semesters')}
+                  onClick={() => navigateToRoute({ viewLevel: 'semesters' })}
                   className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
@@ -563,7 +803,12 @@ export default function App() {
 
                 <button
                   type="button"
-                  onClick={() => setViewLevel('subjects')}
+                  onClick={() =>
+                    navigateToRoute({
+                      viewLevel: 'subjects',
+                      semesterId: activeSemester.id,
+                    })
+                  }
                   className="inline-flex items-center gap-1 font-medium text-sky-700 hover:underline dark:text-sky-400"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
@@ -677,14 +922,40 @@ export default function App() {
                   </span>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => setViewLevel('subject-detail')}
-                  className="inline-flex items-center gap-1 font-medium text-sky-700 hover:underline dark:text-sky-400 print:hidden"
-                >
-                  <ArrowLeft className="h-3.5 w-3.5" />
-                  <span>Back to {activeSubject.code}</span>
-                </button>
+                <div className="flex items-center gap-3 print:hidden">
+                  <button
+                    type="button"
+                    onClick={handleCopyChapterLink}
+                    className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                  >
+                    {copiedChapterLink ? (
+                      <>
+                        <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                        <span>Link Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Link2 className="h-3.5 w-3.5" />
+                        <span>Copy Chapter Link</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigateToRoute({
+                        viewLevel: 'subject-detail',
+                        semesterId: activeSemester.id,
+                        subjectId: activeSubject.id,
+                      })
+                    }
+                    className="inline-flex items-center gap-1 font-medium text-sky-700 hover:underline dark:text-sky-400"
+                  >
+                    <ArrowLeft className="h-3.5 w-3.5" />
+                    <span>Back to {activeSubject.code}</span>
+                  </button>
+                </div>
               </div>
 
               <h1
@@ -812,7 +1083,23 @@ export default function App() {
                         {filteredBlocks.map((block, idx) => (
                           <li key={block.id}>
                             <a
-                              href={`#${block.id}`}
+                              href={buildRouteHash({
+                                viewLevel: 'note',
+                                semesterId: activeSemester.id,
+                                subjectId: activeSubject.id,
+                                chapterId: activeChapter.id,
+                                blockId: block.id,
+                              })}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigateToRoute({
+                                  viewLevel: 'note',
+                                  semesterId: activeSemester.id,
+                                  subjectId: activeSubject.id,
+                                  chapterId: activeChapter.id,
+                                  blockId: block.id,
+                                });
+                              }}
                               className="block text-slate-600 transition-colors hover:text-sky-700 dark:text-slate-400 dark:hover:text-sky-400"
                             >
                               <span className="font-mono text-[11px] text-slate-400">
@@ -833,7 +1120,7 @@ export default function App() {
                           key={block.id}
                           block={block}
                           index={idx}
-                          forceExpandSolutions={expandAllSolutions}
+                          includeSolutionsInPdf={includeSolutionsInPdf}
                         />
                       ))
                     ) : (
@@ -860,7 +1147,13 @@ export default function App() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => setViewLevel('subject-detail')}
+                  onClick={() =>
+                    navigateToRoute({
+                      viewLevel: 'subject-detail',
+                      semesterId: activeSemester.id,
+                      subjectId: activeSubject.id,
+                    })
+                  }
                   className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 dark:bg-sky-500 dark:text-slate-950"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />

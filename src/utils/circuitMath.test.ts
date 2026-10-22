@@ -169,5 +169,39 @@ test('KaTeX math renderer converts radical expressions, fractions, and limits in
   assert.ok(lines[3].startsWith('(3)'));
 });
 
+test('hashRouter builds and parses chapter, subject, semester, and block links accurately', async () => {
+  const { buildRouteHash, parseRouteHash } = await import('./hashRouter.ts');
+  const { CURRICULUM_SEMESTERS } = await import('../data/curriculumData.ts');
+
+  const chHash = buildRouteHash({
+    viewLevel: 'note',
+    semesterId: 'eece11',
+    subjectId: 'math1101',
+    chapterId: 'math1101-ch01',
+  });
+  assert.equal(chHash, '#/eece11/math1101/math1101-ch01');
+
+  const parsedCh = parseRouteHash(chHash, CURRICULUM_SEMESTERS);
+  assert.equal(parsedCh.viewLevel, 'note');
+  assert.equal(parsedCh.semesterId, 'eece11');
+  assert.equal(parsedCh.subjectId, 'math1101');
+  assert.equal(parsedCh.chapterId, 'math1101-ch01');
+  assert.equal(parsedCh.blockId, null);
+
+  const parsedShorthand = parseRouteHash('#math1101-ch03', CURRICULUM_SEMESTERS);
+  assert.equal(parsedShorthand.viewLevel, 'note');
+  assert.equal(parsedShorthand.subjectId, 'math1101');
+  assert.equal(parsedShorthand.chapterId, 'math1101-ch03');
+
+  const parsedBlock = parseRouteHash(
+    '#/eece11/math1101/math1101-ch01/math-m1-b2',
+    CURRICULUM_SEMESTERS
+  );
+  assert.equal(parsedBlock.viewLevel, 'note');
+  assert.equal(parsedBlock.chapterId, 'math1101-ch01');
+  assert.equal(parsedBlock.blockId, 'math-m1-b2');
+});
+
+
 
 

@@ -9,7 +9,7 @@ import { splitProblemStatementLines } from '../utils/mathLatex';
 interface NoteBlockCardProps {
   block: NoteBlock;
   index: number;
-  forceExpandSolutions: boolean;
+  includeSolutionsInPdf?: boolean;
 }
 
 const BLOCK_TYPE_LABELS: Record<NoteBlock['type'], string> = {
@@ -23,11 +23,10 @@ const BLOCK_TYPE_LABELS: Record<NoteBlock['type'], string> = {
 export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
   block,
   index,
-  forceExpandSolutions,
+  includeSolutionsInPdf = true,
 }) => {
-  const [isSolutionOpen, setIsSolutionOpen] = useState<boolean>(true);
+  const [isSolutionOpen, setIsSolutionOpen] = useState<boolean>(false);
   const tierMeta = PRIORITY_TIER_META[block.priorityTier];
-  const showSolution = forceExpandSolutions || isSolutionOpen;
 
   const tierTextColor =
     block.priorityTier === 1
@@ -240,14 +239,14 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
           )}
 
           {block.solutionSteps && block.solutionSteps.length > 0 && (
-            <div className="mt-4">
+            <div className={`mt-4 ${includeSolutionsInPdf ? '' : 'print:hidden'}`}>
               <button
                 type="button"
                 onClick={() => setIsSolutionOpen((prev) => !prev)}
-                aria-expanded={showSolution}
+                aria-expanded={isSolutionOpen}
                 className="flex items-center gap-1.5 text-xs font-semibold text-sky-700 hover:text-sky-800 dark:text-sky-400 dark:hover:text-sky-300 print:hidden"
               >
-                {showSolution ? (
+                {isSolutionOpen ? (
                   <>
                     <ChevronUp className="h-3.5 w-3.5" />
                     <span>Hide Step-by-Step Solution</span>
@@ -255,17 +254,17 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
                 ) : (
                   <>
                     <ChevronDown className="h-3.5 w-3.5" />
-                    <span>
-                      Show Step-by-Step Solution ({block.solutionSteps.length} Parts)
-                    </span>
+                    <span>Show Step-by-Step Solution</span>
                   </>
                 )}
               </button>
 
               <div
                 className={`${
-                  showSolution ? 'mt-3 block' : 'hidden'
-                } space-y-4 border-t border-slate-200/90 pt-4 dark:border-slate-800 print:mt-3 print:block`}
+                  isSolutionOpen ? 'mt-3 block' : 'hidden'
+                } space-y-4 border-t border-slate-200/90 pt-4 dark:border-slate-800 ${
+                  includeSolutionsInPdf ? 'print:mt-3 print:block' : 'print:hidden'
+                }`}
               >
                 {block.solutionSteps.map((step, sIdx) => {
                   const isLastStep = sIdx === block.solutionSteps!.length - 1;
