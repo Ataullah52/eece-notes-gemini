@@ -4,7 +4,22 @@ export type InteractiveDiagramId =
   | 'passive-sign'
   | 'ohms-law'
   | 'kcl-kvl'
-  | 'rc-transient';
+  | 'rc-transient'
+  | 'regular-polygon-cad'
+  | 'autocad-command-sim';
+
+export type SvgFigureId =
+  | 'lettering-sheet-az'
+  | 'polygon-interior-angle'
+  | 'polygon-perpendicular-bisector';
+
+export interface NoteFigure {
+  src: string;
+  alt: string;
+  caption: string;
+  figureNumber?: string;
+  commandSequence?: string;
+}
 
 export interface TableData {
   caption?: string;
@@ -38,6 +53,8 @@ export interface NoteBlock {
   bulletPoints?: string[];
   equations?: EquationItem[];
   table?: TableData;
+  figures?: NoteFigure[];
+  svgFigureId?: SvgFigureId;
   interactiveDiagramId?: InteractiveDiagramId;
   examYears?: string[];
   marks?: string;

@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "test": "tsx --test src/utils/mathLatex.test.ts src/utils/circuitMath.test.ts"
+    "test": "tsx --test src/utils/mathLatex.test.ts src/utils/circuitMath.test.ts src/utils/cadMath.test.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

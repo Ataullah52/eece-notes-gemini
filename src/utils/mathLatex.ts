@@ -88,6 +88,7 @@ const LATEX_SYMBOL_MAP: Record<string, string> = {
   '∠': '\\angle ',
   '⊥': '\\perp ',
   '∥': '\\parallel ',
+  '↵': '\\text{ [Enter]} ',
   '△': '\\triangle ',
   '■': '\\blacksquare ',
   '½': '\\frac{1}{2}',

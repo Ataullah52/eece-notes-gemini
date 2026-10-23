@@ -65,12 +65,11 @@ const PassiveSignDiagram: React.FC = () => {
         <div className="lg:col-span-7 print:col-span-12">
           <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
             <svg
-              viewBox="0 0 520 220"
+              viewBox="0 0 540 220"
               className="h-auto w-full"
               role="img"
               aria-label="Passive Sign Convention circuit diagram showing voltage terminals and current reference arrow"
             >
-              {/* Subtle grid lines */}
               <defs>
                 <marker
                   id="arrow-current"
@@ -87,50 +86,50 @@ const PassiveSignDiagram: React.FC = () => {
 
               {/* Top & bottom circuit leads */}
               <line
-                x1="90"
+                x1="65"
                 y1="55"
-                x2="260"
+                x2="235"
                 y2="55"
                 className="stroke-slate-700 dark:stroke-slate-300"
                 strokeWidth="2.5"
               />
               <line
-                x1="260"
+                x1="235"
                 y1="55"
-                x2="260"
+                x2="235"
                 y2="75"
                 className="stroke-slate-700 dark:stroke-slate-300"
                 strokeWidth="2.5"
               />
               <line
-                x1="260"
+                x1="235"
                 y1="155"
-                x2="260"
+                x2="235"
                 y2="175"
                 className="stroke-slate-700 dark:stroke-slate-300"
                 strokeWidth="2.5"
               />
               <line
-                x1="90"
+                x1="65"
                 y1="175"
-                x2="260"
+                x2="235"
                 y2="175"
                 className="stroke-slate-700 dark:stroke-slate-300"
                 strokeWidth="2.5"
               />
 
               {/* Terminal nodes a and b */}
-              <circle cx="90" cy="55" r="4.5" className="fill-slate-800 dark:fill-slate-200" />
-              <circle cx="90" cy="175" r="4.5" className="fill-slate-800 dark:fill-slate-200" />
+              <circle cx="65" cy="55" r="4.5" className="fill-slate-800 dark:fill-slate-200" />
+              <circle cx="65" cy="175" r="4.5" className="fill-slate-800 dark:fill-slate-200" />
               <text
-                x="68"
+                x="45"
                 y="60"
                 className="fill-slate-700 font-mono text-xs font-semibold dark:fill-slate-300"
               >
                 a
               </text>
               <text
-                x="68"
+                x="45"
                 y="180"
                 className="fill-slate-700 font-mono text-xs font-semibold dark:fill-slate-300"
               >
@@ -140,9 +139,9 @@ const PassiveSignDiagram: React.FC = () => {
               {/* Current reference arrow on top wire */}
               {entersPositive ? (
                 <line
-                  x1="130"
+                  x1="100"
                   y1="55"
-                  x2="215"
+                  x2="185"
                   y2="55"
                   className="stroke-sky-600 dark:stroke-sky-400"
                   strokeWidth="3"
@@ -150,9 +149,9 @@ const PassiveSignDiagram: React.FC = () => {
                 />
               ) : (
                 <line
-                  x1="215"
+                  x1="185"
                   y1="55"
-                  x2="130"
+                  x2="100"
                   y2="55"
                   className="stroke-sky-600 dark:stroke-sky-400"
                   strokeWidth="3"
@@ -160,7 +159,7 @@ const PassiveSignDiagram: React.FC = () => {
                 />
               )}
               <text
-                x="172"
+                x="145"
                 y="40"
                 textAnchor="middle"
                 className="fill-sky-700 font-mono text-xs font-semibold dark:fill-sky-300"
@@ -168,7 +167,7 @@ const PassiveSignDiagram: React.FC = () => {
                 i = {current >= 0 ? `+${current}` : current} A
               </text>
               <text
-                x="172"
+                x="145"
                 y="24"
                 textAnchor="middle"
                 className="fill-slate-500 font-sans text-[11px] dark:fill-slate-400"
@@ -178,9 +177,9 @@ const PassiveSignDiagram: React.FC = () => {
 
               {/* General Two-Terminal Circuit Element Box */}
               <rect
-                x="205"
+                x="175"
                 y="75"
-                width="110"
+                width="120"
                 height="80"
                 rx="8"
                 className={
@@ -193,9 +192,9 @@ const PassiveSignDiagram: React.FC = () => {
                 strokeWidth="2.2"
               />
 
-              {/* Polarity Signs inside/near element */}
+              {/* Polarity Signs strictly to the left of Element Box */}
               <text
-                x="185"
+                x="125"
                 y="93"
                 textAnchor="middle"
                 className="fill-amber-600 font-mono text-base font-bold dark:fill-amber-400"
@@ -203,15 +202,15 @@ const PassiveSignDiagram: React.FC = () => {
                 +
               </text>
               <text
-                x="185"
+                x="125"
                 y="120"
                 textAnchor="middle"
-                className="fill-slate-800 font-mono text-xs font-semibold dark:fill-slate-200"
+                className="fill-slate-800 font-mono text-[11px] font-semibold dark:fill-slate-200"
               >
                 v = {voltage >= 0 ? `+${voltage}` : voltage} V
               </text>
               <text
-                x="185"
+                x="125"
                 y="150"
                 textAnchor="middle"
                 className="fill-amber-600 font-mono text-base font-bold dark:fill-amber-400"
@@ -221,24 +220,24 @@ const PassiveSignDiagram: React.FC = () => {
 
               {/* Element Title & Computed Power inside Box */}
               <text
-                x="260"
-                y="108"
+                x="235"
+                y="106"
                 textAnchor="middle"
                 className="fill-slate-900 font-display text-xs font-semibold dark:fill-slate-100"
               >
                 Circuit Element
               </text>
               <text
-                x="260"
-                y="128"
+                x="235"
+                y="126"
                 textAnchor="middle"
                 className="fill-slate-800 font-mono text-xs font-bold dark:fill-slate-200"
               >
                 p = {result.signedPowerWatts >= 0 ? `+${result.signedPowerWatts}` : result.signedPowerWatts} W
               </text>
               <text
-                x="260"
-                y="145"
+                x="235"
+                y="144"
                 textAnchor="middle"
                 className="fill-slate-600 font-sans text-[10px] dark:fill-slate-400"
               >
@@ -249,47 +248,47 @@ const PassiveSignDiagram: React.FC = () => {
                     : 'Idle (0 W)'}
               </text>
 
-              {/* Right-side summary equations in SVG for clean PDF print */}
+              {/* Right-side summary equations in SVG with generous width */}
               <rect
-                x="340"
-                y="55"
-                width="165"
-                height="120"
+                x="312"
+                y="45"
+                width="216"
+                height="135"
                 rx="6"
                 className="fill-slate-50 stroke-slate-200 dark:fill-slate-900 dark:stroke-slate-800"
                 strokeWidth="1.2"
               />
               <text
-                x="352"
-                y="78"
+                x="324"
+                y="68"
                 className="fill-slate-500 font-sans text-[11px] font-medium dark:fill-slate-400"
               >
                 Governing Sign Equation:
               </text>
               <text
-                x="352"
-                y="98"
-                className="fill-slate-900 font-mono text-xs font-semibold dark:fill-slate-100"
+                x="324"
+                y="88"
+                className="fill-slate-900 font-mono text-[11px] font-semibold dark:fill-slate-100"
               >
                 {result.formulaUsed}
               </text>
               <text
-                x="352"
-                y="124"
+                x="324"
+                y="114"
                 className="fill-slate-500 font-sans text-[11px] font-medium dark:fill-slate-400"
               >
                 Substitution:
               </text>
               <text
-                x="352"
-                y="142"
-                className="fill-slate-900 font-mono text-xs font-semibold dark:fill-slate-100"
+                x="324"
+                y="134"
+                className="fill-slate-900 font-mono text-[11px] font-semibold dark:fill-slate-100"
               >
                 p = {entersPositive ? '+' : '−'}({voltage})({current}) = {result.signedPowerWatts} W
               </text>
               <text
-                x="352"
-                y="163"
+                x="324"
+                y="158"
                 className="fill-slate-600 font-mono text-[11px] dark:fill-slate-400"
               >
                 W (10s) = {result.energy10SecJoules} J
@@ -437,7 +436,7 @@ const OhmsLawDiagram: React.FC = () => {
         <div className="lg:col-span-7 print:col-span-12">
           <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
             <svg
-              viewBox="0 0 520 210"
+              viewBox="0 0 540 210"
               className="h-auto w-full"
               role="img"
               aria-label="Ohm's Law linear I-V characteristic plot and circuit parameters"
@@ -446,7 +445,7 @@ const OhmsLawDiagram: React.FC = () => {
               <line
                 x1={plotLeft}
                 y1={plotBottom}
-                x2={plotLeft + plotWidth + 15}
+                x2={plotLeft + plotWidth + 10}
                 y2={plotBottom}
                 className="stroke-slate-600 dark:stroke-slate-400"
                 strokeWidth="1.8"
@@ -534,61 +533,62 @@ const OhmsLawDiagram: React.FC = () => {
                 strokeWidth="2"
               />
               <text
-                x={Math.min(pointX + 10, 220)}
-                y={Math.max(pointY - 8, 35)}
-                className="fill-slate-900 font-mono text-[11px] font-semibold dark:fill-slate-100"
+                x={pointX > 180 ? pointX - 10 : pointX + 10}
+                y={Math.max(pointY - 8, 34)}
+                textAnchor={pointX > 180 ? 'end' : 'start'}
+                className="fill-slate-900 font-mono text-[10.5px] font-semibold dark:fill-slate-100"
               >
                 ({voltage}V, {state.currentMilliamps}mA)
               </text>
 
-              {/* Right Readout Box */}
+              {/* Right Readout Box with ample width */}
               <rect
-                x="310"
-                y="35"
-                width="195"
-                height="145"
+                x="296"
+                y="28"
+                width="232"
+                height="155"
                 rx="6"
                 className="fill-slate-50 stroke-slate-200 dark:fill-slate-900 dark:stroke-slate-800"
                 strokeWidth="1.2"
               />
               <text
-                x="324"
-                y="58"
+                x="310"
+                y="52"
                 className="fill-slate-900 font-display text-xs font-semibold dark:fill-slate-100"
               >
-                Operating Point Telemetry
+                Operating Point Parameters
               </text>
               <text
-                x="324"
-                y="82"
-                className="fill-slate-700 font-mono text-xs dark:fill-slate-300"
+                x="310"
+                y="76"
+                className="fill-slate-700 font-mono text-[11px] dark:fill-slate-300"
               >
                 Resistance R = {resistance} Ω
               </text>
               <text
-                x="324"
-                y="104"
-                className="fill-slate-700 font-mono text-xs dark:fill-slate-300"
+                x="310"
+                y="98"
+                className="fill-slate-700 font-mono text-[11px] dark:fill-slate-300"
               >
                 Slope G = 1/R = {state.conductanceMillisievert} mS
               </text>
               <text
-                x="324"
-                y="126"
-                className="fill-sky-700 font-mono text-xs font-semibold dark:fill-sky-300"
+                x="310"
+                y="120"
+                className="fill-sky-700 font-mono text-[11px] font-semibold dark:fill-sky-300"
               >
                 Current I = V/R = {state.currentMilliamps} mA
               </text>
               <text
-                x="324"
-                y="148"
-                className="fill-amber-700 font-mono text-xs font-semibold dark:fill-amber-400"
+                x="310"
+                y="142"
+                className="fill-amber-700 font-mono text-[11px] font-semibold dark:fill-amber-400"
               >
                 Power P = V²/R = {state.powerWatts} W
               </text>
               <text
-                x="324"
-                y="168"
+                x="310"
+                y="164"
                 className="fill-slate-500 font-mono text-[10px] dark:fill-slate-400"
               >
                 ({state.powerMilliwatts} mW dissipated as heat)
@@ -680,70 +680,70 @@ const KclKvlDiagram: React.FC = () => {
         <div className="lg:col-span-7 print:col-span-12">
           <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
             <svg
-              viewBox="0 0 520 220"
+              viewBox="0 0 540 220"
               className="h-auto w-full"
               role="img"
               aria-label="Two-loop KCL and KVL circuit schematic with central Node A"
             >
               {/* Outer Frame Wires */}
-              <line x1="70" y1="50" x2="450" y2="50" className="stroke-slate-700 dark:stroke-slate-300" strokeWidth="2.2" />
-              <line x1="70" y1="50" x2="70" y2="175" className="stroke-slate-700 dark:stroke-slate-300" strokeWidth="2.2" />
-              <line x1="450" y1="50" x2="450" y2="175" className="stroke-slate-700 dark:stroke-slate-300" strokeWidth="2.2" />
-              <line x1="70" y1="175" x2="450" y2="175" className="stroke-slate-700 dark:stroke-slate-300" strokeWidth="2.2" />
-              <line x1="260" y1="50" x2="260" y2="175" className="stroke-slate-700 dark:stroke-slate-300" strokeWidth="2.2" />
+              <line x1="75" y1="54" x2="465" y2="54" className="stroke-slate-700 dark:stroke-slate-300" strokeWidth="2.2" />
+              <line x1="75" y1="54" x2="75" y2="175" className="stroke-slate-700 dark:stroke-slate-300" strokeWidth="2.2" />
+              <line x1="465" y1="54" x2="465" y2="175" className="stroke-slate-700 dark:stroke-slate-300" strokeWidth="2.2" />
+              <line x1="75" y1="175" x2="465" y2="175" className="stroke-slate-700 dark:stroke-slate-300" strokeWidth="2.2" />
+              <line x1="270" y1="54" x2="270" y2="175" className="stroke-slate-700 dark:stroke-slate-300" strokeWidth="2.2" />
 
               {/* Central Node A */}
-              <circle cx="260" cy="50" r="5" className="fill-sky-600 dark:fill-sky-400" />
-              <text x="260" y="34" textAnchor="middle" className="fill-sky-700 font-mono text-xs font-bold dark:fill-sky-300">
+              <circle cx="270" cy="54" r="5" className="fill-sky-600 dark:fill-sky-400" />
+              <text x="270" y="18" textAnchor="middle" className="fill-sky-700 font-mono text-xs font-bold dark:fill-sky-300">
                 Node A (V_A = {solved.nodeVoltageVa} V)
               </text>
 
               {/* Left Source V1 */}
-              <circle cx="70" cy="115" r="18" className="fill-white stroke-slate-800 dark:fill-slate-900 dark:stroke-slate-200" strokeWidth="2" />
-              <text x="70" y="112" textAnchor="middle" className="fill-slate-900 font-mono text-xs font-bold dark:fill-slate-100">+</text>
-              <text x="70" y="126" textAnchor="middle" className="fill-slate-900 font-mono text-xs font-bold dark:fill-slate-100">−</text>
-              <text x="28" y="118" textAnchor="middle" className="fill-slate-800 font-mono text-xs font-semibold dark:fill-slate-200">
+              <circle cx="75" cy="115" r="18" className="fill-white stroke-slate-800 dark:fill-slate-900 dark:stroke-slate-200" strokeWidth="2" />
+              <text x="75" y="112" textAnchor="middle" className="fill-slate-900 font-mono text-xs font-bold dark:fill-slate-100">+</text>
+              <text x="75" y="126" textAnchor="middle" className="fill-slate-900 font-mono text-xs font-bold dark:fill-slate-100">−</text>
+              <text x="34" y="118" textAnchor="middle" className="fill-slate-800 font-mono text-xs font-semibold dark:fill-slate-200">
                 {v1}V
               </text>
 
               {/* Right Source V2 */}
-              <circle cx="450" cy="115" r="18" className="fill-white stroke-slate-800 dark:fill-slate-900 dark:stroke-slate-200" strokeWidth="2" />
-              <text x="450" y="112" textAnchor="middle" className="fill-slate-900 font-mono text-xs font-bold dark:fill-slate-100">+</text>
-              <text x="450" y="126" textAnchor="middle" className="fill-slate-900 font-mono text-xs font-bold dark:fill-slate-100">−</text>
-              <text x="492" y="118" textAnchor="middle" className="fill-slate-800 font-mono text-xs font-semibold dark:fill-slate-200">
+              <circle cx="465" cy="115" r="18" className="fill-white stroke-slate-800 dark:fill-slate-900 dark:stroke-slate-200" strokeWidth="2" />
+              <text x="465" y="112" textAnchor="middle" className="fill-slate-900 font-mono text-xs font-bold dark:fill-slate-100">+</text>
+              <text x="465" y="126" textAnchor="middle" className="fill-slate-900 font-mono text-xs font-bold dark:fill-slate-100">−</text>
+              <text x="506" y="118" textAnchor="middle" className="fill-slate-800 font-mono text-xs font-semibold dark:fill-slate-200">
                 {v2}V
               </text>
 
               {/* Resistor R1 Box */}
-              <rect x="135" y="38" width="65" height="24" rx="4" className="fill-amber-50 stroke-amber-600 dark:fill-amber-950 dark:stroke-amber-400" strokeWidth="1.8" />
-              <text x="167" y="54" textAnchor="middle" className="fill-slate-900 font-mono text-[11px] font-semibold dark:fill-slate-100">
-                R₁={r1}Ω
+              <rect x="120" y="40" width="84" height="28" rx="4" className="fill-amber-50 stroke-amber-600 dark:fill-amber-950 dark:stroke-amber-400" strokeWidth="1.8" />
+              <text x="162" y="58" textAnchor="middle" className="fill-slate-900 font-mono text-[11px] font-semibold dark:fill-slate-100">
+                R1 = {r1}Ω
               </text>
-              <text x="167" y="28" textAnchor="middle" className="fill-sky-700 font-mono text-[11px] font-semibold dark:fill-sky-300">
-                i₁ → {solved.i1Milliamps} mA
+              <text x="162" y="33" textAnchor="middle" className="fill-sky-700 font-mono text-[11px] font-semibold dark:fill-sky-300">
+                i1 → {solved.i1Milliamps} mA
               </text>
 
               {/* Resistor R2 Box */}
-              <rect x="320" y="38" width="65" height="24" rx="4" className="fill-amber-50 stroke-amber-600 dark:fill-amber-950 dark:stroke-amber-400" strokeWidth="1.8" />
-              <text x="352" y="54" textAnchor="middle" className="fill-slate-900 font-mono text-[11px] font-semibold dark:fill-slate-100">
-                R₂={r2}Ω
+              <rect x="336" y="40" width="84" height="28" rx="4" className="fill-amber-50 stroke-amber-600 dark:fill-amber-950 dark:stroke-amber-400" strokeWidth="1.8" />
+              <text x="378" y="58" textAnchor="middle" className="fill-slate-900 font-mono text-[11px] font-semibold dark:fill-slate-100">
+                R2 = {r2}Ω
               </text>
-              <text x="352" y="28" textAnchor="middle" className="fill-sky-700 font-mono text-[11px] font-semibold dark:fill-sky-300">
-                ← i₂ {solved.i2Milliamps} mA
+              <text x="378" y="33" textAnchor="middle" className="fill-sky-700 font-mono text-[11px] font-semibold dark:fill-sky-300">
+                ← i2 {solved.i2Milliamps} mA
               </text>
 
-              {/* Central Resistor R3 Box */}
-              <rect x="230" y="95" width="60" height="36" rx="4" className="fill-amber-50 stroke-amber-600 dark:fill-amber-950 dark:stroke-amber-400" strokeWidth="1.8" />
-              <text x="260" y="112" textAnchor="middle" className="fill-slate-900 font-mono text-[11px] font-semibold dark:fill-slate-100">
-                R₃={r3}Ω
+              {/* Central Resistor R3 Box with current label cleanly outside to the right */}
+              <rect x="228" y="98" width="84" height="28" rx="4" className="fill-amber-50 stroke-amber-600 dark:fill-amber-950 dark:stroke-amber-400" strokeWidth="1.8" />
+              <text x="270" y="116" textAnchor="middle" className="fill-slate-900 font-mono text-[11px] font-semibold dark:fill-slate-100">
+                R3 = {r3}Ω
               </text>
-              <text x="260" y="125" textAnchor="middle" className="fill-sky-700 font-mono text-[10px] font-semibold dark:fill-sky-300">
-                ↓ i₃={solved.i3Milliamps}mA
+              <text x="322" y="116" className="fill-sky-700 font-mono text-[11px] font-semibold dark:fill-sky-300">
+                ↓ i3 = {solved.i3Milliamps} mA
               </text>
 
               {/* Ground Reference Node */}
-              <circle cx="260" cy="175" r="4" className="fill-slate-800 dark:fill-slate-200" />
-              <text x="260" y="196" textAnchor="middle" className="fill-slate-600 font-mono text-[11px] dark:fill-slate-400">
+              <circle cx="270" cy="175" r="4" className="fill-slate-800 dark:fill-slate-200" />
+              <text x="270" y="198" textAnchor="middle" className="fill-slate-600 font-mono text-[11px] dark:fill-slate-400">
                 GND (0 V) · KCL: i₁ + i₂ = {solved.i1Milliamps} + ({solved.i2Milliamps}) = {solved.i3Milliamps} mA
               </text>
             </svg>
@@ -859,7 +859,7 @@ const RcTransientDiagram: React.FC = () => {
         <div className="lg:col-span-7 print:col-span-12">
           <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
             <svg
-              viewBox="0 0 520 210"
+              viewBox="0 0 540 210"
               className="h-auto w-full"
               role="img"
               aria-label="RC capacitor charging curve over 5 time constants"
@@ -867,7 +867,7 @@ const RcTransientDiagram: React.FC = () => {
               <line
                 x1={plotLeft}
                 y1={plotBottom}
-                x2={plotLeft + plotWidth + 15}
+                x2={plotLeft + plotWidth + 10}
                 y2={plotBottom}
                 className="stroke-slate-600 dark:stroke-slate-400"
                 strokeWidth="1.8"
@@ -914,9 +914,9 @@ const RcTransientDiagram: React.FC = () => {
               <text
                 x={tau1X + 6}
                 y={tau1Y + 14}
-                className="fill-slate-900 font-mono text-[11px] font-semibold dark:fill-slate-100"
+                className="fill-slate-900 font-mono text-[10.5px] font-semibold dark:fill-slate-100"
               >
-                1τ ({rc.tauMilliseconds} ms): {rc.vAt1Tau} V (63.2%)
+                1τ: {rc.vAt1Tau} V (63.2%)
               </text>
 
               <text
@@ -930,26 +930,26 @@ const RcTransientDiagram: React.FC = () => {
 
               {/* Summary Card */}
               <rect
-                x="320"
-                y="35"
-                width="185"
-                height="140"
+                x="312"
+                y="32"
+                width="214"
+                height="145"
                 rx="6"
                 className="fill-slate-50 stroke-slate-200 dark:fill-slate-900 dark:stroke-slate-800"
               />
-              <text x="332" y="58" className="fill-slate-900 font-display text-xs font-semibold dark:fill-slate-100">
+              <text x="325" y="56" className="fill-slate-900 font-display text-xs font-semibold dark:fill-slate-100">
                 Transient Milestones
               </text>
-              <text x="332" y="82" className="fill-slate-700 font-mono text-xs dark:fill-slate-300">
+              <text x="325" y="80" className="fill-slate-700 font-mono text-[11px] dark:fill-slate-300">
                 τ = R·C = {rc.tauMilliseconds} ms
               </text>
-              <text x="332" y="104" className="fill-amber-700 font-mono text-xs font-semibold dark:fill-amber-400">
+              <text x="325" y="102" className="fill-amber-700 font-mono text-[11px] font-semibold dark:fill-amber-400">
                 v_C(1τ) = {rc.vAt1Tau} V (63.2%)
               </text>
-              <text x="332" y="126" className="fill-slate-700 font-mono text-xs dark:fill-slate-300">
+              <text x="325" y="124" className="fill-slate-700 font-mono text-[11px] dark:fill-slate-300">
                 v_C(3τ) = {rc.vAt3Tau} V (95.0%)
               </text>
-              <text x="332" y="148" className="fill-emerald-700 font-mono text-xs font-semibold dark:fill-emerald-400">
+              <text x="325" y="146" className="fill-emerald-700 font-mono text-[11px] font-semibold dark:fill-emerald-400">
                 v_C(5τ) = {rc.vAt5Tau} V (99.3%)
               </text>
             </svg>
@@ -1018,3 +1018,542 @@ const RcTransientDiagram: React.FC = () => {
     </div>
   );
 };
+
+const RegularPolygonCadDiagram: React.FC = () => {
+  const [sides, setSides] = useState<number>(6);
+  const [armLength, setArmLength] = useState<number>(4.0);
+
+  const geom = calculateRegularPolygonGeometry(sides, armLength);
+
+  // Map vertices into SVG viewport (520 x 230)
+  const xs = geom.vertices.map((v) => v.x);
+  const ys = geom.vertices.map((v) => v.y);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+
+  const polyW = Math.max(0.1, maxX - minX);
+  const polyH = Math.max(0.1, maxY - minY);
+  const scale = Math.min(190 / polyW, 145 / polyH);
+
+  const centerX = 155;
+  const centerY = 115;
+  const midX = (minX + maxX) / 2;
+  const midY = (minY + maxY) / 2;
+
+  const toSvgX = (x: number) => centerX + (x - midX) * scale;
+  const toSvgY = (y: number) => centerY - (y - midY) * scale;
+
+  const svgPoints = geom.vertices
+    .map((v) => `${toSvgX(v.x).toFixed(1)},${toSvgY(v.y).toFixed(1)}`)
+    .join(' ');
+
+  const circumR = geom.circumradius * scale;
+
+  return (
+    <div className="my-6 rounded-xl border border-slate-200 bg-slate-50/70 p-5 dark:border-slate-800 dark:bg-slate-900/60 print:border-slate-300 print:bg-white">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-3 dark:border-slate-800">
+        <div>
+          <h4 className="font-display text-base font-semibold text-slate-900 dark:text-slate-100">
+            Interactive Lab 2.1 · Regular Polygon Geometric Explorer & POL Command Simulator
+          </h4>
+          <p className="text-xs text-slate-600 dark:text-slate-400">
+            Vary side count n (3 to 10) and arm length AB to verify interior angle θ = (n−2)×180°/n and circumradius R.
+          </p>
+        </div>
+        <div className="font-mono text-xs font-semibold tabular-nums text-sky-700 dark:text-sky-300">
+          {geom.name} (n = {geom.sides}) · θ_int = {geom.interiorAngleDeg}° · R = {geom.circumradius}&quot;
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-center">
+        <div className="lg:col-span-7 print:col-span-12">
+          <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
+            <svg
+              viewBox="0 0 520 225"
+              className="h-auto w-full"
+              role="img"
+              aria-label={`Interactive regular ${geom.name} construction diagram`}
+            >
+              {/* Circumcircle */}
+              <circle
+                cx={centerX}
+                cy={centerY}
+                r={circumR}
+                fill="none"
+                className="stroke-slate-300 dark:stroke-slate-700"
+                strokeDasharray="4 4"
+                strokeWidth="1.4"
+              />
+              <circle cx={centerX} cy={centerY} r="3" className="fill-amber-500" />
+
+              {/* Polygon */}
+              <polygon
+                points={svgPoints}
+                className="fill-sky-500/10 stroke-slate-800 dark:fill-sky-400/10 dark:stroke-slate-200"
+                strokeWidth="2.2"
+              />
+
+              {/* Highlight Base Arm AB */}
+              {geom.vertices.length >= 2 && (
+                <line
+                  x1={toSvgX(geom.vertices[0].x)}
+                  y1={toSvgY(geom.vertices[0].y)}
+                  x2={toSvgX(geom.vertices[1].x)}
+                  y2={toSvgY(geom.vertices[1].y)}
+                  className="stroke-sky-600 dark:stroke-sky-400"
+                  strokeWidth="3.5"
+                />
+              )}
+
+              {/* Vertex nodes and labels */}
+              {geom.vertices.map((v) => {
+                const vx = toSvgX(v.x);
+                const vy = toSvgY(v.y);
+                const dx = vx - centerX;
+                const dy = vy - centerY;
+                const len = Math.max(1, Math.hypot(dx, dy));
+                const lx = vx + (dx / len) * 14;
+                const ly = vy + (dy / len) * 14;
+                return (
+                  <g key={v.index}>
+                    <circle cx={vx} cy={vy} r="3.5" className="fill-sky-600 dark:fill-sky-400" />
+                    <text
+                      x={lx}
+                      y={ly + 3}
+                      textAnchor="middle"
+                      className="fill-slate-800 font-mono text-[10px] font-bold dark:fill-slate-200"
+                    >
+                      {v.label}
+                    </text>
+                  </g>
+                );
+              })}
+
+              {/* Right Readout Card */}
+              <rect
+                x="305"
+                y="24"
+                width="200"
+                height="176"
+                rx="6"
+                className="fill-slate-50 stroke-slate-200 dark:fill-slate-900 dark:stroke-slate-800"
+              />
+              <text x="318" y="46" className="fill-slate-900 font-display text-xs font-semibold dark:fill-slate-100">
+                {geom.name} Parameters
+              </text>
+              <text x="318" y="68" className="fill-sky-700 font-mono text-xs font-semibold dark:fill-sky-300">
+                Interior θ = {geom.interiorAngleDeg}°
+              </text>
+              <text x="318" y="88" className="fill-slate-700 font-mono text-xs dark:fill-slate-300">
+                Exterior φ = {geom.exteriorAngleDeg}°
+              </text>
+              <text x="318" y="108" className="fill-slate-700 font-mono text-xs dark:fill-slate-300">
+                Arm AB = {geom.sideLength.toFixed(1)}&quot;
+              </text>
+              <text x="318" y="128" className="fill-amber-700 font-mono text-xs font-semibold dark:fill-amber-400">
+                Circumradius R = {geom.circumradius}&quot;
+              </text>
+              <text x="318" y="148" className="fill-slate-700 font-mono text-xs dark:fill-slate-300">
+                Apothem r = {geom.apothem}&quot;
+              </text>
+              <text x="318" y="168" className="fill-emerald-700 font-mono text-xs font-semibold dark:fill-emerald-400">
+                Perimeter P = {geom.perimeter}&quot;
+              </text>
+              <text x="318" y="188" className="fill-slate-500 font-mono text-[10px] dark:fill-slate-400">
+                CAD: POL → {geom.sides} → E → 0,0 → {geom.sideLength},0
+              </text>
+            </svg>
+          </div>
+        </div>
+
+        <div className="space-y-4 lg:col-span-5 print:hidden">
+          <div>
+            <div className="mb-1.5 flex items-center justify-between text-xs">
+              <label
+                htmlFor="poly-sides-slider"
+                className="font-medium text-slate-700 dark:text-slate-300"
+              >
+                Number of Sides (n)
+              </label>
+              <span className="font-mono font-semibold tabular-nums text-slate-900 dark:text-slate-100">
+                {sides} ({geom.name})
+              </span>
+            </div>
+            <input
+              id="poly-sides-slider"
+              type="range"
+              min={3}
+              max={10}
+              step={1}
+              value={sides}
+              onChange={(e) => setSides(Number(e.target.value))}
+              className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200 accent-sky-600 dark:bg-slate-700 dark:accent-sky-400"
+            />
+            <div className="mt-1 flex justify-between font-mono text-[10px] text-slate-500">
+              <span>n=3 (60°)</span>
+              <span>n=5 (108°)</span>
+              <span>n=6 (120°)</span>
+              <span>n=8 (135°)</span>
+            </div>
+          </div>
+
+          <div>
+            <div className="mb-1.5 flex items-center justify-between text-xs">
+              <label
+                htmlFor="poly-arm-slider"
+                className="font-medium text-slate-700 dark:text-slate-300"
+              >
+                Given Arm Length AB (inches)
+              </label>
+              <span className="font-mono font-semibold tabular-nums text-slate-900 dark:text-slate-100">
+                {armLength.toFixed(1)}&quot;
+              </span>
+            </div>
+            <input
+              id="poly-arm-slider"
+              type="range"
+              min={2}
+              max={8}
+              step={0.5}
+              value={armLength}
+              onChange={(e) => setArmLength(Number(e.target.value))}
+              className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200 accent-sky-600 dark:bg-slate-700 dark:accent-sky-400"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PRESET_CAD_EXERCISES = [
+  {
+    id: 'stepped-pyramid',
+    label: 'Exp 5.3 · Absolute Stepped Pyramid (15" Base)',
+    modeLabel: 'Absolute Rectangular (x,y)',
+    steps: [
+      '0,0',
+      '15,0',
+      '15,3',
+      '12,3',
+      '12,6',
+      '9,6',
+      '9,9',
+      '6,9',
+      '6,6',
+      '3,6',
+      '3,3',
+      '0,3',
+      '0,0',
+    ],
+  },
+  {
+    id: 'staircase-rel',
+    label: 'Exp 5.4 · Relative 3-Step Staircase (@Δx,Δy)',
+    modeLabel: 'Relative Rectangular (@Δx,Δy)',
+    steps: [
+      '0,0',
+      '@6,0',
+      '@0,2',
+      '@-2,0',
+      '@0,2',
+      '@-2,0',
+      '@0,2',
+      '@-2,0',
+      '@0,-6',
+    ],
+  },
+  {
+    id: 'polar-triangle',
+    label: 'Exp 5.5 · Polar Equilateral Triangle (@5<θ)',
+    modeLabel: 'Relative Polar (@r<θ)',
+    steps: ['0,0', '@5<0', '@5<120', '@5<240'],
+  },
+  {
+    id: 'polar-rect',
+    label: 'Exp 5.6 · Polar Rectangle (@2<0, @1<90)',
+    modeLabel: 'Relative Polar (@r<θ)',
+    steps: ['0,0', '@2<0', '@1<90', '@2<180', '@1<270'],
+  },
+];
+
+const AutoCadCommandSimDiagram: React.FC = () => {
+  const [selectedPresetId, setSelectedPresetId] = useState<string>('stepped-pyramid');
+  const [activeStepCount, setActiveStepCount] = useState<number>(13);
+  const [selectedCommandAlias, setSelectedCommandAlias] = useState<string>('PL');
+
+  const preset =
+    PRESET_CAD_EXERCISES.find((p) => p.id === selectedPresetId) ??
+    PRESET_CAD_EXERCISES[0];
+
+  const clampedSteps = Math.min(activeStepCount, preset.steps.length);
+  const fullPath = parseAutoCadCoordinateSequence(preset.steps);
+  const partialPath = parseAutoCadCoordinateSequence(
+    preset.steps.slice(0, clampedSteps)
+  );
+
+  const selectedCmd =
+    PROFESSOR_AUTOCAD_COMMANDS.find((c) => c.alias === selectedCommandAlias) ??
+    PROFESSOR_AUTOCAD_COMMANDS[0];
+
+  // Viewport transform for fullPath bounding box
+  const bb = fullPath.boundingBox;
+  const spanW = Math.max(1, bb.width);
+  const spanH = Math.max(1, bb.height);
+  const scale = Math.min(220 / spanW, 145 / spanH);
+
+  const padLeft = 45;
+  const padBottom = 185;
+
+  const toX = (x: number) => padLeft + (x - bb.minX) * scale;
+  const toY = (y: number) => padBottom - (y - bb.minY) * scale;
+
+  const polyPoints = partialPath.vertices
+    .map((v) => `${toX(v.x).toFixed(1)},${toY(v.y).toFixed(1)}`)
+    .join(' ');
+
+  const handleSelectPreset = (id: string) => {
+    const found = PRESET_CAD_EXERCISES.find((p) => p.id === id);
+    setSelectedPresetId(id);
+    if (found) {
+      setActiveStepCount(found.steps.length);
+    }
+  };
+
+  return (
+    <div className="my-6 rounded-xl border border-slate-200 bg-slate-50/70 p-5 dark:border-slate-800 dark:bg-slate-900/60 print:border-slate-300 print:bg-white">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-3 dark:border-slate-800">
+        <div>
+          <h4 className="font-display text-base font-semibold text-slate-900 dark:text-slate-100">
+            Interactive CAD Lab · Coordinate Entry Plotter & Practical Exam Command Trainer
+          </h4>
+          <p className="text-xs text-slate-600 dark:text-slate-400">
+            Step through Absolute (x,y), Relative (@Δx,Δy), and Polar (@r&lt;θ) lab exercises or inspect professor-taught command keystrokes.
+          </p>
+        </div>
+        <div className="font-mono text-xs font-semibold tabular-nums text-sky-700 dark:text-sky-300">
+          {preset.modeLabel} · Step {clampedSteps}/{preset.steps.length} · Length = {partialPath.totalLength}&quot;
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
+        {/* Left Zone (60%): Live AutoCAD Model Space Viewport */}
+        <div className="space-y-3 lg:col-span-7 print:col-span-12">
+          <div className="rounded-lg border border-slate-800 bg-slate-950 p-4 text-slate-100">
+            <svg
+              viewBox="0 0 520 220"
+              className="h-auto w-full"
+              role="img"
+              aria-label={`AutoCAD coordinate simulation for ${preset.label}`}
+            >
+              {/* Subtle AutoCAD F7 Grid Lines */}
+              {[40, 80, 120, 160, 200].map((gy) => (
+                <line
+                  key={`gy-${gy}`}
+                  x1="20"
+                  y1={gy}
+                  x2="295"
+                  y2={gy}
+                  className="stroke-slate-800/80"
+                  strokeWidth="0.8"
+                />
+              ))}
+              {[45, 95, 145, 195, 245, 295].map((gx) => (
+                <line
+                  key={`gx-${gx}`}
+                  x1={gx}
+                  y1="20"
+                  x2={gx}
+                  y2="200"
+                  className="stroke-slate-800/80"
+                  strokeWidth="0.8"
+                />
+              ))}
+
+              {/* UCS Icon at bottom-left */}
+              <line x1="25" y1="195" x2="52" y2="195" className="stroke-rose-500" strokeWidth="1.8" />
+              <line x1="25" y1="195" x2="25" y2="168" className="stroke-emerald-500" strokeWidth="1.8" />
+              <text x="55" y="198" className="fill-rose-400 font-mono text-[9px] font-bold">X</text>
+              <text x="22" y="164" className="fill-emerald-400 font-mono text-[9px] font-bold">Y</text>
+
+              {/* Ghost full profile */}
+              <polyline
+                fill="none"
+                points={fullPath.vertices
+                  .map((v) => `${toX(v.x).toFixed(1)},${toY(v.y).toFixed(1)}`)
+                  .join(' ')}
+                className="stroke-slate-700"
+                strokeDasharray="3 3"
+                strokeWidth="1.5"
+              />
+
+              {/* Active drawn polyline */}
+              {partialPath.vertices.length > 1 && (
+                <polyline
+                  fill="none"
+                  points={polyPoints}
+                  className="stroke-sky-400"
+                  strokeWidth="2.8"
+                />
+              )}
+
+              {/* OSNAP Endpoint Green Squares */}
+              {partialPath.vertices.map((v, idx) => {
+                const vx = toX(v.x);
+                const vy = toY(v.y);
+                const isCurrent = idx === partialPath.vertices.length - 1;
+                return (
+                  <g key={`${v.stepIndex}-${v.rawInput}`}>
+                    <rect
+                      x={vx - 3.5}
+                      y={vy - 3.5}
+                      width="7"
+                      height="7"
+                      className={
+                        isCurrent
+                          ? 'fill-amber-400 stroke-slate-950'
+                          : 'fill-emerald-400/30 stroke-emerald-400'
+                      }
+                      strokeWidth="1.4"
+                    />
+                    <text
+                      x={vx + 6}
+                      y={vy - 5}
+                      className="fill-slate-200 font-mono text-[9px]"
+                    >
+                      {v.rawInput}
+                    </text>
+                  </g>
+                );
+              })}
+
+              {/* Command Log Readout Box on Right */}
+              <rect
+                x="310"
+                y="16"
+                width="198"
+                height="188"
+                rx="6"
+                className="fill-slate-900 stroke-slate-700"
+              />
+              <text x="322" y="36" className="fill-sky-400 font-mono text-[11px] font-bold">
+                COMMAND PROMPT LOG
+              </text>
+              <text x="322" y="54" className="fill-slate-300 font-mono text-[10px]">
+                Command: L (LINE) ↵
+              </text>
+              {partialPath.vertices.slice(-6).map((v, i) => (
+                <text
+                  key={`log-${v.stepIndex}`}
+                  x="322"
+                  y={74 + i * 18}
+                  className="fill-emerald-300 font-mono text-[10px]"
+                >
+                  Pt {v.stepIndex}: {v.rawInput} → ({v.x},{v.y})
+                </text>
+              ))}
+              <text x="322" y="192" className="fill-amber-300 font-mono text-[10px] font-semibold">
+                {partialPath.isClosed ? '● CLOSED PROFILE' : '▲ OPEN PATH'} · L={partialPath.totalLength}&quot;
+              </text>
+            </svg>
+          </div>
+
+          {/* Active Command Drill Banner */}
+          <div className="rounded-lg border border-slate-200 bg-white p-3.5 text-xs dark:border-slate-800 dark:bg-slate-900">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="font-mono font-bold text-sky-700 dark:text-sky-400">
+                {selectedCmd.alias} → {selectedCmd.commandName}
+              </span>
+              <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                {selectedCmd.category}
+              </span>
+            </div>
+            <div className="mt-1.5 rounded border border-slate-200 bg-slate-50 px-2.5 py-1.5 font-mono text-[11px] font-semibold text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:text-sky-300">
+              {selectedCmd.keystrokeSequence}
+            </div>
+            <p className="mt-1.5 text-slate-700 dark:text-slate-300">{selectedCmd.purpose}</p>
+            <p className="mt-1 font-medium text-amber-800 dark:text-amber-300">
+              Practical Tip: {selectedCmd.examTip}
+            </p>
+          </div>
+        </div>
+
+        {/* Right Zone (40%): Interactive Controls */}
+        <div className="space-y-4 lg:col-span-5 print:hidden">
+          <div>
+            <label
+              htmlFor="cad-preset-select"
+              className="mb-1.5 block text-xs font-semibold text-slate-800 dark:text-slate-200"
+            >
+              1. Select Lab 05 Coordinate Exercise
+            </label>
+            <select
+              id="cad-preset-select"
+              value={selectedPresetId}
+              onChange={(e) => handleSelectPreset(e.target.value)}
+              className="min-h-[44px] w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+            >
+              {PRESET_CAD_EXERCISES.map((ex) => (
+                <option key={ex.id} value={ex.id}>
+                  {ex.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <div className="mb-1.5 flex items-center justify-between text-xs">
+              <label
+                htmlFor="cad-step-slider"
+                className="font-medium text-slate-700 dark:text-slate-300"
+              >
+                Step Through Coordinate Entries
+              </label>
+              <span className="font-mono font-semibold tabular-nums text-slate-900 dark:text-slate-100">
+                {clampedSteps} / {preset.steps.length} pts
+              </span>
+            </div>
+            <input
+              id="cad-step-slider"
+              type="range"
+              min={1}
+              max={preset.steps.length}
+              step={1}
+              value={clampedSteps}
+              onChange={(e) => setActiveStepCount(Number(e.target.value))}
+              className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200 accent-sky-600 dark:bg-slate-700 dark:accent-sky-400"
+            />
+          </div>
+
+          <div>
+            <span className="mb-1.5 block text-xs font-semibold text-slate-800 dark:text-slate-200">
+              2. Professor’s Practical Exam Command Drill (Click Shortcut)
+            </span>
+            <div className="grid grid-cols-4 gap-1.5">
+              {PROFESSOR_AUTOCAD_COMMANDS.map((cmd) => {
+                const isSelected = cmd.alias === selectedCommandAlias;
+                return (
+                  <button
+                    key={cmd.alias}
+                    type="button"
+                    onClick={() => setSelectedCommandAlias(cmd.alias)}
+                    className={`min-h-[38px] rounded-md border px-2 py-1 font-mono text-xs font-semibold transition-colors ${
+                      isSelected
+                        ? 'border-sky-600 bg-sky-600 text-white dark:border-sky-400 dark:bg-sky-500 dark:text-slate-950'
+                        : 'border-slate-200 bg-white text-slate-800 hover:border-sky-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200'
+                    }`}
+                  >
+                    {cmd.alias}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+

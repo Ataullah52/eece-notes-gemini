@@ -2,6 +2,7 @@ import { EECE1111_CHAPTERS } from "./eece1111Data.ts";
 import { MATH1101_CHAPTERS } from "./math1101Data.ts";
 import { CHEM1101_CHAPTERS } from "./chem1101Data.ts";
 import { PHY1101_CHAPTERS } from "./phy1101Data.ts";
+import { CE1101_CHAPTERS } from "./ce1101Data.ts";
 import type {
   InteractiveDiagramId,
   TableData,
@@ -147,44 +148,15 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
         contactHours: 3.0,
         courseType: 'Sessional',
         syllabusOverview:
-          'Introduction to orthographic projections, Drawing standards and practices, and Introduction to computer aided design (CAD).',
-        professorFollowedBooks: [],
+          'Seven Rewritten Engineering Graphics & AutoCAD Lab Reports (Exp 01 Lettering, Exp 02 Regular Polygons, Exp 03 Intro to AutoCAD, Exp 04 Drawing Tools, Exp 05 Coordinate Systems, Exp 06 Modify Commands, Exp 07 Workspace & Drafting Settings), Practical Exam Preparation, and Orthographic/Isometric Projections.',
+        professorFollowedBooks: [
+          'Engineering Graphics (3rd Edition) by Frederick E. Giesecke, Alva Mitchell, Henry C. Spencer, Ivan L. Hill, Robert O. Loving and John Thomas Dygdon',
+        ],
         syllabusRecommendedBooks: [
           'Engineering Graphics (3rd Edition) by Frederick E. Giesecke, Alva Mitchell, Henry C. Spencer, Ivan L. Hill, Robert O. Loving and John Thomas Dygdon',
           'Engineering Drawing (2nd Edition) by Frank Zozzora',
         ],
-        chapters: [
-          {
-            id: 'ce1101-ch01',
-            unitNumber: 'Module 01',
-            title: 'Introduction to Orthographic Projections',
-            summary:
-              'Scale drawing, Sectional view, Isometric views, Missing line, Auxiliary view, Pictorial views.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'ce1101-ch02',
-            unitNumber: 'Module 02',
-            title: 'Drawing Standards and Practices',
-            summary:
-              'Interpenetrating of surfaces, Development of surfaces, Machine drawings and Technical sketching.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'ce1101-ch03',
-            unitNumber: 'Module 03',
-            title: 'Introduction to Computer Aided Design (CAD)',
-            summary:
-              'Project on Engineering Drawing and CAD using Contemporary CAD tools.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-        ],
+        chapters: CE1101_CHAPTERS,
       },
       {
         id: 'hum1101',

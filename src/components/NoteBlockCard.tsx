@@ -13,6 +13,10 @@ import {
 } from '../utils/circuitMath';
 import type { BlockRevisionStatus } from '../utils/revisionState';
 import { InteractiveDiagram } from './InteractiveDiagrams';
+import {
+  EngineeringSvgFigure,
+  NoteFiguresGallery,
+} from './EngineeringGraphicsFigures';
 import { MathText, MathSolutionBlock } from './MathRenderer';
 import {
   splitProblemStatementLines,
@@ -180,7 +184,8 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
               </li>
             );
           })}
-          {bodyItems.map((item, i) => {
+          {bodyItems.map((rawItem, i) => {
+            const item = rawItem.replace(/^[•·]\s*/, '');
             const isNumberedSubItem = /^\((?:\d+|i{1,3}|iv|[a-d]|Case\s+\d+)\)\s/i.test(
               item
             );
@@ -247,6 +252,16 @@ export const NoteBlockCard: React.FC<NoteBlockCardProps> = ({
             );
           })}
         </div>
+      )}
+
+      {/* Vector Technical Drawing SVG (Hidden in Memorize view) */}
+      {!isMemorizeView && block.svgFigureId && (
+        <EngineeringSvgFigure figureId={block.svgFigureId} />
+      )}
+
+      {/* Actual AutoCAD Lab Screenshots / Figures Gallery (Hidden in Memorize view) */}
+      {!isMemorizeView && block.figures && block.figures.length > 0 && (
+        <NoteFiguresGallery figures={block.figures} />
       )}
 
       {/* Interactive SVG Diagram (Hidden in Memorize view) */}

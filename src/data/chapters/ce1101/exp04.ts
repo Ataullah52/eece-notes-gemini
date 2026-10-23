@@ -1,0 +1,136 @@
+import type { ChapterNote } from '../../types';
+
+export const CE1101_EXP04: ChapterNote = {
+  id: 'ce1101-exp04',
+  unitNumber: 'Experiment 04',
+  title: 'Experiment 04: Familiarizing with Drawing Tools and Using Them to Draw Various Geometrical Shapes',
+  summary:
+    'Rewritten Lab Report 04 — Grammatically corrected descriptions and procedures for the 9 drawing tools (Line, Polyline, Circle, Center Line, Rectangle, Arc, Ellipse, Spline, Polygon) with your 9 actual AutoCAD images.',
+  estimatedMinutes: 45,
+  lastUpdated: 'October 2026',
+  blocks: [
+    {
+      id: 'ce-e4-b1',
+      type: 'theory',
+      priorityTier: 1,
+      sourceCitation: 'Lab Report 04 (Pages 17–25)',
+      title: 'Experiment No. 04: Drawing Tools (1. Line, 2. Polyline, 3. Circle, 4. Center Line, 5. Rectangle)',
+      summaryText:
+        'Experiment Name: Familiarizing with drawing tools and using them to draw various geometrical shapes.',
+      bulletPoints: [
+        'Drawing Tools: The Draw panel available on the Home tab of the application window contains tools to draw lines and curves. Different tools in the Draw toolbar are described below:',
+        '1. Line Tool: The Line tool is used to draw a series of contiguous line segments. Each segment is an independent line object that can be edited separately. To invoke the Line tool, click on the Line icon.',
+        '2. Polyline Tool: The Polyline tool is used to draw contiguous lines as a single entity called a polyline. A polyline may be composed of straight lines, arcs, or a combination of both lines and arcs. To invoke the Polyline tool, click on the Polyline icon.',
+        '3. Circle Tool: The Circle tool is used to draw a circle. Click on the default Circle tool and specify the center point and radius to draw a circle (flyout options: Center-Radius, Center-Diameter, 2-Point, 3-Point, Tan-Tan-Radius).',
+        '4. Center Line Tool: The Center Line tool is used to draw a centerline at a specified location on a drawing. Its default color and linetype are defined on its layer.',
+        '5. Rectangle Tool: The Rectangle tool is used to draw a rectangle. Click on the default Rectangle tool and specify two diagonally opposite corners to draw a rectangle. Click on the down arrow beside the Rectangle tool to open the flyout (Corner, Midpoint of base, Center).',
+      ],
+      figures: [
+        {
+          src: '/assets/aistudio/WhatsApp_Image_2026-10-12_at_2.42.32_PM__2__d6ad9d4e.jpeg',
+          alt: 'Line Tool output in AutoCAD',
+          figureNumber: 'Fig. 4.1',
+          caption: '1. Line Tool',
+        },
+        {
+          src: '/assets/aistudio/WhatsApp_Image_2026-10-12_at_2.42.32_PM__1__b62a2ce5.jpeg',
+          alt: 'Polyline Tool output in AutoCAD',
+          figureNumber: 'Fig. 4.2',
+          caption: '2. Polyline Tool',
+        },
+        {
+          src: '/assets/aistudio/WhatsApp_Image_2026-10-12_at_2.42.32_PM_b6e393f5.jpeg',
+          alt: 'Circle Tool output in AutoCAD',
+          figureNumber: 'Fig. 4.3',
+          caption: '3. Circle Tool',
+        },
+        {
+          src: '/assets/aistudio/WhatsApp_Image_2026-10-12_at_2.42.31_PM_4393ae70.jpeg',
+          alt: 'Center Line Tool output in AutoCAD',
+          figureNumber: 'Fig. 4.4',
+          caption: '4. Center Line Tool',
+        },
+        {
+          src: '/assets/aistudio/WhatsApp_Image_2026-10-12_at_2.42.31_PM__2__a24f12c9.jpeg',
+          alt: 'Rectangle Tool output in AutoCAD',
+          figureNumber: 'Fig. 4.5',
+          caption: '5. Rectangle Tool',
+        },
+      ],
+    },
+    {
+      id: 'ce-e4-b2',
+      type: 'theory',
+      priorityTier: 1,
+      sourceCitation: 'Lab Report 04 (Pages 26–31)',
+      title: 'Drawing Tools Continued (6. Arc, 7. Ellipse, 8. Spline, 9. Polygon)',
+      summaryText:
+        'Descriptions and AutoCAD outputs for the Arc, Ellipse, Spline, and Polygon tools.',
+      bulletPoints: [
+        '6. Arc Tool: The Arc tool is used to draw an arc, which is defined as a part of a circle. Click on the default Arc tool and specify three points to draw an arc.',
+        '7. Ellipse Tool: The Ellipse tool is used to draw an ellipse and an elliptical arc. Click on the default Ellipse tool, specify the center of the ellipse and the endpoint of the first axis, and then specify half the length of the second axis to draw the ellipse (flyout options: Center, Axis-End).',
+        '8. Spline Tool: The Spline tool is used to draw a smooth curve that passes through or near a set of points. The curve created using the Spline tool is a Non-Uniform Rational B-Spline (NURBS), commonly referred to as a spline. Click on the Spline tool and specify two or more contiguous points to draw a spline.',
+        '9. Polygon Tool: The Polygon tool is used to draw a regular polygon. A polygon may have any number of sides in the range of 3 to 1024. Click on the Polygon tool to invoke it.',
+      ],
+      figures: [
+        {
+          src: '/assets/aistudio/WhatsApp_Image_2026-10-12_at_2.42.30_PM_fda7da33.jpeg',
+          alt: 'Arc Tool output in AutoCAD',
+          figureNumber: 'Fig. 4.6',
+          caption: '6. Arc Tool',
+        },
+        {
+          src: '/assets/aistudio/WhatsApp_Image_2026-10-12_at_2.42.31_PM__1__f1ede2a1.jpeg',
+          alt: 'Ellipse Tool output in AutoCAD',
+          figureNumber: 'Fig. 4.7',
+          caption: '7. Ellipse Tool',
+        },
+        {
+          src: '/assets/aistudio/WhatsApp_Image_2026-10-12_at_2.42.30_PM__1__25d689ba.jpeg',
+          alt: 'Spline Tool output in AutoCAD',
+          figureNumber: 'Fig. 4.8',
+          caption: '8. Spline Tool',
+        },
+        {
+          src: '/assets/aistudio/WhatsApp_Image_2026-10-12_at_2.42.30_PM__2__6e8761eb.jpeg',
+          alt: 'Polygon Tool output in AutoCAD',
+          figureNumber: 'Fig. 4.9',
+          caption: '9. Polygon Tool',
+        },
+      ],
+    },
+    {
+      id: 'ce-e4-b3',
+      type: 'theory',
+      priorityTier: 1,
+      sourceCitation: 'Lab Report 04 (Pages 32–41)',
+      title: 'Procedures for Drawing Circle, Arc, Spline, Rectangle, Ellipse, Polyline & Discussion',
+      summaryText:
+        'Grammatically corrected Method 1 (Using Tool) and Method 2 (Using Command Prompt) procedures and Result & Discussion.',
+      bulletPoints: [
+        'Drawing a Circle — We can use two methods to draw a circle:',
+        'Method 1 (Using Circle Tool): Turn on the computer and launch AutoCAD, then select one of the options on the Circle flyout:',
+        '(1) 2-Point: (i) Click on the Home tab. (ii) Click on the Draw panel. (iii) Click the Circle down-arrow. (iv) Select 2-Point, specify the first endpoint of the circle’s diameter in the drawing area, and specify the second endpoint of the diameter.',
+        '(2) 3-Point: (i) Click on the Home tab. (ii) Click on the Draw panel. (iii) Click the Circle down-arrow. (iv) Select 3-Point, then specify the first point, second point, and third point on the circumference.',
+        '(3) Tan, Tan, Radius: (i) Click on the Home tab. (ii) Click on the Draw panel. (iii) Click the Circle down-arrow. (iv) Select Tan, Tan, Radius, select the first tangent object (A), select the second tangent object (B), specify the radius of the circle, and press Enter.',
+        'Method 2 (Using Command Prompt): (i) Type CIRCLE in the command window. (ii) Press the Enter key. (iii) AutoCAD responds with: Specify center point for circle or [3P/2P/TTR (tan tan radius)]: (where 3P defines a circle with 3 non-collinear points, 2P defines a circle with endpoints of its diameter, and TTR defines a circle tangent to two objects with a specified radius). Specify the center point (e.g., 3,5,8), specify the radius or [Diameter]: d, specify diameter of circle: 2, and (iv) Press the Enter key.',
+        'Drawing an Arc — We can use two methods to draw an arc:',
+        'Method 1 (Using Arc Tool): (i) Turn on the computer and open AutoCAD. (ii) Click on the Home tab. (iii) Click on the Draw panel. (iv) Click the Arc down-arrow. (v) Select 3-Point, specify the start point, specify the second point on the arc, and specify the endpoint in the drawing area. (vi) Press the Enter key.',
+        'Method 2 (Using Command Prompt): (i) Turn on the computer and open AutoCAD. (ii) Click on the Home tab. (iii) Type ARC in the command window. (iv) Press the Enter key. (v) AutoCAD prompts: Specify start point of arc or [Center]: → Specify second point of arc or [Center/End]: → Specify end point of arc:.',
+        'Drawing a Spline — A spline can be drawn by two methods:',
+        'Method 1 (Using Spline Tool): (i) Click on the Home tab. (ii) Click on the Draw panel. (iii) Click on the Spline tool, then specify the start point, second point, third point, and endpoint of the spline. (iv) Press the Enter key.',
+        'Method 2 (Using Command Prompt): (i) Click on the Home tab. (ii) Type SPLINE in the command window. (iii) Press the Enter key; AutoCAD prompts for the start point, second point, and endpoint of the spline. (iv) Press the Enter key again to complete the spline.',
+        'Drawing a Rectangle — A rectangle can be drawn with two methods:',
+        'Method 1 (Using Rectangle Tool): (i) Turn on the computer and open AutoCAD. (ii) Click on the Home tab. (iii) Click on the Draw panel. (iv) Click on the Rectangle tool, specify the first corner point, and specify the opposite corner point. (v) Press the Enter key.',
+        'Method 2 (Using Command Prompt): (i) Type RECTANG in the command window. (ii) Press the Enter key; AutoCAD prompts: Specify first corner point: and Specify other corner point:. (iv) Press the Enter key.',
+        'Drawing an Ellipse — An ellipse can be drawn with two methods:',
+        'Method 1 (Using Ellipse Tool): (i) Click on the Home tab. (ii) Click on the Draw panel. (iii) Click on the Ellipse tool. (iv) Select Axis, End, specify the first endpoint of the first axis, specify the other endpoint of the first axis, and specify half the length of the other axis in the drawing area. (v) Press the Enter key.',
+        'Method 2 (Using Command Prompt): (i) Type ELLIPSE in the command window. (ii) Press the Enter key. (iii) AutoCAD prompts: Specify axis endpoint of ellipse: → Specify other endpoint of axis: → Specify distance to other axis:. (iv) Press the Enter key.',
+        'Drawing a Polyline — A polyline can be drawn with two methods:',
+        'Method 1 (Using Polyline Tool): (i) Click on the Home tab. (ii) Click on the Draw panel. (iii) Click on the Polyline tool, specify the first point, and specify the next point(s) to draw straight polyline segments or enter an option. (iv) Press Enter to terminate.',
+        'Method 2 (Using Command Prompt): (i) Type PLINE in the command window to draw continuous polyline segments or arcs. (ii) Press the Enter key. (iii) AutoCAD prompts: Specify start point: and Specify next point:. (iv) Press the Enter key.',
+        'Result and Discussion: Using AutoCAD, we familiarized ourselves with the drawing tools and used them to draw various geometrical shapes. Different toolbars, tools, and commands were practiced carefully, and all geometric shapes were drawn successfully using AutoCAD.',
+      ],
+    },
+  ],
+};

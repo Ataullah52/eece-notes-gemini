@@ -336,40 +336,92 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
         contactHours: 3.0,
         courseType: 'Sessional',
         syllabusOverview:
-          'Introduction to orthographic projections, Drawing standards and practices, and Introduction to computer aided design (CAD).',
-        professorFollowedBooks: [],
+          'Seven Rewritten Engineering Graphics & AutoCAD Lab Reports (Exp 01 Lettering, Exp 02 Regular Polygons, Exp 03 Intro to AutoCAD, Exp 04 Drawing Tools, Exp 05 Coordinate Systems, Exp 06 Modify Commands, Exp 07 Workspace & Drafting Settings), Practical Exam Preparation, and Orthographic/Isometric Projections.',
+        professorFollowedBooks: [
+          'Engineering Graphics (3rd Edition) by Frederick E. Giesecke, Alva Mitchell, Henry C. Spencer, Ivan L. Hill, Robert O. Loving and John Thomas Dygdon',
+        ],
         syllabusRecommendedBooks: [
           'Engineering Graphics (3rd Edition) by Frederick E. Giesecke, Alva Mitchell, Henry C. Spencer, Ivan L. Hill, Robert O. Loving and John Thomas Dygdon',
           'Engineering Drawing (2nd Edition) by Frank Zozzora',
         ],
         chapters: [
           {
-            id: 'ce1101-ch01',
-            unitNumber: 'Module 01',
-            title: 'Introduction to Orthographic Projections',
+            id: 'ce1101-exp01',
+            unitNumber: 'Experiment 01',
+            title: 'Experiment 01: Letter Drawing',
             summary:
-              'Scale drawing, Sectional view, Isometric views, Missing line, Auxiliary view, Pictorial views.',
+              'Lab Report 01 — Uppercase (A–Z) and lowercase (a–z) engineering lettering drawn between horizontal guidelines.',
+            estimatedMinutes: 15,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'ce1101-exp02',
+            unitNumber: 'Experiment 02',
+            title: 'Experiment 02: Drawing of Regular Polygons of a Given Length of Arm',
+            summary:
+              'Rewritten Lab Report 02 — Grammatically corrected procedures for Method 1 and Method 2 (Square, Pentagon, Hexagon, Heptagon, and Octagon) and Discussion.',
+            estimatedMinutes: 30,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'ce1101-exp03',
+            unitNumber: 'Experiment 03',
+            title: 'Experiment 03: Introduction to AutoCAD and Drawing a Line by AutoCAD',
+            summary:
+              'Rewritten Lab Report 03 — Definition and origins of AutoCAD, reasons for its widespread use, the 8 toolbar categories, the 3 command execution methods, and Result & Discussion.',
             estimatedMinutes: 25,
             lastUpdated: 'October 2026',
             blocks: [],
           },
           {
-            id: 'ce1101-ch02',
-            unitNumber: 'Module 02',
-            title: 'Drawing Standards and Practices',
+            id: 'ce1101-exp04',
+            unitNumber: 'Experiment 04',
+            title: 'Experiment 04: Familiarizing with Drawing Tools and Using Them to Draw Various Geometrical Shapes',
             summary:
-              'Interpenetrating of surfaces, Development of surfaces, Machine drawings and Technical sketching.',
-            estimatedMinutes: 25,
+              'Rewritten Lab Report 04 — Grammatically corrected descriptions and procedures for the 9 drawing tools (Line, Polyline, Circle, Center Line, Rectangle, Arc, Ellipse, Spline, Polygon) with your 9 actual AutoCAD images.',
+            estimatedMinutes: 45,
             lastUpdated: 'October 2026',
             blocks: [],
           },
           {
-            id: 'ce1101-ch03',
-            unitNumber: 'Module 03',
-            title: 'Introduction to Computer Aided Design (CAD)',
+            id: 'ce1101-exp05',
+            unitNumber: 'Experiment 05',
+            title: 'Experiment 05: Learning to Draw Any Drawing in AutoCAD Using Coordinate System and Practicing Rectangular and Polar Coordinate Systems',
             summary:
-              'Project on Engineering Drawing and CAD using Contemporary CAD tools.',
-            estimatedMinutes: 25,
+              'Rewritten Lab Report 05 — Grammatically corrected procedures and coordinate sequences for Absolute, Relative Rectangular, and Polar Coordinate Systems with your 6 actual AutoCAD images.',
+            estimatedMinutes: 40,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'ce1101-exp06',
+            unitNumber: 'Experiment 06',
+            title: 'Experiment 06: Learning and Practicing Modify/Editing Commands',
+            summary:
+              'Rewritten Lab Report 06 — Grammatically corrected definitions and procedures for Copy, Move, Scale, Rotate, Mirror, Offset, Extend, Trim, and Break/Explode tools with your 8 actual AutoCAD images.',
+            estimatedMinutes: 45,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'ce1101-exp07',
+            unitNumber: 'Experiment 07',
+            title: 'Experiment 07: Learning to Prepare Working Space, Draft Settings, Design Project Setup, Units, Limits, Object Snap and Tracking',
+            summary:
+              'Rewritten Lab Report 07 — Grammatically corrected notes on Status Bar Drafting Toggles, Grid (F7), OSNAP (F3), Snap (F9), Ortho (F8), Polar Tracking (F10), OTRACK, and Lineweight with your 5 actual AutoCAD images.',
+            estimatedMinutes: 40,
+            lastUpdated: 'October 2026',
+            blocks: [],
+          },
+          {
+            id: 'ce1101-practical',
+            unitNumber: 'Practical Exam Guide',
+            title: 'AutoCAD Practical Exam Command Sheet (Professor’s Lab Commands)',
+            summary:
+              'Professor’s taught AutoCAD commands for the practical exam — Main Geometry Generators, Modifying Geometry, Annotation, and the 21-command lab sheet.',
+            estimatedMinutes: 30,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -747,6 +799,12 @@ export async function loadCourseChapters(
     return mod.PHY1101_CHAPTERS;
   }
 
+  if (subjectId === 'ce1101') {
+    const mod = await import('./ce1101Data.ts');
+    courseChaptersCache.set('ce1101', mod.CE1101_CHAPTERS);
+    return mod.CE1101_CHAPTERS;
+  }
+
   return null;
 }
 
@@ -773,12 +831,14 @@ export function mergeCourseChaptersIntoSemesters(
 export async function loadAllCourseChaptersForStartupIndex(): Promise<
   SemesterEntry[]
 > {
-  const [eeceChapters, mathChapters, chemChapters, phyChapters] = await Promise.all([
-    loadCourseChapters('eece1111'),
-    loadCourseChapters('math1101'),
-    loadCourseChapters('chem1101'),
-    loadCourseChapters('phy1101'),
-  ]);
+  const [eeceChapters, mathChapters, chemChapters, phyChapters, ceChapters] =
+    await Promise.all([
+      loadCourseChapters('eece1111'),
+      loadCourseChapters('math1101'),
+      loadCourseChapters('chem1101'),
+      loadCourseChapters('phy1101'),
+      loadCourseChapters('ce1101'),
+    ]);
 
   let updated = INITIAL_CURRICULUM_SEMESTERS;
   if (eeceChapters) {
@@ -792,6 +852,9 @@ export async function loadAllCourseChaptersForStartupIndex(): Promise<
   }
   if (phyChapters) {
     updated = mergeCourseChaptersIntoSemesters(updated, 'phy1101', phyChapters);
+  }
+  if (ceChapters) {
+    updated = mergeCourseChaptersIntoSemesters(updated, 'ce1101', ceChapters);
   }
   return updated;
 }
