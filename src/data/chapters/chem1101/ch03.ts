@@ -15,7 +15,7 @@ export const CHEM1101_CH03: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Handwritten Class Notes (Chemical Equilibrium 1) · Professor’s Suggestion Sheet · PUST EECE 2024 Q2(b), 2023 Q2(a), 2021 Q2(b), 2020 Q2(a), 2015 Q2(a)',
+        'CR Final Exam Question Bank (Chemical Equilibrium Q2 & Q4) · Handwritten Class Notes · PUST EECE 2024, 2023, 2021, 2020, 2015',
       title: 'Reversible Reactions, Dynamic Equilibrium, and Characteristics',
       summaryText:
         'Reversible vs. irreversible and homogeneous vs. heterogeneous reactions, why chemical equilibrium is called dynamic equilibrium (water-tank analogy & rate curves), and 6 core characteristics.',
@@ -23,6 +23,7 @@ export const CHEM1101_CH03: ChapterNote = {
         'Reversible Reaction: A chemical reaction that proceeds simultaneously in both forward and backward directions under the same experimental conditions and never goes to 100% completion (e.g., N₂(g) + 3H₂(g) ⇌ 2NH₃(g)).',
         'Irreversible Reaction: A unidirectional chemical reaction in which products do not recombine to form reactants, going to completion via precipitation, gas escape, or strong neutralization (e.g., AgNO₃(aq) + NaCl(aq) → AgCl(s)↓ + NaNO₃(aq)).',
         'Chemical Equilibrium: The state in a reversible reaction carried out in a closed vessel at which the rate of the forward reaction equals the rate of the backward reaction (R_f = R_b), so macroscopic concentrations of reactants and products remain constant over time.',
+        'Equilibrium Constant (K): The ratio of the rate constant of the forward reaction (k_f) to the rate constant of the backward reaction (k_b), equal to the product of active masses of products divided by the product of active masses of reactants each raised to its stoichiometric power at equilibrium at a given temperature.',
         'Homogeneous Equilibrium: An equilibrium system in which all reactants and products exist in a single physical phase (e.g., 2SO₂(g) + O₂(g) ⇌ 2SO₃(g)).',
         'Heterogeneous Equilibrium: An equilibrium system involving reactants and products in two or more distinct phases (e.g., CaCO₃(s) ⇌ CaO(s) + CO₂(g)).',
       ],
@@ -80,7 +81,7 @@ export const CHEM1101_CH03: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Handwritten Class Notes (Chemical Equilibrium 1) · PUST EECE 2022 Q2(b,c), 2020 Q2(d), 2016 Q2(a), 2015 Q2(b)',
+        'CR Final Exam Question Bank (Chemical Equilibrium Q7) · Handwritten Class Notes · PUST EECE 2022, 2020, 2016, 2015',
       title: 'Law of Mass Action and K_p, K_c, K_x Relations',
       summaryText:
         'Guldberg & Waage’s Law of Mass Action, derivation of equilibrium constant K_c, and complete derivations relating K_p, K_c, and K_x.',
@@ -132,7 +133,7 @@ export const CHEM1101_CH03: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Handwritten Class Notes (Chemical Equilibrium 1 & 2) · PUST EECE 2024 Q2(c), 2021 Q2(a)',
+        'CR Final Exam Question Bank (Chemical Equilibrium Q3) · Handwritten Class Notes · PUST EECE 2024 Q2(c), 2021 Q2(a)',
       title: 'Van’t Hoff Free Energy Relation and PCl₅ Dissociation',
       summaryText:
         'Thermodynamic relation between standard Gibbs free energy change and equilibrium constant (ΔG° = −RT ln K_p) and derivation of K_c and K_p for PCl₅(g) ⇌ PCl₃(g) + Cl₂(g).',
@@ -179,7 +180,7 @@ export const CHEM1101_CH03: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Handwritten Class Notes (chemical_equilibrium_2) · PUST EECE 2024 Q2(a), 2023 Q2(b), 2022 Q2(a), 2021 Q3(c), 2016 Q2(b)',
+        'CR Final Exam Question Bank (Chemical Equilibrium Q1, Q5, Q6) · Handwritten Class Notes · PUST EECE 2024, 2023, 2022, 2021, 2016',
       title: 'Le Chatelier’s Principle and Haber’s Ammonia Synthesis',
       summaryText:
         'Statement of Le Chatelier’s Principle, effects of temperature, pressure, concentration, catalyst, and inert gas addition (at constant V vs. constant P), and optimization of Haber’s NH₃ synthesis.',
@@ -187,7 +188,7 @@ export const CHEM1101_CH03: ChapterNote = {
         'Le Chatelier’s Principle: If a system at chemical equilibrium is subjected to a change in any of the factors that determine the equilibrium conditions (such as temperature, pressure, or concentration), the equilibrium shifts in that direction which tends to counteract or nullify the effect of the applied change.',
       ],
       bulletPoints: [
-        'Effect of Operating Variables on Chemical Equilibrium (Class Note):',
+        'Effect of Operating Variables on Chemical Equilibrium (Class Note & CR Question Bank Q6):',
         '1. Effect of Temperature:',
         '• Increase in temperature always shifts equilibrium in the Endothermic direction (which absorbs heat).',
         '• Decrease in temperature shifts equilibrium in the Exothermic direction (which liberates heat).',
@@ -199,8 +200,8 @@ export const CHEM1101_CH03: ChapterNote = {
         '4. Effect of Adding an Inert Gas (e.g., Argon or Helium — Class Note):',
         '• At Constant Volume (ΔV = 0): Partial pressures and molar concentrations of all reacting gases remain unchanged, so adding an inert gas at constant volume has NO effect on equilibrium for any reaction.',
         '• At Constant Pressure (ΔP = 0): Total volume V increases, reducing molar concentrations of all species. The equilibrium shifts toward the side with a GREATER number of gaseous moles (shifts forward if Δn > 0 like PCl₅ ⇌ PCl₃ + Cl₂; shifts backward if Δn < 0 like N₂ + 3H₂ ⇌ 2NH₃; no effect if Δn = 0).',
-        'Application to Industrial Synthesis of Ammonia — Haber’s Process (PUST 2024 Q2a, 2023 Q2b, 2022 Q2a):',
-        '• Reaction: N₂(g) + 3H₂(g) ⇌ 2NH₃(g);   ΔH° = −92.4 kJ·mol⁻¹ (Exothermic, Δn = 2 − 4 = −2 < 0).',
+        'Application to Industrial Synthesis of Ammonia — Haber’s Process (CR Question Bank Q5, PUST 2024 Q2a, 2023 Q2b, 2022 Q2a):',
+        '• Reaction: N₂(g) + 3H₂(g) ⇌ 2NH₃(g);   ΔH = −55 kJ to −92.4 kJ (Exothermic, Δn = 2 − 4 = −2 < 0).',
         '• High Pressure (200–300 atm): Since 4 volumes of reactants form 2 volumes of NH₃ (Δn = −2), high pressure strongly shifts equilibrium forward.',
         '• Optimum Temperature (450°C–500°C): Because the forward reaction is exothermic, low temperature favors high equilibrium yield. However, at room temperature the reaction rate is negligibly slow; hence an optimum temperature of 450–500°C is used along with finely divided Iron (Fe) catalyst promoted by Mo or K₂O + Al₂O₃.',
         '• Continuous Removal of NH₃: Liquefying and removing NH₃ continuously drives the reaction forward.',
@@ -241,9 +242,10 @@ export const CHEM1101_CH03: ChapterNote = {
     {
       id: 'chem-m3-b5',
       type: 'pyq',
-      priorityTier: 2,
-      secondaryPriorityTiers: [1],
-      sourceCitation: 'PUST EECE 2023 Exam · Q2(c)',
+      priorityTier: 1,
+      secondaryPriorityTiers: [2],
+      sourceCitation:
+        'CR Final Exam Question Bank (Chemical Equilibrium Q6) · PUST EECE 2023 Exam Q2(c)',
       title: 'Calculation of K_c from K_p for Nitrosyl Chloride',
       summaryText:
         'Calculate K_c at 25°C for 2NO(g) + Cl₂(g) ⇌ 2NOCl(g) given K_p = 1.9 × 10³ atm⁻¹.',
@@ -277,10 +279,10 @@ export const CHEM1101_CH03: ChapterNote = {
     {
       id: 'chem-m3-b6',
       type: 'pyq',
-      priorityTier: 2,
-      secondaryPriorityTiers: [1],
+      priorityTier: 1,
+      secondaryPriorityTiers: [2],
       sourceCitation:
-        'PUST EECE 2022 Exam · Q2(d) · PUST EECE 2021 Q2(c) · Professor’s Suggestion Sheet Q27',
+        'CR Final Exam Question Bank (Chemical Equilibrium Q8) · PUST EECE 2022 Q2(d) & 2021 Q2(c) · Suggestion Q27',
       title: 'Calculation of K_p from K_c for Ammonia Synthesis',
       summaryText:
         'Calculate K_p for N₂(g) + 3H₂(g) ⇌ 2NH₃(g) at (i) 500°C with K_c = 6.0 × 10⁻² (PUST 2022/2021) and (ii) 25°C with K_c = 0.50 (Suggestion Q27).',

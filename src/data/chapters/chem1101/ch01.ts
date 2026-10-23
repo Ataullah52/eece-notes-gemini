@@ -15,7 +15,7 @@ export const CHEM1101_CH01: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Part A Q1–Q4, Part B Q2) · PUST EECE 2025 Q2(b) · Haque & Nawab',
+        'CR Final Exam Question Bank (Electrochemistry Q6) · Professor’s Suggestion Sheet · PUST EECE 2025 Q2(b)',
       title: 'Conductors, Electrolytes, and Electrolysis of Brine',
       summaryText:
         'Classification of electrical conductors into metallic (electronic) and electrolytic (ionic) conductors, strong vs. weak electrolytes, and mechanism of aqueous NaCl (brine) electrolysis.',
@@ -27,6 +27,12 @@ export const CHEM1101_CH01: ChapterNote = {
       ],
       bulletPoints: [
         'Electrochemistry: The branch of physical chemistry that deals with the interconversion of electrical energy and chemical energy, and the quantitative laws governing ionic conduction and electrode reactions.',
+        'Classification of Electrical Conductors (CR Question Bank Q6):',
+        '1. Metallic (Electronic) Conductors: Conduct electricity solely by the flow of delocalized valence electrons without any chemical decomposition or transport of matter (e.g., Cu, Ag, Al, graphite). Resistance increases with temperature.',
+        '2. Electrolytic (Ionic) Conductors (Electrolytes): Conduct electricity in molten state or aqueous solution via migration of positive cations and negative anions, accompanied by chemical decomposition at the electrodes. Conductance increases with temperature. Subclassified into:',
+        '• Strong Electrolytes: Completely ionized (α ≈ 1) in solution; high molar conductivity (e.g., HCl, H₂SO₄, NaOH, NaCl, KCl).',
+        '• Weak Electrolytes: Partially ionized (α ≪ 1) in solution; low molar conductivity (e.g., CH₃COOH, NH₄OH, H₂CO₃).',
+        '3. Mixed Conductors: Conduct partly by electrons and partly by ions (e.g., solutions of alkali metals in liquid NH₃, β-Ag₂S).',
         'Electrolysis of Aqueous Brine (Concentrated NaCl Solution — PUST 2025 Q2b):',
         '1. Ionization in Aqueous Solution: NaCl(aq) → Na⁺(aq) + Cl⁻(aq) and H₂O(l) ⇌ H⁺(aq) + OH⁻(aq).',
         '2. Migration of Ions: Under an applied DC potential between inert platinum or graphite electrodes, cations (Na⁺, H⁺) migrate toward the negative cathode and anions (Cl⁻, OH⁻) migrate toward the positive anode.',
@@ -76,7 +82,7 @@ export const CHEM1101_CH01: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 1 & Part B Q1) · PUST EECE 2025 Q1(a), 2023 Q1(a), 2022 Q1(a), 2021 Q1(b), 2015 Q1(c)',
+        'CR Final Exam Question Bank (Electrochemistry Q1 & Q5) · Professor’s Suggestion Sheet · PUST EECE 2025, 2023, 2022, 2021, 2015',
       title: 'Faraday’s First and Second Laws of Electrolysis',
       summaryText:
         'Statement, mathematical formulation, and electrochemical significance of Faraday’s First Law (W = ZIt) and Second Law (W₁/W₂ = E₁/E₂), plus the relation F = N_A · e ≈ 96,500 C·mol⁻¹.',
@@ -133,7 +139,7 @@ export const CHEM1101_CH01: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 1, Part A Q5–Q7, Part B Q3) · PUST EECE 2024 Q1(b), 2021 Q1(a)',
+        'CR Final Exam Question Bank (Electrochemistry Q4) · Professor’s Suggestion Sheet · PUST EECE 2024 Q1(b), 2021 Q1(a)',
       title: 'Specific, Equivalent, and Molar Conductance and Their Relation',
       summaryText:
         'Definitions, SI and CGS units, cell constant K_cell = l/A, and step-by-step derivation of Λ_eq = 1000κ/C_eq and Λ_m = 1000κ/M.',
@@ -236,7 +242,7 @@ export const CHEM1101_CH01: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 1, Part A Q8, Part B Q5) · PUST EECE 2025 Q1(a), 2023 Q1(c), 2022 Q1(d)',
+        'CR Final Exam Question Bank (Electrochemistry Q1) · Professor’s Suggestion Sheet · PUST EECE 2025 Q1(a), 2023 Q1(c), 2022 Q1(d)',
       title: 'Ionic Mobility and Abnormal Mobility of H⁺ and OH⁻ Ions',
       summaryText:
         'Definition of ionic mobility u = v/E, relation λ_i = F · u_i showing how ionic mobility governs molar conductivity, and the Grotthuss proton-hopping mechanism for H⁺ and OH⁻.',
@@ -286,7 +292,7 @@ export const CHEM1101_CH01: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 1, Part B Q4) · PUST EECE 2025 Q1(b), 2022 Q1(d), 2021 Q1(c)',
+        'CR Final Exam Question Bank (Electrochemistry Q2) · Professor’s Suggestion Sheet · PUST EECE 2025 Q1(b), 2022 Q1(d), 2021 Q1(c)',
       title: 'Kohlrausch’s Law of Independent Migration of Ions',
       summaryText:
         'Statement, mathematical formulation for equivalent and molar conductance at infinite dilution, and 4 major applications including Λ° of weak electrolytes.',
@@ -299,7 +305,7 @@ export const CHEM1101_CH01: ChapterNote = {
         'Four Major Applications of Kohlrausch’s Law (PUST 2025 Q1b, 2021 Q1c):',
         '1. Determination of Limiting Molar Conductance (Λ_m°) of Weak Electrolytes:',
         '• Λ_m° of a weak electrolyte like CH₃COOH (or Sparingly Soluble AgI) cannot be obtained by extrapolating Λ_m vs. √c because the curve rises steeply near c → 0.',
-        '• Using Kohlrausch’s additive law from three strong electrolytes (CH₃COONa, HCl, NaCl):\nΛ_m°(CH₃COOH) = Λ_m°(CH₃COONa) + Λ_m°(HCl) − Λ_m°(NaCl)\n= (λ°_CH₃COO⁻ + λ°_Na⁺) + (λ°_H⁺ + λ°_Cl⁻) − (λ°_Na⁺ + λ°_Cl⁻) = λ°_CH₃COO⁻ + λ°_H⁺.',
+        '• Using Kohlrausch’s additive law from three strong electrolytes (CH₃COONa, HCl, NaCl):\nΛ_m°(CH₃COOH) = Λ_m°(CH₃COONa) + Λ_m°(HCl) − Λ_m°(NaCl)\n= (λ°_{CH₃COO⁻} + λ°_{Na⁺}) + (λ°_{H⁺} + λ°_{Cl⁻}) − (λ°_{Na⁺} + λ°_{Cl⁻}) = λ°_{CH₃COO⁻} + λ°_{H⁺}.',
         '2. Determination of Degree of Dissociation (α) and Ionization Constant (K_a):',
         '• Once Λ_m° is found from Kohlrausch’s law and Λ_m is measured at concentration c:\nα = Λ_m / Λ_m°\nand K_a = (c · α²) / (1 − α) = (c · Λ_m²) / [Λ_m°(Λ_m° − Λ_m)].',
         '3. Determination of Solubility (S) and Solubility Product (K_sp) of Sparingly Soluble Salts (e.g., AgCl, BaSO₄, PbSO₄):',
@@ -341,7 +347,7 @@ export const CHEM1101_CH01: ChapterNote = {
       ],
       bulletPoints: [
         'Derivation of Transport Number Relations:',
-        '1. Since the current carried by an ion is directly proportional to its ionic mobility, Current carried by cation I_+ ∝ u_+ and Current carried by anion I_- ∝ u_-._',
+        '1. Since the current carried by an ion is directly proportional to its ionic mobility, current carried by cation I_+ ∝ u_+ and current carried by anion I_- ∝ u_-.',
         '2. Total current is I = I_+ + I_- ∝ (u_+ + u_-).',
         '3. Therefore, Cation Transport Number:\nt_+ = I_+ / I = u_+ / (u_+ + u_-) = λ_+° / (λ_+° + λ_-°) = λ_+° / Λ_m°',
         '4. Anion Transport Number:\nt_- = I_- / I = u_- / (u_+ + u_-) = λ_-° / (λ_+° + λ_-°) = λ_-° / Λ_m°',
@@ -407,9 +413,10 @@ export const CHEM1101_CH01: ChapterNote = {
     {
       id: 'chem-m1-b9',
       type: 'pyq',
-      priorityTier: 2,
-      secondaryPriorityTiers: [1],
-      sourceCitation: 'PUST EECE 2022 Exam · Q1(b)',
+      priorityTier: 1,
+      secondaryPriorityTiers: [2],
+      sourceCitation:
+        'CR Final Exam Question Bank (Electrochemistry Q8) · PUST EECE 2022 Exam Q1(b)',
       title: 'Electrochemical Equivalent of Copper from Faraday’s Law',
       summaryText:
         'Calculate the electrochemical equivalent Z of copper when 0.1978 g of Cu is deposited by a current of 0.2 A in 50 minutes.',

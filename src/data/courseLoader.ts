@@ -243,6 +243,7 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
           'Electrostatic and Steady Electric Current, Magnetic Field and Electromagnetic Induction, Waves and Oscillations, Optics, Quantum Mechanics, Sound and Acoustics, and Thermoelectricity and Photoelectricity.',
         professorFollowedBooks: [
           'Physics Part I and Part II by David Halliday and Robert Resnick',
+          'A Textbook of Sound by N. Subrahmanyam and Brij Lal',
         ],
         syllabusRecommendedBooks: [
           'Textbook of Optics by Francis A. Jenkins and Harvey E. White',
@@ -261,7 +262,7 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             title: 'Electrostatic and Steady Electric Current',
             summary:
               'Electric field in dielectric media, Energy in an electrostatic field. Concept of electric current, Current density, Equation of continuity, Resistivity and conductivity, Electrostatic force, Electromotive force.',
-            estimatedMinutes: 30,
+            estimatedMinutes: 85,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -271,7 +272,7 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             title: 'Magnetic Field and Electromagnetic Induction',
             summary:
               "Magnetic induction, Magnetic force on a current, Torque on a current loop, Ampere's law, Biot-Savart law and its applications, Faraday's laws of electromagnetic induction, Lenz's law, Induced current and voltage, Self-inductance and mutual inductance, Inductor.",
-            estimatedMinutes: 35,
+            estimatedMinutes: 90,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -281,52 +282,9 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             title: 'Waves and Oscillations',
             summary:
               'Differential equation of simple harmonic oscillator, Total energy and average energy. Combination of simple harmonic oscillations, Spring mass system, Torsional pendulum, Two body oscillation, Reduced mass, Damped oscillation, Forced oscillation, Resonance, Progressive wave, Power and intensity of wave, Stationary wave, Group and phase velocities.',
-            estimatedMinutes: 30,
+            estimatedMinutes: 85,
             lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'phy1101-u01-b1',
-                type: 'definition',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 02 (Mechanical-Electrical Analogy)',
-                title: 'Differential Equation of Damped Oscillation & Quality Factor (Q)',
-                summaryText:
-                  'd²x/dt² + 2b(dx/dt) + ω₀²x = 0 where b = r/(2m) is the damping coefficient and ω₀ = √(k/m) is the natural angular frequency.',
-                paragraphs: [
-                  'A real oscillating system experiences a resistive damping force proportional to velocity (F_d = −r·dx/dt) in addition to the linear restoring force (F_r = −kx). This second-order linear ODE mirrors a series RLC electrical circuit where mass m ↔ inductance L, damping r ↔ resistance R, and compliance 1/k ↔ capacitance C.',
-                ],
-                table: {
-                  caption:
-                    'Table 1.1 — Three Damping Regimes & Mechanical–Electrical RLC Analogy',
-                  headers: [
-                    'Condition',
-                    'Regime Name',
-                    'Physical Behavior',
-                    'RLC Circuit Equivalent',
-                  ],
-                  rows: [
-                    [
-                      'b < ω₀',
-                      'Underdamped (Oscillatory)',
-                      'Oscillates with exponentially decaying amplitude e^{−bt}',
-                      'R < 2√(L/C)',
-                    ],
-                    [
-                      'b = ω₀',
-                      'Critically Damped',
-                      'Returns to equilibrium in minimum time without overshoot',
-                      'R = 2√(L/C)',
-                    ],
-                    [
-                      'b > ω₀',
-                      'Overdamped (Deadbeat)',
-                      'Slow exponential return to equilibrium with zero oscillation',
-                      'R > 2√(L/C)',
-                    ],
-                  ],
-                },
-              },
-            ],
+            blocks: [],
           },
           {
             id: 'phy1101-ch04',
@@ -783,6 +741,12 @@ export async function loadCourseChapters(
     return mod.CHEM1101_CHAPTERS;
   }
 
+  if (subjectId === 'phy1101') {
+    const mod = await import('./phy1101Data.ts');
+    courseChaptersCache.set('phy1101', mod.PHY1101_CHAPTERS);
+    return mod.PHY1101_CHAPTERS;
+  }
+
   return null;
 }
 
@@ -809,10 +773,11 @@ export function mergeCourseChaptersIntoSemesters(
 export async function loadAllCourseChaptersForStartupIndex(): Promise<
   SemesterEntry[]
 > {
-  const [eeceChapters, mathChapters, chemChapters] = await Promise.all([
+  const [eeceChapters, mathChapters, chemChapters, phyChapters] = await Promise.all([
     loadCourseChapters('eece1111'),
     loadCourseChapters('math1101'),
     loadCourseChapters('chem1101'),
+    loadCourseChapters('phy1101'),
   ]);
 
   let updated = INITIAL_CURRICULUM_SEMESTERS;
@@ -824,6 +789,9 @@ export async function loadAllCourseChaptersForStartupIndex(): Promise<
   }
   if (chemChapters) {
     updated = mergeCourseChaptersIntoSemesters(updated, 'chem1101', chemChapters);
+  }
+  if (phyChapters) {
+    updated = mergeCourseChaptersIntoSemesters(updated, 'phy1101', phyChapters);
   }
   return updated;
 }

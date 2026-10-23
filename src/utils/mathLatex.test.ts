@@ -56,4 +56,27 @@ describe('segmentMathAndProse', () => {
       { type: 'prose', text: ' under PSC.' },
     ]);
   });
+
+  it('parses fractions with _+ and _- ionic subscripts without splitting at + or -', () => {
+    assert.equal(
+      exprToLatex(normalizeMathString('t_+ / t_- = u_+ / u_- = λ_+ / λ_-')),
+      '\\frac{t_{+}}{t_{-}} = \\frac{u_{+}}{u_{-}} = \\frac{\\lambda _{+}}{\\lambda _{-}}'
+    );
+    assert.equal(
+      exprToLatex(normalizeMathString('t_+° = λ_+° / Λ_m°')),
+      't_{+}^{\\circ} = \\frac{\\lambda _{+}^{\\circ}}{\\Lambda _{m}^{\\circ}}'
+    );
+  });
+
+  it('renders Kohlrausch law ionic conductivities as valid KaTeX without double superscripts', () => {
+    const raw =
+      '= (λ°_{CH₃COO⁻} + λ°_{Na⁺}) + (λ°_{H⁺} + λ°_{Cl⁻}) − (λ°_{Na⁺} + λ°_{Cl⁻}) = λ°_{CH₃COO⁻} + λ°_{H⁺}';
+    const segments = segmentMathAndProse(normalizeMathString(raw));
+    assert.equal(segments.length, 1);
+    assert.equal(segments[0].type, 'math');
+    const latex = exprToLatex(segments[0].text);
+    assert.ok(latex.includes('\\lambda ^{\\circ}_{CH_{3}COO^{-}}'));
+    assert.ok(latex.includes('\\lambda ^{\\circ}_{H^{+}}'));
+  });
 });
+

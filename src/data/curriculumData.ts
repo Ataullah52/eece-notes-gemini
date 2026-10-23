@@ -1,6 +1,7 @@
 import { EECE1111_CHAPTERS } from "./eece1111Data.ts";
 import { MATH1101_CHAPTERS } from "./math1101Data.ts";
 import { CHEM1101_CHAPTERS } from "./chem1101Data.ts";
+import { PHY1101_CHAPTERS } from "./phy1101Data.ts";
 import type {
   InteractiveDiagramId,
   TableData,
@@ -124,6 +125,7 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
           'Electrostatic and Steady Electric Current, Magnetic Field and Electromagnetic Induction, Waves and Oscillations, Optics, Quantum Mechanics, Sound and Acoustics, and Thermoelectricity and Photoelectricity.',
         professorFollowedBooks: [
           'Physics Part I and Part II by David Halliday and Robert Resnick',
+          'A Textbook of Sound by N. Subrahmanyam and Brij Lal',
         ],
         syllabusRecommendedBooks: [
           'Textbook of Optics by Francis A. Jenkins and Harvey E. White',
@@ -135,121 +137,7 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
           'Oscillations and Waves: An Introduction by Richard Fitzpatrick',
           'Waves and Oscillations by R. A. Waldron',
         ],
-        chapters: [
-          {
-            id: 'phy1101-ch01',
-            unitNumber: 'Module 01',
-            title: 'Electrostatic and Steady Electric Current',
-            summary:
-              'Electric field in dielectric media, Energy in an electrostatic field. Concept of electric current, Current density, Equation of continuity, Resistivity and conductivity, Electrostatic force, Electromotive force.',
-            estimatedMinutes: 30,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'phy1101-ch02',
-            unitNumber: 'Module 02',
-            title: 'Magnetic Field and Electromagnetic Induction',
-            summary:
-              "Magnetic induction, Magnetic force on a current, Torque on a current loop, Ampere's law, Biot-Savart law and its applications, Faraday's laws of electromagnetic induction, Lenz's law, Induced current and voltage, Self-inductance and mutual inductance, Inductor.",
-            estimatedMinutes: 35,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'phy1101-ch03',
-            unitNumber: 'Module 03',
-            title: 'Waves and Oscillations',
-            summary:
-              'Differential equation of simple harmonic oscillator, Total energy and average energy. Combination of simple harmonic oscillations, Spring mass system, Torsional pendulum, Two body oscillation, Reduced mass, Damped oscillation, Forced oscillation, Resonance, Progressive wave, Power and intensity of wave, Stationary wave, Group and phase velocities.',
-            estimatedMinutes: 30,
-            lastUpdated: 'October 2026',
-            blocks: [
-              {
-                id: 'phy1101-u01-b1',
-                type: 'definition',
-                priorityTier: 1,
-                sourceCitation: 'Class Note · Lecture 02 (Mechanical-Electrical Analogy)',
-                title: 'Differential Equation of Damped Oscillation & Quality Factor (Q)',
-                summaryText:
-                  'd²x/dt² + 2b(dx/dt) + ω₀²x = 0 where b = r/(2m) is the damping coefficient and ω₀ = √(k/m) is the natural angular frequency.',
-                paragraphs: [
-                  'A real oscillating system experiences a resistive damping force proportional to velocity (F_d = −r·dx/dt) in addition to the linear restoring force (F_r = −kx). This second-order linear ODE mirrors a series RLC electrical circuit where mass m ↔ inductance L, damping r ↔ resistance R, and compliance 1/k ↔ capacitance C.',
-                ],
-                table: {
-                  caption:
-                    'Table 1.1 — Three Damping Regimes & Mechanical–Electrical RLC Analogy',
-                  headers: [
-                    'Condition',
-                    'Regime Name',
-                    'Physical Behavior',
-                    'RLC Circuit Equivalent',
-                  ],
-                  rows: [
-                    [
-                      'b < ω₀',
-                      'Underdamped (Oscillatory)',
-                      'Oscillates with exponentially decaying amplitude e^{−bt}',
-                      'R < 2√(L/C)',
-                    ],
-                    [
-                      'b = ω₀',
-                      'Critically Damped',
-                      'Returns to equilibrium in minimum time without overshoot',
-                      'R = 2√(L/C)',
-                    ],
-                    [
-                      'b > ω₀',
-                      'Overdamped (Deadbeat)',
-                      'Slow exponential return to equilibrium with zero oscillation',
-                      'R > 2√(L/C)',
-                    ],
-                  ],
-                },
-              },
-            ],
-          },
-          {
-            id: 'phy1101-ch04',
-            unitNumber: 'Module 04',
-            title: 'Optics',
-            summary:
-              "Theories of light, Interference of light, Young's double slit experiment, Diffraction by single slit, Diffraction at double slit, Diffraction grating, Polarization, Classification and uses of polarization, Brewster's law, Nicol Prism.",
-            estimatedMinutes: 30,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'phy1101-ch05',
-            unitNumber: 'Module 05',
-            title: 'Quantum Mechanics',
-            summary:
-              "Wave function and wave equation, Time dependent and time independent Schrodinger's equation, De-Broglie waves, Uncertainty principle, Photoelectric effect, Quantum theory of light, Compton effect.",
-            estimatedMinutes: 30,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'phy1101-ch06',
-            unitNumber: 'Module 06',
-            title: 'Sound and Acoustics',
-            summary:
-              "Simple harmonic motion, Wave equation, Principle of superposition. Beats, Dispersion, Phase and group velocities, Doppler's effect, Free and forced vibrations, Reverberation, Noise insulation and reduction, Compound absorption, Sound distribution, Room acoustics, Recording.",
-            estimatedMinutes: 30,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'phy1101-ch07',
-            unitNumber: 'Module 07',
-            title: 'Thermoelectricity and Photoelectricity',
-            summary:
-              "Thermal electromotive forces, Seebeck effect and Peltier effect, Thermocouple and Thermo-emf, Laws of photoemission and Einstein's equation, Photoelectric cell and its use.",
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-        ],
+        chapters: PHY1101_CHAPTERS,
       },
       {
         id: 'ce1101',

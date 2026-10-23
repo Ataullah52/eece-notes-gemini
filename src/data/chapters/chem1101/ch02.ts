@@ -15,17 +15,22 @@ export const CHEM1101_CH02: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 2 & Part B Q16) · PUST EECE 2024 Q1(a), 2020 Q4(c), 2020 Q4(d)',
-      title: 'Electrolytic vs. Galvanic Cells, Daniell Cell, and Salt Bridge',
+        'CR Final Exam Question Bank (Electrochemistry Q3) · Professor’s Suggestion Sheet · PUST EECE 2024 Q1(a), 2020 Q4(c,d)',
+      title: 'Electrochemical Cells, Daniell Cell, and Salt Bridge',
       summaryText:
-        'Comparison of electrolytic and galvanic (voltaic) cells, construction and working of the Daniell cell (Zn | ZnSO₄ || CuSO₄ | Cu), and role of the salt bridge.',
+        'How a spontaneous redox reaction produces an electric current in a galvanic cell, comparison with electrolytic cells, Daniell cell working, and role of the salt bridge.',
       memorizeStatements: [
+        'Electrochemical Cell: A device capable of either generating electrical energy from a spontaneous chemical redox reaction (Galvanic/Voltaic cell) or using external electrical energy to drive a non-spontaneous chemical redox reaction (Electrolytic cell).',
         'Galvanic (Voltaic) Cell: An electrochemical cell that converts chemical energy of a spontaneous redox reaction (ΔG < 0, E_cell > 0) directly into electrical energy.',
         'Electrolytic Cell: An electrochemical cell in which external electrical energy drives a non-spontaneous redox reaction (ΔG > 0, E_cell < 0).',
         'Salt Bridge: An inverted U-tube filled with a concentrated inert electrolyte (KCl, KNO₃, or NH₄NO₃) in agar-agar gel that maintains electrical neutrality between half-cells and minimizes liquid-junction potential.',
         'Daniell Cell Representation: Zn(s) | ZnSO₄(aq, 1 M) || CuSO₄(aq, 1 M) | Cu(s), with standard EMF E°_cell = +1.10 V at 25°C.',
       ],
       bulletPoints: [
+        'How a Redox Reaction Produces an Electrical Current (CR Question Bank Q3):',
+        '1. Direct Mixing vs. Spatial Separation: If a zinc strip is placed directly in CuSO₄ solution, Zn transfers electrons directly to colliding Cu²⁺ ions and the enthalpy of reaction is dissipated entirely as heat (no useful current).',
+        '2. Separation into Half-Cells: To harness electrical current, the oxidation half-reaction (Zn → Zn²⁺ + 2e⁻) and reduction half-reaction (Cu²⁺ + 2e⁻ → Cu) are physically separated into two half-cell compartments.',
+        '3. External Electron Flow & Internal Ion Flow: The two metal electrodes are connected externally by a metallic wire (through which electrons flow from the negative anode to the positive cathode, doing electrical work) and internally by a salt bridge (through which counter-ions migrate to maintain charge neutrality and complete the closed circuit).',
         'Construction and Working of the Daniell Cell (PUST 2020 Q4c, Suggestion Q16):',
         '1. Anode Half-Cell (Left): A zinc rod immersed in 1 M ZnSO₄ solution. Zinc atoms undergo spontaneous oxidation, leaving electrons on the Zn rod (making it the negative terminal):\nZn(s) → Zn²⁺(aq) + 2e⁻   (E°_ox = +0.763 V)',
         '2. Cathode Half-Cell (Right): A copper rod immersed in 1 M CuSO₄ solution. Cu²⁺ ions from solution accept electrons from the Cu rod (making it the positive terminal) and deposit as metallic Cu:\nCu²⁺(aq) + 2e⁻ → Cu(s)   (E°_red = +0.337 V)',
@@ -211,9 +216,10 @@ export const CHEM1101_CH02: ChapterNote = {
     {
       id: 'chem-m2-b5',
       type: 'pyq',
-      priorityTier: 2,
-      secondaryPriorityTiers: [1],
-      sourceCitation: 'PUST EECE 2025 Exam · Q2(c) · Professor’s Suggestion Sheet',
+      priorityTier: 1,
+      secondaryPriorityTiers: [2],
+      sourceCitation:
+        'CR Final Exam Question Bank (Electrochemistry Q9) · PUST EECE 2025 Exam Q2(c) · Professor’s Suggestion Sheet',
       title: 'Daniell Cell EMF Calculation Using Nernst Equation',
       summaryText:
         'Calculate the EMF of a Daniell cell at 25°C when [ZnSO₄] = 0.001 M and [CuSO₄] = 0.1 M, given E°_cell = 1.1 V.',
@@ -254,9 +260,10 @@ export const CHEM1101_CH02: ChapterNote = {
     {
       id: 'chem-m2-b6',
       type: 'pyq',
-      priorityTier: 2,
-      secondaryPriorityTiers: [1],
-      sourceCitation: 'PUST EECE 2021 Exam · Q1(d) & Q3(b)',
+      priorityTier: 1,
+      secondaryPriorityTiers: [2],
+      sourceCitation:
+        'CR Final Exam Question Bank (Electrochemistry Q7) · PUST EECE 2021 Exam Q1(d) & Q3(b)',
       title: 'Spontaneity of Redox Reactions and H₂ Displacement from Acids',
       summaryText:
         'Predict whether 2Ag(s) + Zn²⁺(aq) → 2Ag⁺(aq) + Zn(s) is feasible, and explain why Zn liberates H₂ from dilute H₂SO₄ whereas Ag does not.',

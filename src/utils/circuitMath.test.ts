@@ -320,6 +320,7 @@ test('matchesBlockType and memorize helpers include only definitions, laws, theo
   const { MATH1101_CHAPTERS } = await import('../data/math1101Data.ts');
   const { EECE1111_CHAPTERS } = await import('../data/eece1111Data.ts');
   const { CHEM1101_CHAPTERS } = await import('../data/chem1101Data.ts');
+  const { PHY1101_CHAPTERS } = await import('../data/phy1101Data.ts');
 
   const defBlock: FilterableBlock = {
     id: 'math-m1-b1',
@@ -347,7 +348,12 @@ test('matchesBlockType and memorize helpers include only definitions, laws, theo
     'Should return empty array when block has no memorizeStatements'
   );
 
-  for (const ch of [...MATH1101_CHAPTERS, ...EECE1111_CHAPTERS, ...CHEM1101_CHAPTERS]) {
+  for (const ch of [
+    ...MATH1101_CHAPTERS,
+    ...EECE1111_CHAPTERS,
+    ...CHEM1101_CHAPTERS,
+    ...PHY1101_CHAPTERS,
+  ]) {
     const memorizeBlocks = filterNoteBlocks(ch.blocks, 'all', 'memorize', '');
     assert.ok(
       memorizeBlocks.length >= 2,

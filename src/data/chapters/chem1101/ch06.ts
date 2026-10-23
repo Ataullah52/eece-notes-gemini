@@ -15,10 +15,10 @@ export const CHEM1101_CH06: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 3],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 6 & Part B Q20) · PUST EECE 2025 Q5(a), 2022 Q5(a), 2016 Q4(a), 2016 Q5(a) · R. D. Madan',
-      title: 'Dalton’s Atomic Theory, Rutherford’s α-Scattering Model, and Its Defects',
+        'CR Final Exam Question Bank (Atomic Structure Q8) · Professor’s Suggestion Sheet (Ch 6 & Part B Q20) · PUST EECE 2025 Q5(a), 2022 Q5(a), 2016 Q4(a), 2016 Q5(a) · R. D. Madan',
+      title: 'Dalton’s Atomic Theory, Rutherford’s Model, and Comparison with Bohr',
       summaryText:
-        'Postulates and limitations of Dalton’s Atomic Theory, Rutherford’s gold-foil α-scattering observations and conclusions, and how its classical electromagnetic defects led to Bohr’s model.',
+        'Postulates and limitations of Dalton’s Atomic Theory, Rutherford’s gold-foil α-scattering observations and defects, and side-by-side comparison between Rutherford’s and Bohr’s atomic models.',
       memorizeStatements: [
         'Dalton’s Atomic Postulate: Matter is composed of tiny indivisible particles called atoms, which can neither be created nor destroyed in a chemical reaction and combine in simple whole-number ratios.',
         'Rutherford’s Nuclear Concept: Almost the entire mass and all positive charge (+Ze) of an atom are concentrated in an extremely small, dense central core called the nucleus (r ≈ 10⁻¹⁵ to 10⁻¹⁴ m), while electrons revolve around it in empty space (r ≈ 10⁻¹⁰ m).',
@@ -36,6 +36,37 @@ export const CHEM1101_CH06: ChapterNote = {
         '2. Failure to Explain Discrete Line Spectra: As the spiraling electron’s orbital frequency changes continuously, it should emit a continuous spectrum; in reality, excited atoms (like Hydrogen) emit sharp, discrete line spectra at fixed frequencies.',
         '3. Transition to Bohr’s Model (1913): To overcome these two fatal defects, Niels Bohr applied Planck’s quantum theory to Rutherford’s nuclear atom, postulating quantized non-radiating stationary orbits (mvr = nh/2π) and discrete photon transitions (ΔE = E₂ − E₁ = hν).',
       ],
+      table: {
+        caption: 'Table 6.1 — Comparison Between Rutherford’s Atomic Model and Bohr’s Atomic Model (CR Final Exam Q8)',
+        headers: ['Feature', 'Rutherford’s Atomic Model (1911)', 'Bohr’s Atomic Model (1913)'],
+        rows: [
+          [
+            'Theoretical Basis',
+            'Based purely on classical mechanics and classical electrodynamics (α-particle scattering)',
+            'Combines Rutherford’s nuclear core with Planck’s quantum theory of radiation',
+          ],
+          [
+            'Permissible Electron Orbits',
+            'Electrons can revolve around the nucleus in any arbitrary circular orbit at any radius',
+            'Electrons can revolve ONLY in discrete, quantized stationary orbits where mvr = nh/(2π)',
+          ],
+          [
+            'Energy Radiation & Atomic Stability',
+            'Revolving accelerating electron should radiate energy continuously and spiral into the nucleus (unstable)',
+            'Electron does NOT radiate energy while moving in a stationary orbit; atom is completely stable',
+          ],
+          [
+            'Nature of Atomic Spectrum',
+            'Predicts a continuous emission spectrum because orbital frequency changes continuously',
+            'Explains sharp, discrete line spectra via quantum jumps between orbits (ΔE = E₂ − E₁ = hν)',
+          ],
+          [
+            'Shell Energy & Radius Formulas',
+            'Provides no mathematical formula for orbital radii or electron energies',
+            'Gives exact quantitative formulas for radius r_n = 0.529(n²/Z) Å and energy E_n = −13.6(Z²/n²) eV',
+          ],
+        ],
+      },
       examYears: ['2025', '2022', '2016'],
       marks: '4 Marks',
     },
@@ -45,7 +76,7 @@ export const CHEM1101_CH06: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 3],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 6, Part B Q11) · PUST EECE 2024 Q5(a), 2024 Q6(a), 2021 Q5(c), 2020 Q5(a) · R. D. Madan',
+        'CR Final Exam Question Bank (Atomic Structure Q1, Q8) · Professor’s Suggestion Sheet (Ch 6, Part B Q11) · PUST EECE 2024 Q5(a), 2024 Q6(a), 2021 Q5(c), 2020 Q5(a) · R. D. Madan',
       title: 'Bohr’s Atomic Model, Hydrogen Spectral Series, and Limitations',
       summaryText:
         'Postulates of Bohr’s model, expressions for Bohr radius r_n, energy E_n, and Rydberg wave number ν̄, Hydrogen spectral series (Lyman to Pfund), emission vs. absorption spectra, and limitations.',
@@ -98,10 +129,10 @@ export const CHEM1101_CH06: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 3],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 6, Part A Q16, Part B Q12) · PUST EECE 2025 Q5(b), 2024 Q5(b,c), 2022 Q5(b,c), 2021 Q5(a), 2020 Q6(b), 2016 Q4(b), 2016 Q5(b,c)',
+        'CR Final Exam Question Bank (Atomic Structure Q2, Q3) · Professor’s Suggestion Sheet (Ch 6, Part A Q16, Part B Q12) · PUST EECE 2025 Q5(b), 2024 Q5(b,c), 2022 Q5(b,c), 2021 Q5(a), 2020 Q6(b), 2016 Q4(b), 2016 Q5(b,c)',
       title: 'Quantum Numbers and Shapes of Atomic Orbitals',
       summaryText:
-        'Physical significance and permissible values of the four quantum numbers (n, l, m_l, m_s), orbital identification, and 3D boundary-surface shapes of s, p, and all five d orbitals.',
+        'Physical significance and permissible values of the four quantum numbers (n, l, m_l, m_s), orbital identification, and 3D boundary-surface shapes and directional characteristics of s, p, and all five d orbitals.',
       memorizeStatements: [
         'Quantum Numbers: The set of four numerical indices (n, l, m, s) required to completely specify the energy, size, 3D shape, spatial orientation, and spin direction of an electron in an atom.',
         'Principal Quantum Number (n = 1, 2, 3…): Determines the main energy shell (K, L, M, N) and average distance of the electron from the nucleus; maximum electrons in shell n = 2n².',
@@ -110,19 +141,19 @@ export const CHEM1101_CH06: ChapterNote = {
         'Spin Quantum Number (s = +½ or −½): Specifies the intrinsic clockwise (+½, ↑) or counterclockwise (−½, ↓) spin angular momentum of the electron around its own axis.',
       ],
       bulletPoints: [
-        '3D Shapes of s, p, and d Atomic Orbitals (PUST 2024 Q5c, 2022 Q5b, 2021 Q5a, 2016 Q5c):',
+        '3D Shapes and Directional Characteristics of s, p, and d Atomic Orbitals (CR Final Exam Q3; PUST 2024 Q5c, 2022 Q5b, 2021 Q5a, 2016 Q5c):',
         '1. Shape of s-Orbital (l = 0, m = 0 — 1 orbital):',
         '• Spherically symmetrical around the nucleus in all three directions (non-directional). A 1s orbital has 0 radial nodes; a 2s orbital has 1 spherical radial node (nodal surface where ψ² = 0). In general, number of radial nodes = n − l − 1.',
         '2. Shapes of p-Orbitals (l = 1, m = −1, 0, +1 — 3 degenerate orbitals: p_x, p_y, p_z):',
         '• Dumbbell-shaped consisting of two lobes of opposite wave-function signs (+ and −) separated by a nodal plane passing through the nucleus.',
         '• p_x lies along the X-axis (nodal plane YZ), p_y lies along the Y-axis (nodal plane XZ), and p_z lies along the Z-axis (nodal plane XY).',
-        '3. Shapes of d-Orbitals (l = 2, m = −2, −1, 0, +1, +2 — 5 degenerate orbitals):',
-        '• Divided into two symmetry sets (vital for Crystal Field Theory in Module 09):',
-        '• Non-Axial t_{2g} Set (d_{xy}, d_{yz}, d_{zx}): Double-dumbbell (four-leaf clover) shape with 4 lobes lying IN BETWEEN the coordinate axes in the XY, YZ, and ZX planes respectively.',
-        '• Axial e_g Set (d_{x²−y²} and d_{z²}): d_{x²−y²} has 4 lobes lying DIRECTLY ALONG the X and Y axes; d_{z²} has a dumbbell with 2 large lobes along the Z-axis plus a doughnut-shaped ring (torus) of electron density in the XY plane.',
+        '3. Sketches and Directional Characteristics of the Five d-Orbitals (l = 2, m = −2, −1, 0, +1, +2 — CR Final Exam Q3):',
+        '• Divided into two directional symmetry sets (2 angular nodal planes each):',
+        '• Non-Axial Planar Cloverleaf Set — t_{2g} (d_{xy}, d_{yz}, d_{zx}): Each orbital has a double-dumbbell (four-leaf clover) shape with 4 lobes of electron density directed at 45° IN BETWEEN the coordinate axes in the XY, YZ, and ZX planes respectively.',
+        '• Axial Set — e_g (d_{x²−y²} and d_{z²}): d_{x²−y²} has 4 cloverleaf lobes directed DIRECTLY ALONG the X and Y coordinate axes; d_{z²} has 2 large dumbbell lobes directed ALONG the Z-axis surrounded by a concentric doughnut-shaped ring (torus) of high electron density in the XY plane.',
       ],
       table: {
-        caption: 'Table 6.1 — Summary of the Four Quantum Numbers and Subshell Capacities',
+        caption: 'Table 6.2 — Summary of the Four Quantum Numbers and Subshell Capacities (CR Final Exam Q2)',
         headers: [
           'Quantum Number & Symbol',
           'Permissible Values',
@@ -167,7 +198,7 @@ export const CHEM1101_CH06: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 3],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 6 & Part C Q29) · PUST EECE 2025 Q5(c), 2022 Q5(d), 2021 Q5(b), 2020 Q6(a)',
+        'CR Final Exam Question Bank (Atomic Structure Q4) · Professor’s Suggestion Sheet (Ch 6 & Part C Q29) · PUST EECE 2025 Q5(c), 2022 Q5(d), 2021 Q5(b), 2020 Q6(a)',
       title: 'Aufbau Principle, Pauli’s Exclusion, Hund’s Rule, and Cr/Cu Anomalies',
       summaryText:
         'Statements and applications of Pauli’s Exclusion Principle, Hund’s Rule of Maximum Multiplicity, Aufbau Principle & Madelung’s (n + l) rule, and anomalous electronic configurations of Cr (Z=24) and Cu (Z=29).',
@@ -178,21 +209,16 @@ export const CHEM1101_CH06: ChapterNote = {
         'Madelung’s (n + l) Rule: (1) An orbital with a lower value of (n + l) has lower energy and is filled first; (2) If two orbitals have the same value of (n + l), the orbital with the lower value of n has lower energy and is filled first.',
       ],
       bulletPoints: [
-        'Significance of the (n + l) Rule — Why 4s Is Filled Before 3d (PUST 2025 Q5c, 2020 Q6a):',
+        'Significance of the (n + l) Rule — Why 4s Is Filled Before 3d (CR Final Exam Q4; PUST 2025 Q5c, 2020 Q6a):',
+        '• The (n + l) rule determines the relative energy order of atomic subshells in multi-electron atoms and governs the exact sequence of ground-state electronic configurations.',
         '• For the 4s orbital: n = 4, l = 0 ⇒ (n + l) = 4 + 0 = 4.',
         '• For the 3d orbital: n = 3, l = 2 ⇒ (n + l) = 3 + 2 = 5.',
         '• Since (n + l) for 4s (4) is less than that for 3d (5), the 4s orbital has lower energy than 3d in neutral potassium (Z=19) and calcium (Z=20), so electrons enter 4s before 3d.',
         '• Tie-breaker Example (3d vs. 4p): Both 3d (3 + 2 = 5) and 4p (4 + 1 = 5) have (n + l) = 5, so 3d (lower n = 3) fills before 4p (n = 4).',
         'Anomalous Electronic Configurations of Chromium (Cr, Z = 24) and Copper (Cu, Z = 29) [PUST 2021 Q5b, Suggestion Q29]:',
-        '1. Chromium (Cr, Z = 24):',
-        '• Expected configuration: 1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁴ 4s² (or [Ar] 3d⁴ 4s²).',
-        '• Actual ground-state configuration: 1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁵ 4s¹ (or [Ar] 3d⁵ 4s¹).',
-        '2. Copper (Cu, Z = 29):',
-        '• Expected configuration: 1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁹ 4s² (or [Ar] 3d⁹ 4s²).',
-        '• Actual ground-state configuration: 1s² 2s² 2p⁶ 3s² 3p⁶ 3d¹⁰ 4s¹ (or [Ar] 3d¹⁰ 4s¹).',
-        '3. Two Quantum-Mechanical Reasons for Extra Stability of Half-Filled (d⁵) and Fully-Filled (d¹⁰) Subshells:',
-        '• Symmetrical Distribution of Charge: A half-filled (3d⁵) or completely filled (3d¹⁰) d-subshell has a spherically symmetrical 3D electron cloud around the nucleus, which minimizes electron–electron repulsion and lowers total energy.',
-        '• Maximum Exchange Energy: Electrons with parallel spins in degenerate orbitals can exchange positions without changing total energy. In 3d⁵ (5 parallel spins), the number of stabilizing exchange pairs is C(5,2) = 10 pairs, compared to only C(4,2) = 6 pairs in 3d⁴. This large gain in exchange energy exceeds the small promotion gap between 4s and 3d.',
+        '1. Chromium (Cr, Z = 24): Expected [Ar] 3d⁴ 4s², Actual ground-state configuration: 1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁵ 4s¹ ([Ar] 3d⁵ 4s¹).',
+        '2. Copper (Cu, Z = 29): Expected [Ar] 3d⁹ 4s², Actual ground-state configuration: 1s² 2s² 2p⁶ 3s² 3p⁶ 3d¹⁰ 4s¹ ([Ar] 3d¹⁰ 4s¹).',
+        '3. Two Quantum-Mechanical Reasons for Extra Stability of Half-Filled (d⁵) and Fully-Filled (d¹⁰) Subshells: (i) Symmetrical 3D distribution of charge minimizes electron–electron repulsion; (ii) Maximum exchange energy from parallel-spin electron exchanges in degenerate orbitals (10 exchange pairs in 3d⁵ vs. 6 in 3d⁴).',
       ],
       equations: [
         {

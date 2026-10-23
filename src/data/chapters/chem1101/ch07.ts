@@ -15,35 +15,66 @@ export const CHEM1101_CH07: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 3],
       sourceCitation:
-        'Modern Periodic Table Class Lecture Slides · Important Questions Sheet (Q1, Q2, Q5, Q6, Q8) · PUST EECE 2025 Q6(a), 2023 Q7(a,b), 2022 Q6(a,c), 2021 Q7(a) · R. D. Madan',
-      title: 'Modern Periodic Law, Electronic Configuration Correlation, and Position of Hydrogen',
+        'CR Final Exam Question Bank (Periodic Classification Q1, Q2, Q5, Q6, Q8; Atomic Structure Q5, Q6) · Modern Periodic Table Class Lecture Slides · Important Questions Sheet (Q1, Q2, Q5, Q6, Q8) · PUST EECE 2025 Q6(a), 2023 Q7(a,b), 2022 Q6(a,c), 2021 Q7(a) · R. D. Madan',
+      title: 'Modern Periodic Law, Electronic Configuration Correlation, and Hydrogen Position',
       summaryText:
-        'Moseley’s Modern Periodic Law vs. Mendeleev’s Law, why atomic number Z is more fundamental than atomic mass, determining Period/Block/Group from electronic configuration, and the dual position of Hydrogen.',
+        'Moseley’s Modern Periodic Law vs. Mendeleev’s Law, electron filling in s-, p-, d-, and f-block elements with examples, determining Period/Block/Group from configuration, and the dual position of Hydrogen.',
       memorizeStatements: [
         'Mendeleev’s Periodic Law (1869): The physical and chemical properties of the elements are a periodic function of their atomic weights (masses).',
         'Modern Periodic Law (Moseley, 1913): The physical and chemical properties of the elements are a periodic function of their atomic numbers (Z), i.e., their ground-state electronic configurations.',
         'Moseley’s X-Ray Frequency Law: √ν = a(Z − b), where ν is the frequency of characteristic X-rays emitted by a metal target, Z is atomic number, and a, b are constants.',
       ],
       bulletPoints: [
-        'Why Atomic Number (Z) Is More Fundamental Than Atomic Mass (PUST 2022 Q6a, Imp Q5):',
+        'Why Atomic Number (Z) Is More Fundamental Than Atomic Mass (CR Final Exam Q5; PUST 2022 Q6a, Imp Q5):',
         '1. Chemical properties of an atom depend entirely on the number and arrangement of its extra-nuclear valence electrons, which equals the nuclear proton number (Z) in a neutral atom—not the neutron-dependent nuclear mass.',
         '2. Atomic number Z increases regularly by exactly 1 unit from element to element, whereas atomic mass increases irregularly and exhibits inversions (e.g., Ar 39.95 precedes K 39.10; Co 58.93 precedes Ni 58.69; Te 127.6 precedes I 126.9).',
         '3. All isotopes of an element (e.g., ¹H, ²H, ³H or ³⁵Cl, ³⁷Cl) have different atomic masses but the same atomic number Z = 1 or 17, justifying their placement in a single slot.',
-        'Correlation Between Electronic Configuration and Periodic Table Position (PUST 2025 Q6a, 2023 Q7a, 2022 Q6c, Imp Q1,2,6,8):',
+        'Filling of Electrons in s-, p-, d-, and f-Block Elements & Correlation with Periodic Table (CR Final Exam Q1, Q2, Q6, Q8; PUST 2025 Q6a, 2023 Q7a, 2022 Q6c):',
         '1. Determination of Period Number: Equals the highest principal quantum number (n_max) of the valence shell (e.g., Na [1s² 2s² 2p⁶ 3s¹] has n_max = 3 → Period 3; Ca [Ar] 4s² has n_max = 4 → Period 4).',
-        '2. Determination of Block (s, p, d, f): Determined by the subshell into which the last (differentiating) electron enters according to the Aufbau principle:',
-        '• s-Block (Groups 1–2): Valence configuration ns¹⁻² (alkali & alkaline earth metals). Note: Helium (1s²) has s-block configuration but is placed in Group 18 (p-block noble gases) due to its completely filled valence shell and chemical inertness.',
-        '• p-Block (Groups 13–18): Valence configuration ns² np¹⁻⁶ (representative elements including metals, metalloids, halogens, noble gases).',
-        '• d-Block (Groups 3–12): Valence configuration (n − 1)d¹⁻¹⁰ ns⁰⁻² (transition metals).',
-        '• f-Block (Inner Transition): Valence configuration (n − 2)f¹⁻¹⁴ (n − 1)d⁰⁻¹ ns² (Lanthanides 4f and Actinides 5f, placed in Group 3, Periods 6 and 7).',
+        '2. Classification and Electron Filling Across the Four Blocks (s, p, d, f):',
+        '• s-Block Elements (Groups 1–2, Valence Configuration ns¹⁻²): The differentiating electron enters the outermost ns orbital (up to 2 electrons). Group 1 Alkali Metals have ns¹ (e.g., Na, Z=11: [Ne] 3s¹; K, Z=19: [Ar] 4s¹) and Group 2 Alkaline Earth Metals have ns² (e.g., Mg, Z=12: [Ne] 3s²; Ca, Z=20: [Ar] 4s²). Note: Helium (1s²) has s-block configuration but is placed in Group 18 (p-block noble gases) due to its completely filled valence shell.',
+        '• p-Block Elements (Groups 13–18, Valence Configuration ns² np¹⁻⁶): After the ns orbital is filled, the next 1 to 6 electrons progressively fill the three outermost np orbitals (p_x, p_y, p_z). Examples across Period 3: Al (Z=13: [Ne] 3s² 3p¹), Si (Z=14: [Ne] 3s² 3p²), P (Z=15: [Ne] 3s² 3p³), S (Z=16: [Ne] 3s² 3p⁴), Cl (Z=17: [Ne] 3s² 3p⁵), Ar (Z=18: [Ne] 3s² 3p⁶).',
+        '• d-Block Elements (Groups 3–12, Valence Configuration (n − 1)d¹⁻¹⁰ ns⁰⁻²): The differentiating electron enters the penultimate (n − 1)d subshell after ns² is filled (because (n−1)d has higher (n+l) than ns). Comprises four transition series: 3d (Sc Z=21 [Ar] 3d¹ 4s² to Zn Z=30 [Ar] 3d¹⁰ 4s², with Cr [Ar] 3d⁵ 4s¹ and Cu [Ar] 3d¹⁰ 4s¹ anomalies), 4d (Y to Cd), 5d (La, Hf to Hg), and 6d (Ac, Rf to Cn).',
+        '• f-Block Elements (Inner Transition, Group 3, Periods 6 & 7, Valence Configuration (n − 2)f¹⁻¹⁴ (n − 1)d⁰⁻¹ ns²): The differentiating electron enters the deep anti-penultimate (n − 2)f subshell (capacity 14 electrons). Divided into Two Series: (i) 4f Lanthanide Series (Ce Z=58 [Xe] 4f¹ 5d¹ 6s² to Lu Z=71 [Xe] 4f¹⁴ 5d¹ 6s², e.g., Gd Z=64 [Xe] 4f⁷ 5d¹ 6s²) and (ii) 5f Actinide Series (Th Z=90 [Rn] 6d² 7s² and U Z=92 [Rn] 5f³ 6d¹ 7s² to Lr Z=103 [Rn] 5f¹⁴ 6d¹ 7s²).',
         '3. Determination of Group Number (1 to 18):',
         '• For s-block elements: Group Number = number of valence s-electrons (1 or 2).',
         '• For p-block elements: Group Number = 10 + (number of ns + np valence electrons) (e.g., Cl [Ne] 3s² 3p⁵ → 10 + 7 = Group 17).',
         '• For d-block elements: Group Number = number of (n − 1)d electrons + number of ns electrons (e.g., Fe [Ar] 3d⁶ 4s² → 6 + 2 = Group 8).',
         'Controversial Position of Hydrogen in the Periodic Table (PUST 2023 Q7b, 2021 Q7a):',
         '• Resemblance to Group 1 Alkali Metals (Li, Na, K): Has 1 valence electron (1s¹ like ns¹), forms unipositive ion (H⁺), exhibits +1 oxidation state in HCl/H₂O, and acts as a strong reducing agent.',
-        '• Resemblance to Group 17 Halogens (F, Cl, Br): Is one electron short of the nearest noble gas configuration (He, 1s²), exists as a diatomic gas (H₂ like F₂, Cl₂), has high ionization energy (1312 kJ/mol), and forms hydride anions (H⁻) with active metals (NaH, CaH₂). Hence Hydrogen is often called a "rogue element" and placed at the top of Group 1 or in a separate box.',
+        '• Resemblance to Group 17 Halogens (F, Cl, Br): Is one electron short of the nearest noble gas configuration (He, 1s²), exists as a diatomic gas (H₂ like F₂, Cl₂), has high ionization energy (1312 kJ/mol), and forms hydride anions (H⁻) with active metals (NaH, CaH₂).',
       ],
+      table: {
+        caption: 'Table 7.1 — Difference Between Earlier (Mendeleev’s) Periodic Law and Modern Periodic Law (CR Final Exam Q5)',
+        headers: ['Feature', 'Earlier / Mendeleev’s Periodic Law (1869)', 'Modern Periodic Law (Moseley, 1913)'],
+        rows: [
+          [
+            'Fundamental Basis',
+            'Based on Atomic Weight (Atomic Mass) of elements',
+            'Based on Atomic Number (Z) and ground-state electronic configuration',
+          ],
+          [
+            'Position of Isotopes',
+            'Isotopes (e.g., ¹H, ²H, ³H) have different masses and should occupy separate slots (anomaly)',
+            'All isotopes of an element have the same Z and rightly occupy a single position',
+          ],
+          [
+            'Anomalous Mass Pairs',
+            'Cannot explain why Ar (39.95) precedes K (39.10) or Co (58.93) precedes Ni (58.69)',
+            'Resolved naturally because Z(Ar)=18 < Z(K)=19 and Z(Co)=27 < Z(Ni)=28',
+          ],
+          [
+            'Sub-Groups A and B',
+            'Dissimilar elements (e.g., alkali metals Na, K and coinage metals Cu, Ag) were grouped together',
+            'Separates s-, p-, d-, and f-blocks cleanly into 18 vertical groups (Groups 1–18)',
+          ],
+          [
+            'Cause of Periodicity',
+            'Could not explain the physical reason behind periodic repetition of properties',
+            'Explains periodicity as the periodic recurrence of similar outer valence shell configurations',
+          ],
+        ],
+      },
       examYears: ['2025', '2023', '2022', '2021'],
       marks: '4 Marks',
     },
@@ -53,7 +84,7 @@ export const CHEM1101_CH07: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 3],
       sourceCitation:
-        'Class Lecture Notes (Periodic Table) · Important Questions Sheet (Q3) · PUST EECE 2025 Q6(b), 2020 Q8(b) · R. D. Madan',
+        'CR Final Exam Question Bank (Periodic Classification Q3) · Class Lecture Notes (Periodic Table) · Important Questions Sheet (Q3) · PUST EECE 2025 Q6(b), 2020 Q8(b) · R. D. Madan',
       title: 'Effective Nuclear Charge and Atomic vs. Ionic Radius',
       summaryText:
         'Shielding constant S, Z_eff = Z − S calculation for Potassium (Z=19), covalent/metallic/van der Waals radii, why cations are smaller (Na⁺ < Na) and anions are larger (Cl⁻ > Cl), and isoelectronic series.',
@@ -128,7 +159,7 @@ export const CHEM1101_CH07: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 3],
       sourceCitation:
-        'Class Lecture Notes · Important Questions Sheet (Q4, Q7) · PUST EECE 2025 Q6(c), 2025 Q8(b), 2024 Q8(b), 2023 Q7(c), 2022 Q6(d), 2022 Q6(e-ii), 2021 Q7(b) · R. D. Madan (p. 205)',
+        'CR Final Exam Question Bank (Periodic Classification Q4, Q7; Atomic Structure Q7) · Class Lecture Notes · Important Questions Sheet (Q4, Q7) · PUST EECE 2025 Q6(c), 2025 Q8(b), 2024 Q8(b), 2023 Q7(c), 2022 Q6(d), 2022 Q6(e-ii), 2021 Q7(b) · R. D. Madan (p. 205)',
       title: 'Electron Affinity, Electronegativity, and Diagonal Relationship',
       summaryText:
         'Comparison of Electron Affinity (EA) and Electronegativity (EN), why EA of Chlorine is higher than Fluorine (Cl > F > Br > I), and Diagonal Relationship (Li–Mg, Be–Al, B–Si).',
@@ -143,7 +174,7 @@ export const CHEM1101_CH07: ChapterNote = {
         '• Consequently, an incoming electron experiences strong inter-electronic repulsion from the dense 2p electron cloud of F, consuming part of the released energy (EA of F = 328 kJ/mol).',
         '• In Chlorine (3s² 3p⁵), the valence electrons occupy the larger, more spacious 3rd shell (r = 0.99 Å), so electron–electron repulsion is much smaller and net energy released is highest in the periodic table (EA of Cl = 349 kJ/mol).',
         '• Thus, Halogen Electron Affinity Order: Cl > F > Br > I, whereas Halogen Electronegativity Order: F (4.0) > Cl (3.0) > Br (2.8) > I (2.5).',
-        'Diagonal Relationship Between Period 2 and Period 3 Elements (PUST 2025 Q8b, 2024 Q8b, 2022 Q6d, 2021 Q7b, Imp Q7):',
+        'Diagonal Relationship Between Period 2 and Period 3 Elements (CR Final Exam Q7; PUST 2025 Q8b, 2024 Q8b, 2022 Q6d, 2021 Q7b, Imp Q7):',
         '• Diagonal Pairs: Lithium (Li) ↔ Magnesium (Mg); Beryllium (Be) ↔ Aluminum (Al); Boron (B) ↔ Silicon (Si).',
         '• Cause of Diagonal Relationship: On moving from left to right across a period, ionic charge increases and size decreases (polarizing power increases); on moving down a group, ionic size increases (polarizing power decreases). Moving diagonally (one step right + one step down) causes these two opposing trends to cancel out, giving diagonal pairs nearly identical Ionic Potential / Polarizing Power (ϕ = Ionic Charge / Ionic Radius²) and electronegativity.',
         '• Examples of Diagonal Similarities (R. D. Madan):',
@@ -151,7 +182,7 @@ export const CHEM1101_CH07: ChapterNote = {
         '2. Be and Al: Both have identical polarizing power (Be²⁺/r² ≈ Al³⁺/r²), are rendered passive by conc. HNO₃, form amphoteric oxides/hydroxides [BeO, Al₂O₃; Be(OH)₂, Al(OH)₃], and form covalent bridged polymeric chlorides (BeCl₂, Al₂Cl₆) soluble in organic solvents.',
       ],
       table: {
-        caption: 'Table 7.1 — Comparison Between Electron Affinity (EA) and Electronegativity (EN)',
+        caption: 'Table 7.2 — Comparison Between Electron Affinity (EA) and Electronegativity (EN) (CR Final Exam Q4)',
         headers: ['Feature', 'Electron Affinity (EA)', 'Electronegativity (EN)'],
         rows: [
           [

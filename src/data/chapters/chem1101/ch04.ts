@@ -60,7 +60,7 @@ export const CHEM1101_CH04: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Chemical Kinetics Assignment (§2) · PUST EECE 2023 Q3(b), 2022 Q3(c), 2020 Q1(a)',
+        'CR Final Exam Question Bank (Chemical Kinetics Q5) · Chemical Kinetics Assignment (§2) · PUST EECE 2023 Q3(b), 2022 Q3(c), 2020 Q1(a)',
       title: 'Order vs. Molecularity of a Reaction and Pseudo-First-Order Reactions',
       summaryText:
         'Definitions and comparison of Order and Molecularity, why molecularity > 3 is rare, and pseudo-first-order (pseudo-unimolecular) reactions with examples.',
@@ -117,7 +117,7 @@ export const CHEM1101_CH04: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Chemical Kinetics Assignment (§3.1 & §3.2) · PUST EECE 2023 Q3(c), 2022 Q3(a)',
+        'CR Final Exam Question Bank (Chemical Kinetics Q3) · Chemical Kinetics Assignment (§3.1 & §3.2) · PUST EECE 2023 Q3(c), 2022 Q3(a)',
       title: 'Zero-Order and First-Order Integrated Rate Laws and Half-Life Derivations',
       summaryText:
         'Complete differential and integrated rate equations, graphical plots, and half-life derivations for Zero-Order (t_{1/2} = a/2k) and First-Order (k = (2.303/t) log[a/(a−x)], t_{1/2} = 0.693/k) reactions.',
@@ -168,7 +168,7 @@ export const CHEM1101_CH04: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Chemical Kinetics Assignment (§3.3) · PUST EECE 2024 Q3(a), 2020 Q1(b), 2016 Q1(b), 2015 Q3(b)',
+        'CR Final Exam Question Bank (Chemical Kinetics Q6) · Chemical Kinetics Assignment (§3.3) · PUST EECE 2024 Q3(a), 2020 Q1(b), 2016 Q1(b), 2015 Q3(b)',
       title: 'Second-Order Integrated Rate Equations and Half-Life',
       summaryText:
         'Complete derivations of second-order integrated rate equations for Case I (2A → Products or A + B with a = b: k₂ = x/[ta(a−x)], t_{1/2} = 1/k₂a) and Case II (A + B → Products with a ≠ b via partial fractions).',
@@ -215,7 +215,7 @@ export const CHEM1101_CH04: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Chemical Kinetics Assignment (§4 & §5) · Professor’s Suggestion Sheet (Part B Q8 & Q18) · PUST EECE 2025 Q3(a), 2024 Q3(b), 2016 Q1(c)',
+        'CR Final Exam Question Bank (Chemical Kinetics Q1 & Q7) · Chemical Kinetics Assignment (§4 & §5) · PUST EECE 2025 Q3(a), 2024 Q3(b), 2016 Q1(c)',
       title: 'Methods of Determining Order and Derivation of Arrhenius Equation',
       summaryText:
         'Six experimental methods to determine order of reaction, Collision Theory, Activation Energy E_a, and derivation of the integrated Arrhenius equation log(k₂/k₁) = [E_a/(2.303R)][(T₂−T₁)/(T₁T₂)].',
@@ -259,39 +259,39 @@ export const CHEM1101_CH04: ChapterNote = {
     {
       id: 'chem-m4-b6',
       type: 'pyq',
-      priorityTier: 2,
-      secondaryPriorityTiers: [1],
+      priorityTier: 1,
+      secondaryPriorityTiers: [2],
       sourceCitation:
-        'Chemical Kinetics Assignment (§6A) · PUST EECE 2025 Q3(b), 2024 Q3(c), 2022 Q3(b), 2020 Q1(c), 2015 Q3(c)',
+        'CR Final Exam Question Bank (Chemical Kinetics Q2, Q4, Q8) · PUST EECE 2025 Q3(b), 2024 Q3(c), 2022 Q3(b), 2020 Q1(c), 2015 Q3(c)',
       title: 'First-Order Half-Life and Percentage Completion Calculations',
       summaryText:
-        'Solved PUST EECE past exam numericals on first-order reactions: (i) 2025 Q3b (k = 2.5×10⁻³ s⁻¹), (ii) 2024 Q3c & 2015 Q3c (k = 1.54×10⁻³ s⁻¹), (iii) 2020 Q1c (k = 0.450 s⁻¹), and (iv) 2022 Q3b (15% in 20 min → time for 60%).',
+        'Solved PUST EECE and CR Question Bank numericals on first-order reactions: (i) k = 2.5×10⁻³ s⁻¹ (Q8 & 2025 Q3b), (ii) k = 1.54×10⁻³ s⁻¹ (Q2 & 2024/2015 Q3c), (iii) k = 0.450 s⁻¹ (2020 Q1c), and (iv) 15% in 20 min → time for 60% (Q4 & 2022 Q3b).',
       examYears: ['2025', '2024', '2022', '2020', '2015'],
       marks: '2.5–4 Marks',
       problemStatement:
-        '(a) [PUST 2025 Q3b]: A first-order reaction has a rate constant k = 2.5 × 10⁻³ s⁻¹. Calculate the half-life (t_{1/2}) and the time required for the reactant concentration to drop to one-fourth (25%) of its initial value.\n(b) [PUST 2024 Q3c & 2015 Q3c]: The rate constant of a first-order reaction is 1.54 × 10⁻³ s⁻¹. Calculate its half-life period.\n(c) [PUST 2020 Q1c]: Calculate the half-life of a first-order reaction where the specific rate constant is 0.450 s⁻¹.\n(d) [PUST 2022 Q3b]: A first-order reaction is 15% complete in 20 minutes. How long will it take to be 60% complete?',
+        '(a) [CR Q8 & PUST 2025 Q3b]: A first-order reaction has a rate constant k = 2.5 × 10⁻³ s⁻¹. Calculate the half-life (t_{1/2}) and the time required for the reactant concentration to drop to one-fourth (25%) of its initial value.\n(b) [CR Q2 & PUST 2024/2015 Q3c]: The rate constant of a first-order reaction is 1.54 × 10⁻³ s⁻¹. Calculate its half-life period.\n(c) [PUST 2020 Q1c]: Calculate the half-life of a first-order reaction where the specific rate constant is 0.450 s⁻¹.\n(d) [CR Q4 & PUST 2022 Q3b]: A first-order reaction is 15% complete in 20 minutes. How long will it take to be 60% complete?',
       givenData: [
-        'Case (a) [2025 Q3b]: k = 2.5 × 10⁻³ s⁻¹',
-        'Case (b) [2024/2015 Q3c]: k = 1.54 × 10⁻³ s⁻¹',
+        'Case (a) [CR Q8 / 2025 Q3b]: k = 2.5 × 10⁻³ s⁻¹',
+        'Case (b) [CR Q2 / 2024 Q3c]: k = 1.54 × 10⁻³ s⁻¹',
         'Case (c) [2020 Q1c]: k = 0.450 s⁻¹',
-        'Case (d) [2022 Q3b]: x₁ = 15% of a at t₁ = 20 min; find t₂ for x₂ = 60% of a',
+        'Case (d) [CR Q4 / 2022 Q3b]: x₁ = 15% of a at t₁ = 20 min; find t₂ for x₂ = 60% of a',
       ],
       solutionSteps: [
         {
-          stepTitle: 'Step 1: Solve Case (a) [PUST 2025 Q3b]',
+          stepTitle: 'Step 1: Solve Case (a) [CR Q8 & PUST 2025 Q3b]',
           explanation:
-            'Use t_{1/2} = 0.693 / k for half-life, and note that dropping to 1/4th (75% completion) takes exactly 2 × t_{1/2}:',
+            'Use t_{1/2} = 0.693 / k for half-life, and note that dropping to 1/4th (75% completion) takes 2 × t_{1/2}:',
           equation:
             't_{1/2} = 0.693 / (2.5 × 10⁻³ s⁻¹) = 277.2 s (or 4.62 min)\nt_{75%} = (2.303 / 2.5 × 10⁻³) log (100 / 25) = 2 × 277.2 = 554.4 s',
         },
         {
-          stepTitle: 'Step 2: Solve Case (b) [PUST 2024 Q3c & 2015 Q3c] and Case (c) [PUST 2020 Q1c]',
+          stepTitle: 'Step 2: Solve Case (b) [CR Q2 & PUST 2024/2015 Q3c] and Case (c) [PUST 2020 Q1c]',
           explanation: 'Apply t_{1/2} = 0.693 / k directly:',
           equation:
             'Case (b):   t_{1/2} = 0.693 / (1.54 × 10⁻³ s⁻¹) = 450.0 s (or 7.5 min)\nCase (c):   t_{1/2} = 0.693 / 0.450 s⁻¹ = 1.54 s',
         },
         {
-          stepTitle: 'Step 3: Solve Case (d) [PUST 2022 Q3b — 15% in 20 min → 60% completion]',
+          stepTitle: 'Step 3: Solve Case (d) [CR Q4 & PUST 2022 Q3b — 15% in 20 min → 60% completion]',
           explanation:
             'First find k₁ from 15% completion in 20 min (where a = 100 and a − x₁ = 85), then calculate t₂ for 60% completion (where a − x₂ = 40):',
           equation:
@@ -304,10 +304,10 @@ export const CHEM1101_CH04: ChapterNote = {
     {
       id: 'chem-m4-b7',
       type: 'pyq',
-      priorityTier: 2,
-      secondaryPriorityTiers: [1],
+      priorityTier: 1,
+      secondaryPriorityTiers: [2],
       sourceCitation:
-        'Chemical Kinetics Assignment (§6A & §6B) · PUST EECE 2025 Q3(c) · Professor’s Suggestion Sheet Q26',
+        'CR Final Exam Question Bank (Chemical Kinetics Q9) · PUST EECE 2025 Q3(c) · Suggestion Q26',
       title: 'Activation Energy Calculations from the Arrhenius Equation',
       summaryText:
         'Calculate the activation energy E_a when (i) rate doubles from 300 K to 320 K (PUST 2025 Q3c) and (ii) k₁ = 4.5 × 10⁻³ s⁻¹ at 300 K and k₂ = 1.7 × 10⁻² s⁻¹ at 350 K (Suggestion Q26).',

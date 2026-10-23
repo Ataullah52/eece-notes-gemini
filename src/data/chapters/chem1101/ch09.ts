@@ -15,16 +15,20 @@ export const CHEM1101_CH09: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 3],
       sourceCitation:
-        'Transition Elements Lecture Slides (1 & 2) · Important Questions Sheet (Q1, Q5, Q6) · PUST EECE 2025 Q8(b), 2023 Q5(a,c), 2022 Q6(b), 2022 Q8(d), 2016 Q6(a) · R. D. Madan',
+        'CR Final Exam Question Bank (Transition, Lanthanides & Actinides Q1, Q5, Q6) · Transition Elements Lecture Slides (1 & 2) · Important Questions Sheet (Q1, Q5, Q6) · PUST EECE 2025 Q8(b), 2023 Q5(a,c), 2022 Q6(b), 2022 Q8(d), 2016 Q6(a) · R. D. Madan',
       title: 'Transition vs. d-Block Elements and 3d Electronic Configurations',
       summaryText:
-        'Distinction between d-block elements and true transition elements, why Sc and Zn are d-block but not transition elements, and ground-state electronic configurations of the first transition series (Sc to Zn).',
+        'Definition of transition metals with examples (Fe, Cu), difference between transition elements and d-block elements, why Sc and Zn are excluded, and electronic configurations of V, Ti, Cr, Cu, Fe, Mn, Co, Ni, Sc, Zn.',
       memorizeStatements: [
-        'd-Block Elements: Elements in which the last differentiating electron enters one of thefive penultimate (n − 1)d orbitals; they occupy Groups 3 to 12 of the Periodic Table and have general valence configuration (n − 1)d¹⁻¹⁰ ns⁰⁻².',
-        'Transition Elements (IUPAC Definition): Elements that possess an incompletely filled (partially filled) d-subshell (d¹ to d⁹) either in their neutral atomic ground state or in any of their common stable oxidation states.',
+        'd-Block Elements: Elements in which the last differentiating electron enters one of the five penultimate (n − 1)d orbitals; they occupy Groups 3 to 12 of the Periodic Table and have general valence configuration (n − 1)d¹⁻¹⁰ ns⁰⁻².',
+        'Transition Elements (IUPAC Definition): Elements that possess an incompletely filled (partially filled) d-subshell (d¹ to d⁹) either in their neutral atomic ground state or in any of their common stable oxidation states (e.g., Iron Fe [Ar] 3d⁶ 4s² and Copper Cu [Ar] 3d¹⁰ 4s¹ / Cu²⁺ [Ar] 3d⁹).',
         'Core Rule: "All transition elements are d-block elements, but not all d-block elements are transition elements."',
       ],
       bulletPoints: [
+        'Key Differences Between d-Block Elements and Transition Elements (CR Final Exam Q5; Imp Q5):',
+        '1. Electronic Criterion: Any element in which the last differentiating electron enters the penultimate (n − 1)d orbital (Groups 3–12, d¹ to d¹⁰) is a d-block element; whereas a true Transition Element must have an INCOMPLETELY filled d-subshell (d¹ to d⁹) in its ground state or in a stable oxidation state.',
+        '2. Scope & Group 12 Exclusion: There are 40 d-block elements across the 3d, 4d, 5d, and 6d series, but Group 12 elements (Zn, Cd, Hg, Cn) have completely filled (n − 1)d¹⁰ ns² configurations in both atomic and M²⁺ ionic states and are therefore d-block elements but NOT transition elements.',
+        '3. Characteristic Properties: True transition elements exhibit variable oxidation states, colored hydrated ions (d–d transitions), paramagnetism, and strong catalytic activity; non-transition d-block elements (such as Zn²⁺, Cd²⁺, and Sc³⁺) have fixed oxidation states and form colorless, diamagnetic compounds.',
         'Why Scandium (Sc) and Zinc (Zn) Are d-Block Elements But NOT Considered True Transition Elements (PUST 2025 Q8b, 2023 Q5a, 2022 Q6b, 2022 Q8d, 2016 Q6a, Imp Q1,5):',
         '1. Zinc (Zn, Z = 30 — Group 12, along with Cd and Hg):',
         '• Neutral Zn has electronic configuration [Ar] 3d¹⁰ 4s², and in its only stable oxidation state (+2), the Zn²⁺ ion has configuration [Ar] 3d¹⁰.',
@@ -36,7 +40,7 @@ export const CHEM1101_CH09: ChapterNote = {
         '• Although neutral Cu and Cu⁺ ([Ar] 3d¹⁰) have full d-subshells, in its most common aqueous oxidation state (+2), the Cu²⁺ ion has configuration [Ar] 3d⁹ (an incompletely filled d-subshell with 1 unpaired electron), forming blue paramagnetic salts.',
       ],
       table: {
-        caption: 'Table 9.1 — Ground-State Electronic Configurations & Oxidation States of the 3d Series (PUST 2023 Q5c, Imp Q6)',
+        caption: 'Table 9.1 — Ground-State Electronic Configurations of Sc, Ti, V, Cr, Mn, Fe, Co, Ni, Cu, Zn (CR Final Exam Q6; PUST 2023 Q5c)',
         headers: ['Element & Symbol', 'Atomic Number (Z)', 'Electronic Configuration', 'Common Oxidation States (Bold = Most Stable)'],
         rows: [
           ['Scandium (Sc)', '21', '[Ar] 3d¹ 4s²', '+3'],
@@ -62,7 +66,7 @@ export const CHEM1101_CH09: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 3],
       sourceCitation:
-        'Transition Elements Lecture Slides (1 & 2) · Important Questions Sheet (Q7) · PUST EECE 2024 Q8(c), 2020 Q5(c), 2016 Q6(d)',
+        'CR Final Exam Question Bank (Transition, Lanthanides & Actinides Q7) · Transition Elements Lecture Slides (1 & 2) · Important Questions Sheet (Q7) · PUST EECE 2024 Q8(c), 2020 Q5(c), 2016 Q6(d)',
       title: 'General Properties of Transition Metals and d–d Transitions',
       summaryText:
         'Detailed explanation of 5 hallmark properties of transition elements: variable oxidation states, catalytic activity, magnetic spin-only moment μ_eff = √[n(n+2)] B.M., complex ion formation, and octahedral d–d crystal field splitting.',
@@ -74,8 +78,8 @@ export const CHEM1101_CH09: ChapterNote = {
         '1. Variable Oxidation States:',
         '• Because the energy difference between (n − 1)d and ns orbitals is very small, both ns and (n − 1)d electrons participate in chemical bonding.',
         '• Minimum oxidation state equals the number of ns electrons (+2), while maximum oxidation state up to Mn equals the sum of ns + unpaired (n − 1)d electrons (e.g., Mn [Ar] 3d⁵ 4s² shows +2 to +7 in KMnO₄).',
-        '2. Catalytic Activity and Industrial Catalysts (PUST 2024 Q8c, Imp Q7):',
-        '• Reasons: (i) Presence of vacant d-orbitals that form unstable intermediate surface adsorption complexes with reactants, lowering activation energy E_a; (ii) Ability to adopt multiple oxidation states for redox electron transfer (e.g., V⁵⁺ ⇌ V⁴⁺ in Contact Process: V₂O₅ + SO₂ → V₂O₄ + SO₃; V₂O₄ + ½O₂ → V₂O₅); (iii) Large surface area of finely divided metals.',
+        '2. Why Transition Metals Show Good Catalytic Activity (CR Final Exam Q7; PUST 2024 Q8c, Imp Q7):',
+        '• Reasons: (i) Presence of vacant d-orbitals that form unstable intermediate surface adsorption complexes with reactants, providing a new reaction pathway with lower activation energy E_a; (ii) Ability to adopt variable oxidation states for facile redox electron transfer (e.g., V⁵⁺ ⇌ V⁴⁺ in Contact Process: V₂O₅ + SO₂ → V₂O₄ + SO₃; V₂O₄ + ½O₂ → V₂O₅, or Fe²⁺/Fe³⁺); (iii) Large surface area with free valencies on finely divided metal surfaces that concentrate reactant molecules.',
         '• Key Industrial Examples: Finely divided Iron (Fe) with Mo promoter in Haber’s synthesis of NH₃; Vanadium pentoxide (V₂O₅) in Contact Process for H₂SO₄; Nickel (Ni) in hydrogenation of vegetable oils; Pt/Rh gauze in Ostwald’s HNO₃ process; TiCl₄ + Al(C₂H₅)₃ (Ziegler–Natta catalyst) for polyethylene.',
         '3. Magnetic Properties:',
         '• Ions with partially filled d-orbitals (d¹–d⁹) contain unpaired electrons and are Paramagnetic, attracted into a magnetic field with moment μ = √[n(n + 2)] B.M. (e.g., Fe³⁺ and Mn²⁺ have 3d⁵ with n = 5 ⇒ μ = √35 = 5.92 B.M.).',
@@ -106,7 +110,7 @@ export const CHEM1101_CH09: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 3],
       sourceCitation:
-        'Lanthanides and Actinides Lecture Slides · Important Questions Sheet (Q3, Q4) · PUST EECE 2025 Q8(c), 2022 Q8(b), 2020 Q8(c), 2016 Q6(b,c), 2016 Q8(b,c) · R. D. Madan',
+        'CR Final Exam Question Bank (Transition, Lanthanides & Actinides Q2, Q3, Q4) · Lanthanides and Actinides Lecture Slides · Important Questions Sheet (Q3, Q4) · PUST EECE 2025 Q8(c), 2022 Q8(b), 2020 Q8(c), 2016 Q6(b,c), 2016 Q8(b,c) · R. D. Madan',
       title: 'Lanthanides & Actinides, Lanthanide Contraction, and Nuclear Transformation',
       summaryText:
         'Electronic configurations and oxidation states of 4f Lanthanides (Z=58–71) and 5f Actinides (Z=90–103), d-block vs. f-block comparison, cause and 4 consequences of Lanthanide Contraction, and synthesis of transuranic actinides via nuclear transformation.',
@@ -127,8 +131,8 @@ export const CHEM1101_CH09: ChapterNote = {
         '4. Abnormally High Density of Post-Lanthanide (5d) Elements: Because atomic mass roughly doubles from 4d to 5d while atomic volume remains constant, 5d metals (Hf, Ta, W, Os, Ir, Pt, Au) have nearly double the density of 4d metals.',
         'Preparation of Transuranic Actinides by Nuclear Transformation (Lecture Slide p. 12–13 & Syllabus):',
         '• Elements beyond Uranium (Z > 92, e.g., Np, Pu, Am, Cm) do not occur naturally in appreciable quantities and are synthesized artificially by bombarding heavy nuclei with neutrons or α-particles (Nuclear Transformation / Transmutation):',
-        '1. Synthesis of Neptunium (Z = 93) and Plutonium (Z = 94) from Uranium-238:\n²³⁸₉₂U + ¹₀n → ²³⁹₉₂U (unstable) → ²³⁹₉₃Np + ⁰₋₁e (β⁻ decay)\n²³⁹₉₃Np → ²³⁹₉₄Pu + ⁰₋₁e (β⁻ decay)',
-        '2. Synthesis of Americium (Z = 95) and Curium (Z = 96):\n²³⁹₉₄Pu + 2 ¹₀n → ²⁴¹₉₄Pu → ²⁴¹₉₅Am + ⁰₋₁e\n²³⁹₉₄Pu + ⁴₂He (α-particle) → ²⁴²₉₆Cm + ¹₀n',
+        '1. Synthesis of Neptunium (Z = 93) and Plutonium (Z = 94) from Uranium-238:\n_{92}^{238}U + _{0}^{1}n → _{92}^{239}U (unstable) → _{93}^{239}Np + _{−1}^{0}e (β⁻ decay)\n_{93}^{239}Np → _{94}^{239}Pu + _{−1}^{0}e (β⁻ decay)',
+        '2. Synthesis of Americium (Z = 95) and Curium (Z = 96):\n_{94}^{239}Pu + 2 _{0}^{1}n → _{94}^{241}Pu → _{95}^{241}Am + _{−1}^{0}e\n_{94}^{239}Pu + _{2}^{4}He (α-particle) → _{96}^{242}Cm + _{0}^{1}n',
         'Why Actinides Are Strongly Paramagnetic and Form More Complexes Than Lanthanides (PUST 2016 Q8c):',
         '• Both 4f and 5f ions contain unpaired f-electrons and are strongly paramagnetic. However, 5f orbitals in Actinides extend further out spatially from the nucleus, are less buried than 4f orbitals, and have smaller energy gaps between 5f, 6d, and 7s levels—leading to wide variable oxidation states (+3, +4, +5, +6, +7) and stronger complex formation.',
       ],
@@ -166,7 +170,7 @@ export const CHEM1101_CH09: ChapterNote = {
       equations: [
         {
           label: 'Nuclear Transformation Equations for Transuranic Elements',
-          formula: '²³⁸₉₂U + ¹₀n → ²³⁹₉₂U → ²³⁹₉₃Np + ⁰₋₁β⁻\n²³⁹₉₃Np → ²³⁹₉₄Pu + ⁰₋₁β⁻\n²³⁹₉₄Pu + ⁴₂He → ²⁴²₉₆Cm + ¹₀n',
+          formula: '_{92}^{238}U + _{0}^{1}n → _{92}^{239}U → _{93}^{239}Np + _{−1}^{0}β\n_{93}^{239}Np → _{94}^{239}Pu + _{−1}^{0}β\n_{94}^{239}Pu + _{2}^{4}He → _{96}^{242}Cm + _{0}^{1}n',
           units: 'Nuclear Transmutation',
           note: 'Synthesizes Neptunium (Z=93), Plutonium (Z=94), and Curium (Z=96)',
         },

@@ -24,6 +24,8 @@ const UNICODE_SUB_MAP: Record<string, string> = {
   'ₛ': 's',
   'ₜ': 't',
   'ₓ': 'x',
+  '₊': '+',
+  '₋': '-',
 };
 
 const UNICODE_SUP_MAP: Record<string, string> = {
@@ -99,6 +101,13 @@ const LATEX_SYMBOL_MAP: Record<string, string> = {
   '⌋': '\\rfloor ',
   '⌈': '\\lceil ',
   '⌉': '\\rceil ',
+  'ħ': '\\hbar ',
+  'Ĥ': '\\hat{H}',
+  'Å': '\\text{ \\AA}',
+  '∮': '\\oint ',
+  'ϕ': '\\phi ',
+  '⟨': '\\langle ',
+  '⟩': '\\rangle ',
   'α': '\\alpha ',
   'β': '\\beta ',
   'γ': '\\gamma ',
@@ -235,7 +244,10 @@ function isMathIdentifierWord(word: string): boolean {
   return (
     MATH_WORDS.has(word) ||
     /^[a-z][A-Z][A-Za-z]*$/.test(word) ||
-    /^[A-Z][a-z]?[A-Z][a-z]?$/.test(word)
+    /^[A-Z][a-z]?[A-Z][a-z]?$/.test(word) ||
+    /^(?:H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Th|Pa|U|Np|Pu|Am|Cm){2,}$/.test(
+      word
+    )
   );
 }
 
@@ -243,9 +255,10 @@ export function normalizeMathString(raw: string): string {
   let s = raw
     .replace(/<==>/g, '⇔')
     .replace(/==>/g, '⇒')
-    .replace(/->/g, '→');
+    .replace(/->/g, '→')
+    .replace(/ν̄/g, 'v̄');
 
-  s = s.replace(/[₀₁₂₃₄₅₆₇₈₉ₐₑᵢₒᵤₙₖₘₚᵣₛₜₓ]+/g, (match) => {
+  s = s.replace(/[₀₁₂₃₄₅₆₇₈₉ₐₑᵢₒᵤₙₖₘₚᵣₛₜₓ₊₋]+/g, (match) => {
     const mapped = [...match].map((ch) => UNICODE_SUB_MAP[ch] ?? ch).join('');
     return `_{${mapped}}`;
   });
@@ -357,6 +370,14 @@ export function findTopLevelFractionSlash(str: string): {
             if (dBrace > 0) dBrace--;
             else break;
           } else if (dParen === 0 && dBrace === 0 && /[\s=,;⇒⇔→+−\-±≤≥≠<>:|]/.test(c)) {
+            if (
+              (c === '+' || c === '−' || c === '-') &&
+              lStart >= 2 &&
+              (str[lStart - 2] === '_' || str[lStart - 2] === '^')
+            ) {
+              lStart--;
+              continue;
+            }
             break;
           }
           lStart--;
@@ -424,6 +445,14 @@ export function findTopLevelFractionSlash(str: string): {
               if (dBrace > 0) dBrace--;
               else break;
             } else if (dParen === 0 && dBrace === 0 && /[\s=,;⇒⇔→+−\-±≤≥≠<>:|]/.test(c)) {
+              if (
+                (c === '+' || c === '−' || c === '-') &&
+                rEnd >= 1 &&
+                (str[rEnd - 1] === '_' || str[rEnd - 1] === '^')
+              ) {
+                rEnd++;
+                continue;
+              }
               break;
             }
             rEnd++;
@@ -461,6 +490,7 @@ function plainChunkToLatex(chunk: string): string {
       out += ch;
     }
   }
+  out = out.replace(/([A-Za-z\\]+)\u0304/g, '\\bar{$1}');
   out = out.replace(/\b([LR]\.H\.[LSD]\.)/g, '\\mathrm{$1}');
   out = out.replace(
     /\b(sin|cos|tan|cot|sec|csc|sinh|cosh|tanh|arcsin|arccos|arctan|ln|log|exp|det|min|max|gcd)\b/g,
@@ -472,7 +502,7 @@ function plainChunkToLatex(chunk: string): string {
 function consumeUnbracedSubSupToken(str: string, sStart: number): number {
   const rest = str.slice(sStart);
   const multiMatch = rest.match(
-    /^(?:rms|avg|eff|max|min|th|eq|in|out|ph|pk|dc|ac|[0-9]+|[+\-][0-9A-Za-z])/
+    /^(?:[A-Za-z]{2,}|[0-9]+|[+\-−][0-9A-Za-z]*)/
   );
   if (multiMatch) {
     return sStart + multiMatch[0].length;
@@ -1059,7 +1089,7 @@ export function splitTextIntoVerticalItems(raw: string): string[] {
 export function splitFormulaPipeItems(formula: string): string[] {
   if (!formula) return [];
   return formula
-    .split(/\s+\|\s+/)
+    .split(/\n+|\s+\|\s+/)
     .map((part) => part.trim())
     .filter((part) => part.length > 0);
 }

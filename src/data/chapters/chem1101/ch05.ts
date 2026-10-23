@@ -15,14 +15,17 @@ export const CHEM1101_CH05: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Solutions Lecture Notes (Md. Mahabur Rahman, PUST) · PUST EECE 2025 Q4(a), 2023 Q4(a), 2015 Q4(a)',
+        'CR Final Exam Question Bank (Solution & Colloid Q1, Q4, Q6; Electrochemistry Q10) · Solutions Lecture Notes (Md. Mahabur Rahman, PUST) · PUST EECE 2025 Q4(a), 2023 Q4(a), 2015 Q4(a)',
       title: 'Solutions, Saturation States, Henry’s Law, and Concentration Units',
       summaryText:
-        'Classification of binary solutions into 9 physical-state types and 3 saturation states (unsaturated, saturated, supersaturated), Henry’s law, and formulas for M, m, N, X, ppm, osM, and Eq/L.',
+        'Classification of binary solutions into 9 physical-state types and 3 saturation states (unsaturated, saturated, supersaturated), Ionic Product vs. Solubility Product (K_sp), Henry’s law, and concentration units (M, m, N, X, ppm).',
       memorizeStatements: [
         'True Solution: A homogeneous molecular mixture of two or more chemically non-reacting substances whose composition can be varied within certain limits (particle diameter < 1 nm).',
+        'Unsaturated Solution: A solution that contains less dissolved solute than the maximum equilibrium amount required for saturation at a given temperature and can dissolve more solute.',
         'Saturated Solution: A solution that contains the maximum amount of solute that can dissolve in a given amount of solvent at a specific temperature and exists in dynamic equilibrium with undissolved solute.',
         'Supersaturated Solution: A metastable solution that contains more dissolved solute than required for saturation at a given temperature (prepared by cooling a hot saturated solution without disturbance).',
+        'Ionic Product (I_p or Q_sp): The product of the molar concentrations of the constituent ions in a solution at ANY arbitrary stage (saturated, unsaturated, or supersaturated), each raised to the power of its stoichiometric coefficient.',
+        'Solubility Product (K_sp): The equilibrium constant equal to the product of the molar concentrations of constituent ions in a SATURATED solution of a sparingly soluble electrolyte at a given temperature, each raised to the power of its stoichiometric coefficient.',
         'Henry’s Law: At constant temperature, the solubility (C) of a gas in a liquid is directly proportional to the partial pressure (P) of the gas above the solution (C = k_H · P).',
         'Molarity (M): The number of moles of solute dissolved per liter (1000 mL) of solution (M = n / V_L = 1000 · w / (M_w · V_mL)).',
         'Molality (m): The number of moles of solute dissolved per kilogram (1000 g) of pure solvent (m = n / W_kg = 1000 · w / (M_w · W_g)).',
@@ -30,9 +33,17 @@ export const CHEM1101_CH05: ChapterNote = {
         'Mole Fraction (X_A): The ratio of the number of moles of one component to the total number of moles of all components in the solution (X_A = n_A / (n_A + n_B), with X_A + X_B = 1).',
       ],
       bulletPoints: [
-        'Why Molarity (M) and Normality (N) Change with Temperature While Molality (m) and Mole Fraction (X) Are Temperature-Independent (PUST 2024 Q1c, 2020 Q3a):',
-        '• Molarity (M = n / V) and Normality (N = n_eq / V) contain the volume of solution (V) in the denominator. Since liquid volume expands on heating and contracts on cooling, M and N decrease as temperature rises.',
-        '• Molality (m = n / W_solvent) and Mole Fraction (X = n_A / n_total) are defined purely in terms of masses and moles, which are completely independent of temperature.',
+        'Classification of Solutions Based on Amount of Solute Added (CR Final Exam Q1, Q4):',
+        '1. Unsaturated Solution (I_p < K_sp): Contains less solute than the saturation capacity at a given temperature; adding a crystal of solute causes it to dissolve completely.',
+        '2. Saturated Solution (I_p = K_sp): Contains the exact maximum equilibrium concentration of dissolved solute at a given temperature; rate of dissolution equals rate of crystallization, so added crystal neither dissolves nor causes precipitation.',
+        '3. Supersaturated Solution (I_p > K_sp): Contains an excess of dissolved solute beyond the normal saturation limit (e.g., hot concentrated sodium thiosulfate Na₂S₂O₃ cooled gently); seeding with a tiny crystal triggers rapid crystallization of the excess solute.',
+        'Ionic Product (I_p) vs. Solubility Product (K_sp) & Precipitation Criteria (CR Final Exam Q6):',
+        '• For a sparingly soluble electrolyte A_x B_y(s) ⇌ x A^{y+}(aq) + y B^{x−}(aq) (e.g., AgCl ⇌ Ag⁺ + Cl⁻): Ionic Product I_p = [A^{y+}]^x [B^{x−}]^y applies at ANY concentration, whereas Solubility Product K_sp = [A^{y+}]_eq^x [B^{x−}]_eq^y applies specifically to a SATURATED solution at dynamic equilibrium at constant temperature (for pure water, K_w = [H⁺][OH⁻] = 1.0 × 10⁻¹⁴ at 25°C).',
+        '• Relation with Molar Solubility S (mol·L⁻¹): For AB type (AgCl, BaSO₄), K_sp = S²; for AB₂ type (PbCl₂, CaF₂), K_sp = 4S³; for AB₃ type (Al(OH)₃), K_sp = 27S⁴.',
+        '• Precipitation Criteria: If I_p < K_sp (unsaturated, no precipitate); if I_p = K_sp (saturated at equilibrium); if I_p > K_sp (supersaturated, precipitation occurs until I_p = K_sp).',
+        'Why Molarity (M), Normality (N), Formality (F), and % (w/v) Are Temperature-Dependent While Molality (m), Mole Fraction (X), ppm, and % (w/w) Are Temperature-Independent (CR Final Exam Electrochemistry Q10; PUST 2024 Q1c, 2020 Q3a):',
+        '• Temperature-Dependent Units [M, N, F, % (w/v), % (v/v)]: Contain the volume of solution (V) in the denominator (M = n / V, N = n_eq / V). Because liquid volume expands thermally on heating (dV/dT > 0) and contracts on cooling, Molarity and Normality decrease as temperature increases.',
+        '• Temperature-Independent Units [Molality m, Mole Fraction X, % (w/w), ppm by mass]: Defined strictly in terms of mass (g or kg) and number of moles (n), which remain invariant with temperature.',
         'Comparison of 1 Molar (1 M) and 1 Molal (1 m) Aqueous Solutions (PUST 2025 Q2a):',
         '1. In a 1 M aqueous solution, 1 mole of solute is dissolved in enough water to make a total solution volume of exactly 1000 mL (1 L). Because the dissolved solute occupies part of that 1000 mL volume, the actual volume of water used is LESS than 1000 mL (so the mass of water is < 1000 g, as ρ_water ≈ 1 g/mL).',
         '2. In a 1 m aqueous solution, 1 mole of solute is dissolved in a full 1000 g (≈ 1000 mL) of water, making the total solution volume greater than 1000 mL.',
@@ -49,10 +60,10 @@ export const CHEM1101_CH05: ChapterNote = {
           note: 'E_w = M_w / n_valency is the gram-equivalent weight',
         },
         {
-          label: 'Dilution & Titration Equations',
-          formula: 'M₁ V₁ = M₂ V₂\nN₁ V₁ = N₂ V₂',
-          units: 'mol or equiv',
-          note: 'Conserves moles/equivalents of solute during dilution or neutralization',
+          label: 'Solubility Product & Precipitation Criteria (A_x B_y ⇌ x A^{y+} + y B^{x−})',
+          formula: 'K_sp = [A^{y+}]_sat^x · [B^{x−}]_sat^y\nI_p < K_sp (Unsaturated)   |   I_p = K_sp (Saturated)   |   I_p > K_sp (Precipitation)',
+          units: '(mol·L⁻¹)^{x+y}',
+          note: 'For AgCl: K_sp = S²; for PbCl₂: K_sp = 4S³; for Al(OH)₃: K_sp = 27S⁴',
         },
       ],
       examYears: ['2025', '2024', '2023', '2020', '2015'],
@@ -64,16 +75,16 @@ export const CHEM1101_CH05: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 5, Part A Q15, Part B Q9) · PUST EECE 2025 Q4(c), 2024 Q4(a), 2023 Q4(b), 2022 Q4(a,c), 2021 Q4(a), 2020 Q3(c), 2020 Q4(a)',
+        'CR Final Exam Question Bank (Solution & Colloid Q2, Q3, Q5, Q7) · Professor’s Suggestion Sheet (Ch 5, Part A Q15, Part B Q9) · PUST EECE 2025 Q4(c), 2024 Q4(a), 2023 Q4(b), 2022 Q4(a,c), 2021 Q4(a), 2020 Q3(c), 2020 Q4(a)',
       title: 'Colloidal State, 8-Type Classification, and Lyophilic vs. Lyophobic Sols',
       summaryText:
-        'Comparison of true solution, colloid (1–1000 nm), and suspension; 8 colloidal systems based on dispersed phase and dispersion medium; and Lyophilic vs. Lyophobic colloids.',
+        'Comparison of true solution, colloid (1–1000 nm), and suspension; definitions of sols, gels, aerosols, and foams with examples; 8 colloidal systems; and Lyophilic vs. Lyophobic colloids.',
       memorizeStatements: [
         'Colloidal Solution (Colloid): A heterogeneous two-phase system in which dispersed phase particles having diameters between 1 nm and 1000 nm (10⁻⁷ to 10⁻⁴ cm) are uniformly distributed in a continuous dispersion medium.',
         'Lyophilic (Solvent-Loving) Colloid: A reversible colloidal sol in which the dispersed phase has strong affinity (solvation/hydrogen bonding) for the dispersion medium (e.g., starch, gelatin, gum, albumin in water).',
         'Lyophobic (Solvent-Hating) Colloid: An irreversible colloidal sol in which the dispersed phase has little or no affinity for the dispersion medium and is easily precipitated by trace electrolytes (e.g., Au, Ag, As₂S₃, Fe(OH)₃ sols in water).',
-        'Gel vs. Sol: A Sol is a liquid-like colloidal system in which a solid is dispersed in a liquid (e.g., paint, gold sol); a Gel is a semi-solid elastic network in which a liquid is dispersed in a solid (e.g., cheese, butter, jelly, curd).',
-        'Emulsion vs. Aerosol: An Emulsion is a liquid dispersed in another immiscible liquid (e.g., milk, cod-liver oil); an Aerosol is a solid or liquid dispersed in a gas (e.g., smoke, fog, cloud, mist).',
+        'Sol vs. Gel: A Sol is a liquid-like colloidal system in which a solid is dispersed in a liquid (e.g., paint, ink, gold sol, muddy water); a Gel is a semi-solid elastic network in which a liquid is dispersed in a solid (e.g., cheese, butter, fruit jelly, curd, shoe polish).',
+        'Aerosol vs. Foam: An Aerosol is a colloidal dispersion of a liquid or solid in a gas medium (e.g., fog, mist, cloud, smoke, automobile exhaust); a Foam (Froth) is a colloidal dispersion of a gas in a liquid or solid medium (e.g., soap lather, whipped cream, shaved foam, pumice stone).',
       ],
       table: {
         caption: 'Table 5.1 — Eight Types of Colloidal Systems & Comparison of Lyophilic vs. Lyophobic Sols',
@@ -168,7 +179,7 @@ export const CHEM1101_CH05: ChapterNote = {
       priorityTier: 1,
       secondaryPriorityTiers: [2, 4],
       sourceCitation:
-        'Professor’s Suggestion Sheet (Ch 5, Part B Q10) · PUST EECE 2025 Q4(b), 2024 Q4(c), 2023 Q4(c), 2022 Q4(d), 2021 Q4(c), 2020 Q3(b), 2015 Q4(b)',
+        'CR Final Exam Question Bank (Solution & Colloid Q2, Q6) · Professor’s Suggestion Sheet (Ch 5, Part B Q10) · PUST EECE 2025 Q4(b), 2024 Q4(c), 2023 Q4(c), 2022 Q4(d), 2021 Q4(c), 2020 Q3(b), 2015 Q4(b)',
       title: 'Optical, Kinetic, Electrical, and Protective Properties of Colloids',
       summaryText:
         'Optical (Tyndall cone), kinetic (Brownian motion), electrical (Electrophoresis, Zeta potential), Coagulation (Hardy–Schulze Rule), and Protective Action (Gold Number).',
@@ -181,8 +192,8 @@ export const CHEM1101_CH05: ChapterNote = {
         'Gold Number (Zsigmondy): The minimum mass in milligrams (mg) of a protective lyophilic colloid which, when added to 10 mL of a standard red gold sol (0.0053–0.0058%), is just sufficient to prevent its coagulation (color change from red to violet-blue) upon the addition of 1 mL of a 10% NaCl solution.',
       ],
       bulletPoints: [
-        'Key Properties of Colloidal Solutions Explained (PUST 2025 Q4b, 2024 Q4c, 2023 Q4c, 2022 Q4d):',
-        '1. Tyndall Effect (Optical Property): True solutions are optically clear because solute particles (< 1 nm) are too small to scatter visible light (400–700 nm). Colloidal particles (1–1000 nm) scatter light in all directions, producing the bright Tyndall cone (basis of Zsigmondy’s ultramicroscope).',
+        'Key Properties of Colloidal Solutions Explained (CR Final Exam Q2, Q6; PUST 2025 Q4b, 2024 Q4c, 2023 Q4c, 2022 Q4d):',
+        '1. Tyndall Effect (Optical Property — CR Final Exam Q2 & Q6): True solutions are optically clear because solute particles (< 1 nm) are too small to scatter visible light (400–700 nm). Colloidal particles (1–1000 nm) have diameters comparable to the wavelength of ultraviolet/visible light and scatter the incident beam in all directions, producing the bright bluish Tyndall cone when viewed through a microscope at 90° (basis of Zsigmondy’s ultramicroscope, projector beams in dusty halls, and blue color of the sky/sea).',
         '2. Brownian Motion (Kinetic Property): Because of unbalanced impacts from surrounding solvent molecules, colloidal particles stay perpetually suspended in zig-zag motion, counteracting gravity and preventing sedimentation.',
         '3. Electrophoresis (Electrical Property): In a U-tube with Pt electrodes, negatively charged sols (like As₂S₃, Au, Ag, starch) migrate to the positive anode, while positively charged sols (like Fe(OH)₃, Al(OH)₃, hemoglobin) migrate to the negative cathode.',
         '4. Protective Action of Lyophilic Sols & Gold Number (PUST 2024 Q4c, 2022 Q4d, 2021 Q4c):',
@@ -194,14 +205,15 @@ export const CHEM1101_CH05: ChapterNote = {
       examYears: ['2025', '2024', '2023', '2022', '2021', '2020', '2015'],
       marks: '4.5–5 Marks',
       professorTip:
-        'Short notes on Tyndall effect, Brownian motion, Dialysis, Electrophoresis, and Gold Number appear in almost every PUST exam (2015, 2020, 2021, 2022, 2023, 2024, 2025). Always state the inverse relationship: Protecting Power ∝ 1 / Gold Number.',
+        'Short notes on Tyndall effect, Brownian motion, Dialysis, Electrophoresis, and Gold Number appear in almost every PUST exam (2015–2025). Always state the inverse relationship: Protecting Power ∝ 1 / Gold Number.',
     },
     {
       id: 'chem-m5-b5',
       type: 'pyq',
-      priorityTier: 2,
-      secondaryPriorityTiers: [1],
-      sourceCitation: 'PUST EECE 2021 Q4(b) · PUST EECE 2016 Q3(b) · Professor’s Suggestion Sheet Q28',
+      priorityTier: 1,
+      secondaryPriorityTiers: [2],
+      sourceCitation:
+        'CR Final Exam Question Bank (Electrochemistry Q10 & Solution Q1) · PUST EECE 2021 Q4(b) · PUST EECE 2016 Q3(b) · Professor’s Suggestion Sheet Q28',
       title: 'Calculation of Molality, Molarity, Normality, and Mole Fraction of Solutions',
       summaryText:
         'Calculate molality, molarity, normality, and mole fraction for (i) 5 g NaCl in 1000 g water with density 0.997 g/mL (PUST 2021/2016) and (ii) 15 g diprotic acid (M = 60) in 250 mL solution (Suggestion Q28).',
