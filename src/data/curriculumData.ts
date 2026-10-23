@@ -1,5 +1,6 @@
 import { EECE1111_CHAPTERS } from "./eece1111Data.ts";
 import { MATH1101_CHAPTERS } from "./math1101Data.ts";
+import { CHEM1101_CHAPTERS } from "./chem1101Data.ts";
 import type {
   InteractiveDiagramId,
   TableData,
@@ -429,6 +430,7 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
           'Electrochemistry, Electrochemical Cells, Chemical Equilibrium, Chemical kinetics, Solution and Colloid, Atomic Structure, Periodic Classification of Elements, Electronic Theory of Valence and Chemical Bonding, and Chemistry of Transition Elements, Lanthanides and Actinides.',
         professorFollowedBooks: [
           'Modern Inorganic Chemistry by R. D. Madan',
+          'Principles of Physical Chemistry by M. M. Haque and M. A. Nawab',
         ],
         syllabusRecommendedBooks: [
           'Principles of Physical Chemistry by M. M. Haque and M. A. Nawab',
@@ -442,98 +444,7 @@ export const CURRICULUM_SEMESTERS: SemesterEntry[] = [
           'Basic Inorganic Chemistry by F. Albert Cotton, G. Wilkinson, P. L. Gaus',
           'Electronic Structure and Chemical Bonding by Donald K. Sebera',
         ],
-        chapters: [
-          {
-            id: 'chem1101-ch01',
-            unitNumber: 'Module 01',
-            title: 'Electrochemistry',
-            summary:
-              "Conductors, Electrolytes and Electrolysis, Faraday's Laws of Electrolysis, Electrolytic Conductance, Theories for Electrolytic Conductance, Ionic Mobility, Kohlrausch's Law, Transference Number.",
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'chem1101-ch02',
-            unitNumber: 'Module 02',
-            title: 'Electrochemical Cells (Electrolytic and Galvanic/Voltaic)',
-            summary:
-              'Electrode Reaction and Potentials, Reference Electrode, Reversible and Concentration Cells.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'chem1101-ch03',
-            unitNumber: 'Module 03',
-            title: 'Chemical Equilibrium',
-            summary:
-              "Reversible and Irreversible Reaction, Chemical Equilibrium and its Dynamic Nature, Characteristics, Laws of Mass Action and Equilibrium Constant Kc, Kp and Kx, Le-Chatelier's Principles and Applications.",
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'chem1101-ch04',
-            unitNumber: 'Module 04',
-            title: 'Chemical Kinetics',
-            summary:
-              'Rate of Chemical Reaction, Order and Molecularity of Reactions, Different Types of Rate Expressions, Methods of Determining Rate and Order, Effect of Temperature on Reaction Rate and Energy of Activation.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'chem1101-ch05',
-            unitNumber: 'Module 05',
-            title: 'Solution and Colloid',
-            summary:
-              'Different Types of Solution, Concentration Units, Colloid and Colloidal Solution-Classification, Preparation, Purification, Properties, Protective Action and Application of Colloids.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'chem1101-ch06',
-            unitNumber: 'Module 06',
-            title: 'Atomic Structure',
-            summary:
-              "Dalton's Atomic Theory, Fundamental Particles, Elementary Ideas on Rutherford Atom Model and Bohr Atom Model, Quantum Numbers, Shape of Atomic Orbitals, Pauli's Exclusion Principle, Electronic Configuration of Elements.",
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'chem1101-ch07',
-            unitNumber: 'Module 07',
-            title: 'Periodic Classification of Elements',
-            summary:
-              'Modern Periodic Table, Periodic Classification of Elements, Correlation of Periodic Classification of Elements with Electronic Configuration, Investigation on Some Periodic Properties, Atomic and Ionic Radius, Ionization Potential, Electron Affinity and Electronegativity.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'chem1101-ch08',
-            unitNumber: 'Module 08',
-            title: 'Electronic Theory of Valence and Chemical Bonding',
-            summary:
-              'Different Types of Chemical Bonds (Ionic, Covalent, Co-ordinate, Hydrogen and Metallic), Classification of Solids on the Basis of Bonding and their Properties, Hybridization of Atomic Orbitals and Shapes of Molecules, Molecular Orbitals, Bond Length and Bond Strength.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-          {
-            id: 'chem1101-ch09',
-            unitNumber: 'Module 09',
-            title: 'Chemistry of Transition Elements, Lanthanides and Actinides',
-            summary:
-              'Definitions, Electronic Configurations, Preparation (Nuclear Transformation), General Properties.',
-            estimatedMinutes: 25,
-            lastUpdated: 'October 2026',
-            blocks: [],
-          },
-        ],
+        chapters: CHEM1101_CHAPTERS,
       },
       {
         id: 'eece1100',

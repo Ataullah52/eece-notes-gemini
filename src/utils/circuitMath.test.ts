@@ -269,6 +269,9 @@ test('courseLoader dynamically imports course chapter data on demand', async () 
   const mathChapters = await loadCourseChapters('math1101');
   assert.ok(mathChapters && mathChapters.length === 8);
 
+  const chemChapters = await loadCourseChapters('chem1101');
+  assert.ok(chemChapters && chemChapters.length === 9);
+
   const merged = mergeCourseChaptersIntoSemesters(
     INITIAL_CURRICULUM_SEMESTERS,
     'math1101',
@@ -276,6 +279,14 @@ test('courseLoader dynamically imports course chapter data on demand', async () 
   );
   const mathSub = merged[0].subjects.find((s) => s.id === 'math1101');
   assert.ok(mathSub && mathSub.chapters[0].blocks.length >= 5);
+
+  const mergedChem = mergeCourseChaptersIntoSemesters(
+    merged,
+    'chem1101',
+    chemChapters!
+  );
+  const chemSub = mergedChem[0].subjects.find((s) => s.id === 'chem1101');
+  assert.ok(chemSub && chemSub.chapters.length === 9 && chemSub.chapters[0].blocks.length >= 5);
 });
 
 test('getBlockPriorityStars maps P1->★★★★★, P2->★★★★ or ★★★★★, P3->★★★, P4->★', () => {
@@ -308,6 +319,7 @@ test('matchesBlockType and memorize helpers include only definitions, laws, theo
   } = await import('./circuitMath.ts');
   const { MATH1101_CHAPTERS } = await import('../data/math1101Data.ts');
   const { EECE1111_CHAPTERS } = await import('../data/eece1111Data.ts');
+  const { CHEM1101_CHAPTERS } = await import('../data/chem1101Data.ts');
 
   const defBlock: FilterableBlock = {
     id: 'math-m1-b1',
@@ -335,7 +347,7 @@ test('matchesBlockType and memorize helpers include only definitions, laws, theo
     'Should return empty array when block has no memorizeStatements'
   );
 
-  for (const ch of [...MATH1101_CHAPTERS, ...EECE1111_CHAPTERS]) {
+  for (const ch of [...MATH1101_CHAPTERS, ...EECE1111_CHAPTERS, ...CHEM1101_CHAPTERS]) {
     const memorizeBlocks = filterNoteBlocks(ch.blocks, 'all', 'memorize', '');
     assert.ok(
       memorizeBlocks.length >= 2,

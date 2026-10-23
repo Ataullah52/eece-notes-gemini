@@ -1,0 +1,250 @@
+import type { ChapterNote } from '../../types';
+
+export const CHEM1101_CH08: ChapterNote = {
+  id: 'chem1101-ch08',
+  unitNumber: 'Module 08',
+  title: 'Electronic Theory of Valence and Chemical Bonding',
+  summary:
+    'Different Types of Chemical Bonds (Ionic, Covalent, Co-ordinate, Hydrogen and Metallic), Classification of Solids on the Basis of Bonding and their Properties, Hybridization of Atomic Orbitals and Shapes of Molecules, Molecular Orbitals, Bond Length and Bond Strength.',
+  estimatedMinutes: 85,
+  lastUpdated: 'October 2026',
+  blocks: [
+    {
+      id: 'chem-m8-b1',
+      type: 'theory',
+      priorityTier: 1,
+      secondaryPriorityTiers: [2, 3],
+      sourceCitation:
+        'Chemical Bonding Lecture Notes (Md. Mahabur Rahman, PUST) · Important Questions Sheet (Q2, Q4, Q6) · PUST EECE 2024 Q6(b,c), 2024 Q7(c), 2023 Q6(a), 2022 Q7(a,b,c), 2021 Q6(b), 2021 Q8(b), 2020 Q7(b,c), 2016 Q7(a,b)',
+      title: 'Octet Rule, Chemical Bond Types, and Crystalline Solids',
+      summaryText:
+        'Kossel–Lewis Octet Rule and its exceptions (incomplete/expanded octet), favorable conditions for ionic bonding & Fajans’ rules, coordinate bond vs. covalent bond (NH₄⁺, H₃O⁺, H₃N→BF₃), metallic bonding, and 4 classes of crystalline solids.',
+      memorizeStatements: [
+        'Electronic Theory of Valence (Octet Rule — Kossel & Lewis, 1916): Atoms of elements combine with each other either by transfer of valence electrons (ionic bonding) or by sharing of valence electrons (covalent bonding) in order to attain a stable noble-gas configuration of 8 electrons (octet, ns²np⁶) or 2 electrons (duplet, 1s²) in their outermost shell.',
+        'Ionic (Electrovalent) Bond: The electrostatic force of attraction holding oppositely charged cations and anions together, formed by complete transfer of one or more valence electrons from an electropositive metal to an electronegative non-metal.',
+        'Covalent Bond: A chemical bond formed by the mutual sharing of one, two, or three pairs of electrons equally contributed by two atoms of comparable electronegativity.',
+        'Coordinate (Dative) Covalent Bond: A special type of covalent bond in which both electrons of the shared pair (lone pair) are donated entirely by one atom (Lewis base / donor) to another atom with an empty orbital (Lewis acid / acceptor), denoted by an arrow (A → B).',
+        'Fajans’ Rules of Polarization: Covalent character in an ionic bond increases with (1) small cation size, (2) large anion size, (3) high charge on cation/anion, and (4) pseudo-inert gas (18-electron d¹⁰) cation configuration (e.g., Cu⁺, Ag⁺ > Na⁺, K⁺).',
+      ],
+      bulletPoints: [
+        'Three Major Limitations / Exceptions to the Octet Rule (PUST 2021 Q8b):',
+        '1. Incomplete Octet (Electron-Deficient Molecules): Central atom has fewer than 8 valence electrons—e.g., BeCl₂ (4 valence e⁻), BF₃ and BCl₃ (6 valence e⁻), AlCl₃ (6 valence e⁻).',
+        '2. Expanded Octet (Hypervalent Molecules): Elements of Period 3 and beyond possess vacant d-orbitals and can accommodate more than 8 valence electrons—e.g., PCl₅ (10 valence e⁻), SF₆ (12 valence e⁻), IF₇ (14 valence e⁻).',
+        '3. Odd-Electron Molecules (Free Radicals) & Noble Gas Compounds: NO (11 valence e⁻), NO₂ (17 valence e⁻), ClO₂, and XeF₂, XeF₄, XeF₆.',
+        'Favorable Energetic Conditions for Ionic Bond Formation & Isomorphism (PUST 2024 Q7c, 2022 Q7b, 2020 Q7c, 2016 Q7a):',
+        '1. Low Ionization Energy (IE) of the metal atom M to form cation M⁺ easily (alkali/alkaline earth metals).',
+        '2. High Electron Affinity (EA) of the non-metal atom X to form anion X⁻ exothermically (halogens, oxygen).',
+        '3. High Lattice Energy (U ∝ |z_+ z_-| / (r_+ + r_-)): Large electrostatic energy released when gaseous ions pack into a 3D crystal lattice (Born–Haber cycle).',
+        '4. Large Electronegativity Difference (ΔEN ≥ 1.7–2.0).',
+        '5. Isomorphism of NaF and MgO: Both Na⁺/F⁻ and Mg²⁺/O²⁻ are isoelectronic (10 e⁻) with identical rock-salt (6:6 octahedral) crystal structures, so NaF and MgO are isomorphous; however, MgO has a much higher melting point (2852°C vs 993°C) due to 4× higher lattice energy (|z_+ z_-| = 4 vs 1).',
+        'Coordinate (Dative) Bond Examples & Why It Is Called Semi-Polar (PUST 2024 Q6c, 2023 Q6a, 2022 Q7c, 2021 Q6b, Imp Q2,6):',
+        '• Formation of Ammonium Ion (NH₄⁺): The nitrogen atom in :NH₃ donates its lone pair into the vacant 1s orbital of H⁺: [H₃N: → H]⁺. Once formed, all four N—H bonds become completely identical and indistinguishable (tetrahedral, 109.5°).',
+        '• Formation of Hydronium Ion (H₃O⁺) and Ammonia–Boron Trifluoride Adduct (H₃N: → BF₃).',
+        'Metallic Bonding (Electron-Sea Model — PUST 2016 Q7b):',
+        '• Positively charged metal kernels (atomic cores) are arrayed in a regular 3D crystal lattice immersed in a mobile "sea" of delocalized valence electrons. Explains high electrical/thermal conductivity, metallic luster, opacity, malleability, and ductility.',
+      ],
+      table: {
+        caption: 'Table 8.1 — Classification of Crystalline Solids Based on Bonding (Lecture Slide p. 20–21)',
+        headers: ['Solid Type', 'Constituent Particles & Forces', 'Key Physical Properties', 'Examples'],
+        rows: [
+          [
+            'Ionic Solids',
+            'Cations and anions held by strong Coulombic electrostatic attraction',
+            'Hard and brittle; high MP/BP; non-conductors as solids but conduct when molten or aqueous',
+            'NaCl, MgO, CaF₂, KNO₃',
+          ],
+          [
+            'Covalent Network Solids',
+            'Atoms linked throughout by a continuous 3D network of covalent bonds',
+            'Extremely hard; highest melting points; electrical insulators (except graphite)',
+            'Diamond (C), Quartz (SiO₂), SiC, BN',
+          ],
+          [
+            'Molecular Solids',
+            'Neutral molecules held by weak van der Waals (dispersion/dipole) or H-bonds',
+            'Soft; low melting/boiling points; volatile; electrical insulators',
+            'Solid CO₂ (dry ice), I₂, Ice (H₂O), Naphthalene',
+          ],
+          [
+            'Metallic Solids',
+            'Positive metal ion cores in a sea of delocalized mobile electrons',
+            'Malleable, ductile, lustrous; high electrical and thermal conductivity in solid & liquid states',
+            'Fe, Cu, Ag, Au, Na, Mg',
+          ],
+        ],
+      },
+      examYears: ['2024', '2023', '2022', '2021', '2020', '2016'],
+      marks: '4–5 Marks',
+    },
+    {
+      id: 'chem-m8-b2',
+      type: 'theory',
+      priorityTier: 1,
+      secondaryPriorityTiers: [2, 3],
+      sourceCitation:
+        'Chemical Bonding Lecture Notes (Md. Mahabur Rahman, PUST) · Important Questions Sheet (Q3, Q7) · PUST EECE 2025 Q7(a,b), 2024 Q7(b), 2023 Q6(b), 2022 Q7(d), 2021 Q6(c), 2020 Q7(a)',
+      title: 'Sigma and Pi Bonds, Orbital Hybridization, and VSEPR Geometry',
+      summaryText:
+        'Comparison of σ and π bonds, rules and orbital diagrams of sp, sp², sp³, sp³d, and sp³d² hybridization, and VSEPR explanation of why bond angles follow CH₄ (109.5°) > NH₃ (107°) > H₂O (104.5°).',
+      memorizeStatements: [
+        'Sigma (σ) Bond: A strong covalent bond formed by end-to-end (head-on / axial) overlap of two atomic orbitals along the internuclear axis (s–s, s–p, or p_z–p_z).',
+        'Pi (π) Bond: A weaker covalent bond formed by sideways (lateral / parallel) overlap of two unhybridized p (or d) orbitals perpendicular to the internuclear axis.',
+        'Hybridization (Pauling): The intermixing of atomic orbitals of slightly different energies belonging to the same atom to redistribute their energies and form an equal number of new degenerate orbitals (hybrid orbitals) of identical energy and shape.',
+        'VSEPR Lone-Pair Repulsion Order: Lone Pair–Lone Pair (LP–LP) > Lone Pair–Bond Pair (LP–BP) > Bond Pair–Bond Pair (BP–BP).',
+        'Steric Number / Hybridization Formula: H = ½ (V + M − C + A), where V = valence electrons of central atom, M = monovalent atoms attached, C = cationic charge, A = anionic charge.',
+      ],
+      bulletPoints: [
+        'Why CH₄, NH₃, and H₂O All Have sp³ Hybridization Yet Different Geometries and Bond Angles (PUST 2025 Q7b, 2024 Q7b, 2023 Q6b, 2022 Q7d, 2021 Q6c, 2020 Q7a, Imp Q3):',
+        '1. Methane (CH₄ — 4 BP + 0 LP): Central C atom (2s² 2p²) undergoes sp³ hybridization to form four equivalent sp³ orbitals directed toward the corners of a regular tetrahedron. Since there are zero lone pairs (only symmetric BP–BP repulsions), the geometry is Regular Tetrahedral with bond angle 109.5° (109°28′).',
+        '2. Ammonia (NH₃ — 3 BP + 1 LP): Central N atom (2s² 2p³) is also sp³ hybridized (4 hybrid orbitals: 3 form N—H σ-bonds and 1 holds a lone pair). Because a lone pair is held by only one nucleus, it occupies more angular space and exerts stronger LP–BP repulsion than BP–BP repulsion, compressing the H—N—H bond angle from 109.5° to 107° and making the molecular shape Trigonal Pyramidal.',
+        '3. Water (H₂O — 2 BP + 2 LP): Central O atom (2s² 2p⁴) is also sp³ hybridized (2 O—H σ-bond pairs and 2 lone pairs). The presence of two lone pairs introduces intense LP–LP and LP–BP repulsions, compressing the H—O—H bond angle even further to 104.5° and producing a Bent (V-shaped / Angular) geometry.',
+        'Summary of Hybridization Types from Class Lecture Slides (p. 6–19):',
+        '• sp Hybridization (Linear, 180°, 50% s + 50% p): BeCl₂, C₂H₂ (ethyne: 1 σ + 2 π between C≡C), CO₂.',
+        '• sp² Hybridization (Trigonal Planar, 120°, 33.3% s + 66.7% p): BF₃, BCl₃, C₂H₄ (ethene: 1 σ + 1 π between C=C), Benzene (C₆H₆), Graphite / Graphene.',
+        '• sp³ Hybridization (Tetrahedral, 109.5°, 25% s + 75% p): CH₄ (109.5°), NH₄⁺ (109.5°), Diamond, NH₃ (107°, pyramidal), H₂O (104.5°, bent).',
+        '• sp³d Hybridization (Trigonal Bipyramidal, 90° axial & 120° equatorial): PCl₅ (3 equatorial P—Cl bonds at 120° + 2 longer axial P—Cl bonds at 90°).',
+        '• sp³d² Hybridization (Octahedral, 90°): SF₆ (regular octahedron).',
+      ],
+      table: {
+        caption: 'Table 8.2 — Comparison Between Sigma (σ) Bond and Pi (π) Bond (PUST 2025 Q7a, Imp Q7)',
+        headers: ['Feature', 'Sigma (σ) Bond', 'Pi (π) Bond'],
+        rows: [
+          [
+            'Mode of Overlap',
+            'Head-on (axial / end-to-end) overlap along the internuclear axis',
+            'Sideways (lateral / parallel) overlap perpendicular to the internuclear axis',
+          ],
+          [
+            'Orbitals Involved',
+            'Can be formed by s–s, s–p, p–p, or hybrid orbitals',
+            'Formed only by unhybridized p–p or d–d orbitals',
+          ],
+          [
+            'Extent of Overlap & Strength',
+            'Large overlap ⇒ Stronger bond with higher bond dissociation energy',
+            'Small overlap ⇒ Weaker bond with lower bond dissociation energy',
+          ],
+          [
+            'Electron Cloud Symmetry',
+            'Cylindrically symmetrical around the internuclear axis',
+            'Two lobes of electron density above and below the nodal internuclear plane',
+          ],
+          [
+            'Free Rotation & Independence',
+            'Allows free rotation around the single σ-bond axis; can exist independently',
+            'Restricts free rotation (causes cis-trans isomerism); forms only after a σ-bond exists',
+          ],
+        ],
+      },
+      examYears: ['2025', '2024', '2023', '2022', '2021', '2020'],
+      marks: '4–5 Marks',
+      professorTip:
+        'The VSEPR comparison of CH₄ (109.5°), NH₃ (107°), and H₂O (104.5°) is one of the highest-yield questions in CHEM 1101 (asked in 2020, 2021, 2022, 2023, 2024, and 2025). Always write the repulsion hierarchy LP–LP > LP–BP > BP–BP.',
+    },
+    {
+      id: 'chem-m8-b3',
+      type: 'theory',
+      priorityTier: 1,
+      secondaryPriorityTiers: [2, 3],
+      sourceCitation:
+        'Professor’s Suggestion Sheet (Ch 8, Part B Q14) · PUST EECE 2023 Q8(b,c), 2022 Q8(a,c), 2021 Q8(a) · R. D. Madan',
+      title: 'Molecular Orbital Theory, Bond Order, and Dioxygen Magnetism',
+      summaryText:
+        'LCAO postulates of Molecular Orbital Theory, bonding (ψ_b) vs. antibonding (ψ*) orbitals, Bond Order formula ½(N_b − N_a), and complete MO analysis explaining why O₂ is paramagnetic.',
+      memorizeStatements: [
+        'Bond Order (MOT): Defined as half the difference between the number of electrons in bonding molecular orbitals (N_b) and the number of electrons in antibonding molecular orbitals (N_a): Bond Order = ½ (N_b − N_a).',
+        'Bond Order Correlations: Bond Order ∝ Bond Stability ∝ Bond Dissociation Energy ∝ 1 / Bond Length.',
+      ],
+      bulletPoints: [
+        'Postulates of Molecular Orbital Theory (MOT) & LCAO (PUST 2023 Q8b, 2022 Q8a):',
+        '1. When two atoms approach each other, their atomic orbitals (ψ_A and ψ_B) combine linearly (LCAO) to form two new Molecular Orbitals encompassing both nuclei.',
+        '2. Constructive interference (ψ_MO = ψ_A + ψ_B) concentrates electron density between the nuclei, forming a lower-energy, stable Bonding Molecular Orbital (σ or π).',
+        '3. Destructive interference (ψ*_MO = ψ_A − ψ_B) creates a nodal plane of zero electron density between the nuclei, forming a higher-energy, destabilizing Antibonding Molecular Orbital (σ* or π*).',
+        'MO Energy Level Sequence for O₂, F₂, and Ne₂ (> 14 Electrons):',
+        'σ(1s)² < σ*(1s)² < σ(2s)² < σ*(2s)² < σ(2p_z)² < [π(2p_x)² = π(2p_y)²] < [π*(2p_x)¹ = π*(2p_y)¹] < σ*(2p_z)',
+        'Why O₂ Is Paramagnetic and Comparison of O₂, O₂⁺, O₂⁻, and O₂²⁻ (PUST 2023 Q8c, 2022 Q8c, 2021 Q8a):',
+        '• Failure of VBT for O₂: Lewis/Valence Bond Theory writes :Ö=Ö: with all 16 electrons paired, falsely predicting O₂ to be diamagnetic.',
+        '• MOT Success for O₂ (16 electrons): Filling the MO energy levels puts the last 2 electrons singly with parallel spins into the degenerate antibonding π*(2p_x)¹ and π*(2p_y)¹ orbitals (by Hund’s rule). Because O₂ has 2 unpaired electrons, it is Paramagnetic!',
+        '• Bond Order of O₂ (16 e⁻): N_b = 10, N_a = 6 ⇒ BO = ½(10 − 6) = 2.0 (Paramagnetic, 2 unpaired e⁻).',
+        '• Superoxide Cation / Dioxygenyl Ion O₂⁺ (15 e⁻): Remove 1 electron from antibonding π*(2p): N_b = 10, N_a = 5 ⇒ BO = ½(10 − 5) = 2.5 (Paramagnetic, 1 unpaired e⁻).',
+        '• Superoxide Anion O₂⁻ (17 e⁻): Add 1 electron to π*(2p): [π*(2p_x)² π*(2p_y)¹], N_b = 10, N_a = 7 ⇒ BO = ½(10 − 7) = 1.5 (Paramagnetic, 1 unpaired e⁻).',
+        '• Peroxide Anion O₂²⁻ (18 e⁻): Add 2 electrons to π*(2p): [π*(2p_x)² π*(2p_y)²], N_b = 10, N_a = 8 ⇒ BO = ½(10 − 8) = 1.0 (Diamagnetic, 0 unpaired e⁻).',
+        '• Order of Stability & Bond Dissociation Energy: O₂⁺ (BO 2.5) > O₂ (BO 2.0) > O₂⁻ (BO 1.5) > O₂²⁻ (BO 1.0).',
+        '• Order of Bond Length (inverse of Bond Order): O₂⁺ (1.12 Å) < O₂ (1.21 Å) < O₂⁻ (1.28 Å) < O₂²⁻ (1.49 Å).',
+      ],
+      equations: [
+        {
+          label: 'Bond Order Formula & Oxygen Species Summary',
+          formula: 'Bond Order = (N_b − N_a) / 2\nO₂⁺ (15 e⁻): BO = (10 − 5)/2 = 2.5 (Paramagnetic, 1 unpaired e⁻)\nO₂  (16 e⁻): BO = (10 − 6)/2 = 2.0 (Paramagnetic, 2 unpaired e⁻)\nO₂⁻ (17 e⁻): BO = (10 − 7)/2 = 1.5 (Paramagnetic, 1 unpaired e⁻)\nO₂²⁻(18 e⁻): BO = (10 − 8)/2 = 1.0 (Diamagnetic, 0 unpaired e⁻)',
+          units: 'bonds',
+          note: 'For N₂ (14 e⁻): N_b = 10, N_a = 4 ⇒ BO = 3.0 (Diamagnetic)',
+        },
+      ],
+      examYears: ['2023', '2022', '2021'],
+      marks: '4–5 Marks',
+    },
+    {
+      id: 'chem-m8-b4',
+      type: 'theory',
+      priorityTier: 1,
+      secondaryPriorityTiers: [2, 3],
+      sourceCitation:
+        'Professor’s Suggestion Sheet (Ch 8, Part A Q19, Part B Q15) · Important Questions Sheet (Q1) · PUST EECE 2025 Q7(c), 2024 Q7(a), 2023 Q6(c), 2021 Q6(a), 2020 Q6(c), 2016 Q7(c)',
+      title: 'Hydrogen Bonding: Intermolecular vs. Intramolecular and Physical Consequences',
+      summaryText:
+        'Definition and conditions for H-bonding (F, O, N), intermolecular vs. intramolecular H-bonding, why H₂O is a liquid while H₂S is a gas, why ice floats on water, and o-nitrophenol vs. p-nitrophenol.',
+      memorizeStatements: [
+        'Hydrogen Bond: The attractive electrostatic dipole–dipole interaction between a covalently bonded positively polarized hydrogen atom (—δ⁺H) and a small, highly electronegative atom (F, O, or N) bearing a lone pair of electrons (—δ⁻Y:), represented by a dotted line (—X—H ⋯ :Y—).',
+        'Intermolecular Hydrogen Bond: A hydrogen bond formed between two or more separate molecules of the same or different compounds (e.g., HF, H₂O, NH₃, p-nitrophenol, alcohol in water).',
+        'Intramolecular Hydrogen Bond (Chelation): A hydrogen bond formed within the same single molecule between an H atom and an electronegative atom located in ortho positions forming a 5- or 6-membered ring (e.g., o-nitrophenol, o-hydroxybenzaldehyde / salicylaldehyde).',
+      ],
+      bulletPoints: [
+        'Two Essential Conditions for Hydrogen Bonding:',
+        '1. The atom covalently bonded to Hydrogen must have Very High Electronegativity (F = 4.0, O = 3.5, N = 3.0) so the X—H bond is strongly polar.',
+        '2. The electronegative atom must have a Very Small Atomic Radius so its lone pair creates an intense electrostatic field (hence Cl, despite having EN = 3.0 equal to N, rarely forms strong H-bonds because its 3rd-shell atomic radius is too large).',
+        'Classic Exam Questions on Consequences of Hydrogen Bonding (Asked 6 Times in PUST EECE):',
+        '1. Why H₂O Is a Liquid at Room Temperature While H₂S Is a Gas (PUST 2025 Q7c, 2021 Q6a, 2016 Q7c):',
+        '• Oxygen (EN = 3.5, small size) forms extensive intermolecular hydrogen bonds (⋯O—H⋯O—H⋯) in water, causing H₂O molecules to associate into large molecular clusters that require high thermal energy to separate (BP = 100°C).',
+        '• Sulfur (EN = 2.5, large size) cannot form hydrogen bonds; H₂S molecules are held only by weak van der Waals dipole forces and exist as a gas at room temperature (BP = −60°C).',
+        '2. Why o-Nitrophenol Has a Lower Boiling Point (More Steam-Volatile) Than p-Nitrophenol (PUST 2024 Q7a, 2023 Q6c, 2020 Q6c, Imp Q1):',
+        '• In ortho-nitrophenol, the —OH and —NO₂ groups are adjacent (1,2-positions) and form a 6-membered Intramolecular Hydrogen Bond (chelation) within the same molecule. This locks up the —OH group, preventing association with neighboring molecules; hence o-nitrophenol exists as discrete monomers with low boiling point (214°C) and high steam volatility.',
+        '• In para-nitrophenol, the —OH and —NO₂ groups are far apart (1,4-positions) and cannot form an intramolecular H-bond. Instead, they form strong Intermolecular Hydrogen Bonds linking many molecules together into large associated aggregates, resulting in a much higher boiling point (279°C), higher water solubility, and low volatility.',
+        '3. Why Ice Is Less Dense Than Liquid Water (Ice Floats on Water):',
+        '• In solid ice, each O atom is tetrahedrally surrounded by 4 H atoms (2 covalent O—H bonds and 2 intermolecular H-bonds), creating an open cage-like hexagonal 3D crystal structure with large empty interstitial spaces (density = 0.917 g/cm³). When ice melts at 0°C, ~15% of the H-bonds break and water molecules pack more closely into the cavities (maximum density = 1.000 g/cm³ at 4°C).',
+      ],
+      table: {
+        caption: 'Table 8.3 — Intermolecular vs. Intramolecular Hydrogen Bonding',
+        headers: ['Property', 'Intermolecular H-Bonding', 'Intramolecular H-Bonding (Chelation)'],
+        rows: [
+          [
+            'Formation',
+            'Occurs between two or more different molecules',
+            'Occurs within a single molecule via a 5- or 6-membered ring',
+          ],
+          [
+            'Molecular Association',
+            'Causes extensive molecular association (polymeric chains/clusters)',
+            'Prevents intermolecular association (molecules remain monomeric)',
+          ],
+          [
+            'Melting & Boiling Points',
+            'Significantly increases melting and boiling points',
+            'Lowers melting and boiling points relative to para/meta isomers',
+          ],
+          [
+            'Steam Volatility & Viscosity',
+            'Low volatility (non-volatile in steam) and high viscosity',
+            'High volatility (steam-volatile) and low viscosity',
+          ],
+          [
+            'Examples',
+            'H₂O, HF, NH₃, p-nitrophenol, p-hydroxybenzoic acid',
+            'o-nitrophenol, salicylaldehyde, o-chlorophenol, salicylic acid',
+          ],
+        ],
+      },
+      examYears: ['2025', '2024', '2023', '2021', '2020', '2016'],
+      marks: '4 Marks',
+    },
+  ],
+};

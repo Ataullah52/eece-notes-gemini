@@ -547,7 +547,10 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
         courseType: 'Theory',
         syllabusOverview:
           'Electrochemistry, Electrochemical Cells, Chemical Equilibrium, Chemical kinetics, Solution and Colloid, Atomic Structure, Periodic Classification of Elements, Electronic Theory of Valence and Chemical Bonding, and Chemistry of Transition Elements, Lanthanides and Actinides.',
-        professorFollowedBooks: ['Modern Inorganic Chemistry by R. D. Madan'],
+        professorFollowedBooks: [
+          'Modern Inorganic Chemistry by R. D. Madan',
+          'Principles of Physical Chemistry by M. M. Haque and M. A. Nawab',
+        ],
         syllabusRecommendedBooks: [
           'Principles of Physical Chemistry by M. M. Haque and M. A. Nawab',
           'Fundamental Concepts in Inorganic Chemistry by Esmarch S. Gilreath',
@@ -566,8 +569,8 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             unitNumber: 'Module 01',
             title: 'Electrochemistry',
             summary:
-              "Conductors, Electrolytes and Electrolysis, Faraday's Laws of Electrolysis, Electrolytic Conductance, Theories for Electrolytic Conductance, Ionic Mobility, Kohlrausch's Law, Transference Number.",
-            estimatedMinutes: 25,
+              'Conductors, Electrolytes and Electrolysis, Faraday’s Laws of Electrolysis, Electrolytic Conductance, Theories for Electrolytic Conductance, Ionic Mobility, Kohlrausch’s Law, Transference Number.',
+            estimatedMinutes: 65,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -577,7 +580,7 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             title: 'Electrochemical Cells (Electrolytic and Galvanic/Voltaic)',
             summary:
               'Electrode Reaction and Potentials, Reference Electrode, Reversible and Concentration Cells.',
-            estimatedMinutes: 25,
+            estimatedMinutes: 60,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -586,8 +589,8 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             unitNumber: 'Module 03',
             title: 'Chemical Equilibrium',
             summary:
-              "Reversible and Irreversible Reaction, Chemical Equilibrium and its Dynamic Nature, Characteristics, Laws of Mass Action and Equilibrium Constant Kc, Kp and Kx, Le-Chatelier's Principles and Applications.",
-            estimatedMinutes: 25,
+              'Reversible and Irreversible Reaction, Chemical Equilibrium and its Dynamic Nature, Characteristics, Laws of Mass Action and Equilibrium Constant Kc, Kp and Kx, Le-Chatelier’s Principles and Applications.',
+            estimatedMinutes: 70,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -597,7 +600,7 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             title: 'Chemical Kinetics',
             summary:
               'Rate of Chemical Reaction, Order and Molecularity of Reactions, Different Types of Rate Expressions, Methods of Determining Rate and Order, Effect of Temperature on Reaction Rate and Energy of Activation.',
-            estimatedMinutes: 25,
+            estimatedMinutes: 80,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -607,7 +610,7 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             title: 'Solution and Colloid',
             summary:
               'Different Types of Solution, Concentration Units, Colloid and Colloidal Solution-Classification, Preparation, Purification, Properties, Protective Action and Application of Colloids.',
-            estimatedMinutes: 25,
+            estimatedMinutes: 75,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -616,8 +619,8 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             unitNumber: 'Module 06',
             title: 'Atomic Structure',
             summary:
-              "Dalton's Atomic Theory, Fundamental Particles, Elementary Ideas on Rutherford Atom Model and Bohr Atom Model, Quantum Numbers, Shape of Atomic Orbitals, Pauli's Exclusion Principle, Electronic Configuration of Elements.",
-            estimatedMinutes: 25,
+              'Dalton’s Atomic Theory, Fundamental Particles, Elementary Ideas on Rutherford Atom Model and Bohr Atom Model, Quantum Numbers, Shape of Atomic Orbitals, Pauli’s Exclusion Principle, Electronic Configuration of Elements.',
+            estimatedMinutes: 75,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -627,7 +630,7 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             title: 'Periodic Classification of Elements',
             summary:
               'Modern Periodic Table, Periodic Classification of Elements, Correlation of Periodic Classification of Elements with Electronic Configuration, Investigation on Some Periodic Properties, Atomic and Ionic Radius, Ionization Potential, Electron Affinity and Electronegativity.',
-            estimatedMinutes: 25,
+            estimatedMinutes: 75,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -637,7 +640,7 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             title: 'Electronic Theory of Valence and Chemical Bonding',
             summary:
               'Different Types of Chemical Bonds (Ionic, Covalent, Co-ordinate, Hydrogen and Metallic), Classification of Solids on the Basis of Bonding and their Properties, Hybridization of Atomic Orbitals and Shapes of Molecules, Molecular Orbitals, Bond Length and Bond Strength.',
-            estimatedMinutes: 25,
+            estimatedMinutes: 85,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -647,7 +650,7 @@ export const INITIAL_CURRICULUM_SEMESTERS: SemesterEntry[] = [
             title: 'Chemistry of Transition Elements, Lanthanides and Actinides',
             summary:
               'Definitions, Electronic Configurations, Preparation (Nuclear Transformation), General Properties.',
-            estimatedMinutes: 25,
+            estimatedMinutes: 80,
             lastUpdated: 'October 2026',
             blocks: [],
           },
@@ -774,6 +777,12 @@ export async function loadCourseChapters(
     return mod.MATH1101_CHAPTERS;
   }
 
+  if (subjectId === 'chem1101') {
+    const mod = await import('./chem1101Data.ts');
+    courseChaptersCache.set('chem1101', mod.CHEM1101_CHAPTERS);
+    return mod.CHEM1101_CHAPTERS;
+  }
+
   return null;
 }
 
@@ -800,9 +809,10 @@ export function mergeCourseChaptersIntoSemesters(
 export async function loadAllCourseChaptersForStartupIndex(): Promise<
   SemesterEntry[]
 > {
-  const [eeceChapters, mathChapters] = await Promise.all([
+  const [eeceChapters, mathChapters, chemChapters] = await Promise.all([
     loadCourseChapters('eece1111'),
     loadCourseChapters('math1101'),
+    loadCourseChapters('chem1101'),
   ]);
 
   let updated = INITIAL_CURRICULUM_SEMESTERS;
@@ -811,6 +821,9 @@ export async function loadAllCourseChaptersForStartupIndex(): Promise<
   }
   if (mathChapters) {
     updated = mergeCourseChaptersIntoSemesters(updated, 'math1101', mathChapters);
+  }
+  if (chemChapters) {
+    updated = mergeCourseChaptersIntoSemesters(updated, 'chem1101', chemChapters);
   }
   return updated;
 }
