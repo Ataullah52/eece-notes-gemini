@@ -9,7 +9,7 @@
 
 | Sl. | Course Code | Course Title | Type | Contact Hrs/Wk | Credits | Populated Chapter Units | Total Blocks |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | **`EECE1111`** | Electrical Circuits I | Theory | 3.00 | 3.00 | `Unit 01` – `Unit 06` (6 units) | 29 blocks |
+| 1 | **`EECE1111`** | Electrical Circuits I | Theory | 3.00 | 3.00 | `Unit 01` – `Unit 06` (6 units) | 47 blocks |
 | 2 | **`EECE1112`** | Electrical Circuits I Sessional | Sessional | 3.00 | 1.50 | `Lab 01` – `Lab 06` (6 labs) | 0 blocks |
 | 3 | **`PHY1101`** | Physics | Theory | 3.00 | 3.00 | `Unit 01` – `Unit 06` (6 units) | 1 block |
 | 4 | **`CE1101`** | Engineering Graphics | Sessional | 3.00 | 1.50 | `Module 01` – `Module 05` (5 modules) | 0 blocks |
@@ -20,16 +20,16 @@
 
 ---
 
-## `EECE1111` · Electrical Circuits I (`Unit 01` to `Unit 06` — 29 Blocks)
+## `EECE1111` · Electrical Circuits I (`Unit 01` to `Unit 06` — 47 Blocks)
 
 | Unit | Chapter ID | Title | Source File | Block Count |
 | :--- | :--- | :--- | :--- | :--- |
-| `Unit 01` | `eece1111-ch01` | Circuit Variables and Elements | `src/data/chapters/eece1111/ch01.ts` | 7 |
-| `Unit 02` | `eece1111-ch02` | Basic Laws | `src/data/chapters/eece1111/ch02.ts` | 6 |
-| `Unit 03` | `eece1111-ch03` | Techniques for Circuit Analysis | `src/data/chapters/eece1111/ch03.ts` | 4 |
-| `Unit 04` | `eece1111-ch04` | DC Network Theorem | `src/data/chapters/eece1111/ch04.ts` | 4 |
-| `Unit 05` | `eece1111-ch05` | AC Network Theorem | `src/data/chapters/eece1111/ch05.ts` | 4 |
-| `Unit 06` | `eece1111-ch06` | Sinusoidal Functions | `src/data/chapters/eece1111/ch06.ts` | 4 |
+| `Unit 01` | `eece1111-ch01` | Circuit Variables and Elements | `src/data/chapters/eece1111/ch01.ts` | 9 |
+| `Unit 02` | `eece1111-ch02` | Basic Laws | `src/data/chapters/eece1111/ch02.ts` | 7 |
+| `Unit 03` | `eece1111-ch03` | Techniques for Circuit Analysis | `src/data/chapters/eece1111/ch03.ts` | 8 |
+| `Unit 04` | `eece1111-ch04` | DC Network Theorem | `src/data/chapters/eece1111/ch04.ts` | 8 |
+| `Unit 05` | `eece1111-ch05` | AC Network Theorem | `src/data/chapters/eece1111/ch05.ts` | 6 |
+| `Unit 06` | `unit-06` | AC Fundamentals, Phasors, Power, Resonance & Magnetic Circuits | `src/data/chapters/eece1111/ch06.ts` | 9 |
 
 ---
 

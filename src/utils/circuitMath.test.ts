@@ -101,6 +101,43 @@ test('filterNoteBlocks filters by 4-tier source priority and block type', () => 
   assert.equal(filterNoteBlocks(sampleBlocks, 'all', 'all', 'sadiku').length, 1);
 });
 
+test('EECE1111_CHAPTERS contains all 6 syllabus modules with P1, P2 (PYQ), P3, and P4 blocks, boxed formulas, and vertical solutions', async () => {
+  const { EECE1111_CHAPTERS } = await import('../data/eece1111Data.ts');
+  assert.equal(EECE1111_CHAPTERS.length, 6);
+
+  for (const mod of EECE1111_CHAPTERS) {
+    assert.ok(
+      mod.blocks.length >= 6,
+      `Module ${mod.unitNumber} should have at least 6 note blocks`
+    );
+    for (const tier of [1, 2, 3, 4] as const) {
+      const tierMatches = filterNoteBlocks(mod.blocks, tier, 'all', '');
+      assert.ok(
+        tierMatches.length >= 1,
+        `Module ${mod.unitNumber} (${mod.title}) must have at least 1 block for Priority Tier P${tier}`
+      );
+    }
+    const pyqMatches = filterNoteBlocks(mod.blocks, 'all', 'pyq', '');
+    assert.ok(
+      pyqMatches.length >= 2,
+      `Module ${mod.unitNumber} (${mod.title}) must have at least 2 PYQ blocks`
+    );
+
+    const hasEquations = mod.blocks.some((b) => b.equations && b.equations.length > 0);
+    const hasVerticalSolution = mod.blocks.some(
+      (b) =>
+        b.solutionSteps &&
+        b.solutionSteps.length > 0 &&
+        (Boolean(b.finalAnswer) || b.solutionSteps.some((s) => s.equation?.includes('∴')))
+    );
+    assert.ok(hasEquations, `Module ${mod.unitNumber} should include boxed formulas`);
+    assert.ok(
+      hasVerticalSolution,
+      `Module ${mod.unitNumber} should include vertical step-by-step solutions with boxed answers`
+    );
+  }
+});
+
 test('MATH1101_CHAPTERS contains all 8 syllabus modules with P1, P2 (PYQ), P3, and P4 blocks, boxed formulas, and vertical solutions', async () => {
   const { MATH1101_CHAPTERS } = await import('../data/math1101Data.ts');
   assert.equal(MATH1101_CHAPTERS.length, 8);
