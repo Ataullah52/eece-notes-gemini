@@ -29,7 +29,7 @@
 | `Unit 03` | `eece1111-ch03` | Techniques for Circuit Analysis | `src/data/chapters/eece1111/ch03.ts` | 8 |
 | `Unit 04` | `eece1111-ch04` | DC Network Theorem | `src/data/chapters/eece1111/ch04.ts` | 8 |
 | `Unit 05` | `eece1111-ch05` | AC Network Theorem | `src/data/chapters/eece1111/ch05.ts` | 6 |
-| `Unit 06` | `unit-06` | AC Fundamentals, Phasors, Power, Resonance & Magnetic Circuits | `src/data/chapters/eece1111/ch06.ts` | 9 |
+| `Unit 06` | `eece1111-ch06` | Sinusoidal Functions | `src/data/chapters/eece1111/ch06.ts` | 9 |
 
 ---
 
